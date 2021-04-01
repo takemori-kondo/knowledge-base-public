@@ -1,0 +1,3 @@
+AddType "text/plain;charset=utf-8" .md
+Options +Indexes
+IndexOptions charset=SHIFT_JIS
