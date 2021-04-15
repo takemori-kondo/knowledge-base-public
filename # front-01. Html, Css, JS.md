@@ -321,18 +321,18 @@ ________________________________________
 ________________________________________
 Index
 
-- FrontSamples\index.html
+- FrontSamples/index.html
 
 launch.json
 
-- FrontSamples\.vscode\launch.json
+- FrontSamples/.vscode/launch.json
 
-HTML5
+HTML5の基本
 
-- FrontSamples\front01\html-sample.html
-- FrontSamples\front01\css\html-sample.css
+- FrontSamples/front01/html-sample.html
+- FrontSamples/front01/css/html-sample.css
 
-JS(ES6)
+JS(ES6)のサンプル
 
-- FrontSamples\front01\javascript-hello-world.html
-- FrontSamples\front01\js\javascript-hello-world.js
+- FrontSamples/front01/javascript-hello-world.html
+- FrontSamples/front01/js/javascript-hello-world.js
