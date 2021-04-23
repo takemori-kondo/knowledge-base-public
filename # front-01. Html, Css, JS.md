@@ -227,10 +227,10 @@ JavaScript ES2011
 
 JavaScript ES2015（=iPhone4s, iPad2, iPad miniは非対応）
 
-- let, const
-- symbol型
+- let, const（letならほぼC#同様の変数の挙動になる）
+- Symbol型
 - 8進数リテラル、2進数リテラル
-- "${}"
+- `${}`（テンプレートリテラル。複数行も可能）
 - Map, WeakMap, Set, WeakSet
 - Promiseパターン
 - Proxyパターン
@@ -242,8 +242,12 @@ JavaScript ES2015（=iPhone4s, iPad2, iPad miniは非対応）
 - 可変長引数、可変長引数配列展開
 - 引数名明示
 - Class糖衣構文、static
+    - メンバ変数を明示的に宣言しておくことはできない。constructorでお茶お濁す
+    - アロー関数としてメンバ関数を定義できない
 - moduleモード、import module
-- yield(ジェネレーター)
+    - モジュールのimportはCORSの対象なので、ローカルファイルで実行すると遮断されてしまう
+        - ※ ローカルファイル間は同一ドメイン扱いにならないため
+- Iterator、yield(ジェネレーター)
 
 ________________________________________
 ## 2. Environment
