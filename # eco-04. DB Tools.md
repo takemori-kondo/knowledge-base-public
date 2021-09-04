@@ -269,7 +269,33 @@ https://feedback.azure.com/forums/908035-sql-server/suggestions/36132202-microso
 バッチサンプル
 
 ```bat
-bcp "SELECT * FROM %DS%.%1 WHERE ADD_DATE > %EXPORT_TERM%" queryout %DATA_DIR%%1%DATA_FILE_EXT% %EXPORT_OPT% -S %HOST% %CONNECT_SEC% > %LOG_DIR%%1%EXPORT_LOG_FILE%
+rem @echo off
+rem DIR類は末尾の\をつけること。ついている前提にすること
+
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET CUR_DIR=%~dp0
+
+SET HOST=localhost
+SET DATABASE=FOO
+SET SCHEMA=dbo
+SET DS=%DATABASE%.%SCHEMA%
+SET TABLE=%1
+SET CONNECT_SEC=-U user_id -P user_pass
+
+SET DATA_DIR=%CUR_DIR%data\
+SET  LOG_DIR=%CUR_DIR%logs\
+
+SET EXPORT_WHERE=ADD_DATE > '2011-12-31 23:59:59'
+
+SET DATA_FILE_EXT=.dat
+SET EXPORT_OPT=-c -t "`^" -r "`\n" -k
+
+
+SET EXPORT_LOG_FILE=export.log
+
+
+
+bcp "SELECT * FROM %DS%.%TABLE% WHERE %EXPORT_WHERE%" queryout %DATA_DIR%%TABLE%%DATA_FILE_EXT% %EXPORT_OPT% -S %HOST% %CONNECT_SEC% > %LOG_DIR%%TABLE%%EXPORT_LOG_FILE%
 bcp %DS%.%1 out %DATA_DIR%%1%DATA_FILE_EXT% -S %HOST% %CONNECT_SEC% %EXPORT_OPT% > %LOG_DIR%%1%EXPORT_LOG_FILE%
 ```
 

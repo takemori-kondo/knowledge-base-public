@@ -229,6 +229,7 @@ ________________________________________
 ### 1.2. Add Sample Schema
 
 1. sqlplus system/manager as sysdba
+    0. show con_name
     1. create tablespace foo datafile 'foo.dbf' SIZE 100M;
     2. create user foo identified by "bar" default tablespace foo;
     3. grant unlimited tablespace to foo;

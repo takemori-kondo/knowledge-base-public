@@ -122,6 +122,14 @@ show global variables like 'innodb_file%';
 # check slow.log
 SELECT SLEEP(5);
 
+# create database
+create database test;
+use test;
+create table accounts(id bigint  primary key, name varchar(255));
+insert into accounts values(1, 'Aclice');
+insert into accounts values(2, 'Bob');
+select * from accounts;
+
 quit
 ```
 

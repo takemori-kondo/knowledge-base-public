@@ -143,6 +143,9 @@ settings.json
     "git.ignoreMissingGitWarning": true,
     "terminal.integrated.fontFamily": "MeiryoKe_Console, monospace",
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "terminal.integrated.env.windows": {
+        "PSExecutionPolicyPreference": "RemoteSigned"
+    },
 
     // Beautify
     "html.format.unformatted": null,
