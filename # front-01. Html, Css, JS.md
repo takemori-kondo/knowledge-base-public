@@ -158,6 +158,14 @@ https://www.smashingmagazine.com/2008/09/jquery-examples-and-best-practices/
 4. 「そのhtml用script」は、onloadまたはjqueryのready関数（$(() => { ... })）
 5. 初期状態で非表示だがUI操作後に表示するテキストは、cssで非表示にしておかず、jsで非表示にする*2
 
+jsの仕組み上の注意点
+1. hoisting回避（グローバルに変数・処理を書くな。onloadから処理を書け）
+2. bubbling理解（イベントはハンドルされるまで伝播する）
+3. scope勘違い回避（letとconst以外の変数使うな）
+4. prototype（最近はAngularやVue、class糖衣構文があるのであまり意識しなくても…）
+5. custom要素とshadowDOM（今のところ生jsでは有効活用されてない）
+6. strictはする
+
 *1 2005年時点で言及あり
 *2 2011年ごろから普及したスクロール/パララクスデザインはこの限りではないかも
 
