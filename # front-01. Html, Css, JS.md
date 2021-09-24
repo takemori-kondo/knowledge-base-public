@@ -106,6 +106,17 @@ class="footer"
 Sass/Scss
 - cssから文法を拡張したもの
 - js製トランスパイラだとnode-sass
+- scssはcssを自然に拡張した文法
+- angularなら組み込み済み
+
+Scssの文法（頻出するものだけ）
+1. 変数が使える
+2. 四則演算、比較演算、論理演算できる（数値、文字列、色で可能）
+3. 包含関係をネストで表現できる
+4. &:hoverで親の値hoverになる
+5. rgb関数がある
+6. @importがある
+7. @extend ... !optionalで継承できる
 ```
 
 Css processor/transpiler
@@ -115,6 +126,7 @@ Transpiler/Altjs
 - ES7/babel-core
 - coffie script
 - typescript
+- angularならtypescriptが組み込み済み
 
 JS require()
 - browerify

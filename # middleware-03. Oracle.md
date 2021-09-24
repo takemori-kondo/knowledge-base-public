@@ -36,6 +36,8 @@ ________________________________________
             - LISTENER, パスワード入力
             - TCP
             - 標準ポート番号の1521を使用
+                - 【注意】HOSTとPORTは原始的な仕組みなためリスナのリスニングエンドポイントを指す
+                - localhostにしてしまうとローカルIPではないので、外部からのリクエストをリスニングできない
         - 再度サービスを確認し、Oracle<ORACLE_HOME>TNSListenerが実行中で追加されたか確認
 ```
 
@@ -62,6 +64,19 @@ Win directory   |Path
 Oracle Inventory|c:\Program Files\Oracle\Inventory
 ORACLE_BASE     |c:\app\oracle
 ORACLE_HOME     |c:\app\oracle\product\<version>\dbhome_1
+
+-
+
+WindowsにインストールしたOracleがlocalhost以外（LANや自分自身のIP）から接続できるようにする
+
+```text
+ローカルネットサービス（サービスネーミング）が構成されていない場合、構成する必要がある
+
+Oracle Net Configuration Assistant
+追加
+ネットサービス名：サービス名に合わせる
+以下略
+```
 
 ________________________________________
 ### 1.1.B. Install for linux

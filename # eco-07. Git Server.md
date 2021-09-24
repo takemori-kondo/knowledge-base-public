@@ -141,3 +141,21 @@ Use
 if putty, add ssh key for sourcetree's option.
 if openssh, set .ssh/config
 ```
+
+権限メモ
+
+```text
+公開レベル
+https://docs.gitlab.com/ee/public_access/public_access.html
+
+public   : ログインしなくても見れる
+internal : サインインすれば見れる（external user除く）
+private  : メンバーのみが見れる。なお、private ProjectにはGuestを追加できない
+
+ユーザー/グループレベル
+https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions
+
+Guest    : 基本的な閲覧やソースのClone・ダウンロード、Issueの追加
+Developer: Guest + push、mergeなど。プロジェクト管理などはできない
+Owner    : 何でもできる 
+```
