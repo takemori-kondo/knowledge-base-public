@@ -185,6 +185,14 @@ Behavior layer(oocss version)
 class="behavior-toggle-btn0001"
 ```
 
+npm & webpack & scss(sass)
+
+```powershell
+npm init -y
+npm install node-sass --save-dev --no-bin-links
+npm install webpack webpack-cli --save-dev --no-bin-links
+```
+
 ________________________________________
 ### 1.2. JavaScript 要点
 
@@ -255,19 +263,21 @@ JavaScript ES2015（=iPhone4s, iPad2, iPad miniは非対応）
 - Promiseパターン
 - Proxyパターン
 - 配列分割代入、オブジェクト分割代入
-- for a of b
+- for item of list、イテレータ、ジェネレータ
 - thisが固定される() => ;
 - thisが固定される() => { }
 - デフォルト引数
 - 可変長引数、可変長引数配列展開
 - 引数名明示
 - Class糖衣構文、static
-    - メンバ変数を明示的に宣言しておくことはできない。constructorでお茶お濁す
+    - メンバ変数（フィールド）を明示的に宣言しておくことはできない。constructorでお茶お濁す
+        - そもそも概念的にはプロパティが正しく、呼称もプロパティである
+    - extendsされたサブクラスの各メンバは、purototype継承と異なり、サブクラスに直接定義される
+        - hasOwnProperty('...')が、trueを返す
     - アロー関数としてメンバ関数を定義できない
 - moduleモード、import module
     - モジュールのimportはCORSの対象なので、ローカルファイルで実行すると遮断されてしまう
         - ※ ローカルファイル間は同一ドメイン扱いにならないため
-- Iterator、yield(ジェネレーター)
 
 ________________________________________
 ## 2. Environment
