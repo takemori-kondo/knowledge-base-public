@@ -11,6 +11,9 @@ SSD・メモリ
 OK : Century Micro, Crucial, Green house, IODATA, Kingston, Samsung, SanDisk, SanMax, Silicon Power, Transcend
 NG : AGI, Colorful, HIDISC, kingdian, kingfast, KingSpec, LEVEN, PHISON, RITEK（ドスパラ）, SUNEAST, Zheino
 
+家庭用ルータ
+NG Buffalo(多数の製品がDNS解決で問題を起こす持病を持つ。WSR-1166DHPL2 Version 1.06でも確認)
+
 * ドスパラBTOを買う場合は、SSDの品質に注意
 ```
 

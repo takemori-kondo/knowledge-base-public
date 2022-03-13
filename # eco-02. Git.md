@@ -2,6 +2,12 @@
 ________________________________________
 GIT チートシート  
 https://training.github.com/downloads/ja/github-git-cheat-sheet.pdf
+
+A successful Git branching model  
+https://nvie.com/posts/a-successful-git-branching-model/
+
+What is the best Git branch strategy?  
+https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy
 ________________________________________
 ## 1. Source Tree
 ________________________________________
@@ -20,7 +26,46 @@ SSH クライアントの設定
 ```
 
 ________________________________________
-## 2. Commands
+## 2. Git戦略
+________________________________________
+基本戦略
+
+1. 製品ブランチのコードはすべてリリース可能である必要があります。
+2. 新しい作業のために、製品ブランチから個々の機能ブランチを作成します。例：features/add-new-payment-types
+3. ローカル機能ブランチにコミットし、動作確認が終わったら機能ブランチをプッシュします。
+4. 製品ブランチ管理者に確認依頼します。（マージリクエストまたはプルリクエスト）
+5. 機能ブランチが承認された場合、製品ブランチにマージされます。
+6. 製品ブランチが進んだら、リリースします。
+
+規模に合わせたブランチ戦略の複雑度
+
+1. masterと個々のfeatures/xxxブランチだけがあればよい
+2. devが必要（masterを直近リリースのコミットに配置したい場合。devはstgの役割を兼ねる）
+3. stgとdevの両方が必要（特定のfeaturesブランチだけリリースしたい状況が発生するようになった場合）
+4. hotfix_vX.X.X.X/xxxが必要
+
+規模が大きい場合詳細
+
+|ブランチ                    |説明                                       
+|----------------------------|-------------------------------------------
+|stg                         |masterに対する先行者。別名GitFlow's release
+|master                      |製品ブランチ。別名product、main
+|dev                         |開発ブランチ。手戻りが発生する
+|features/xxx                |個々の機能ブランチ。原則masterから分岐
+|hotfix_vX.X.X.X/stg         |-
+|hotfix_vX.X.X.X/master      |ある時のmasterから分岐。後で放棄される
+|hotfix_vX.X.X.X/dev         |-
+|hotfix_vX.X.X.X/features/xxx|後で本流devやstgにも取り込まれる。原則masterから分岐した方が良い※
+
+※ devから分岐するなら依存関係のあるfeaturesから分岐した方がマシである。複数のfeaturesに依存している場合のみdevから分岐する
+
+基本戦略1の解釈
+
+- 別途リリースタグを張り付けるなら、masterはstgをmergeする際fast-forwardしリリースコミットにはタグをつける
+- 字面通りの場合、masterはstgをmergeする際fast-forwardさせない
+
+________________________________________
+## 3. Commands
 ________________________________________
 コマンドとSourceTreeでの等価操作
 

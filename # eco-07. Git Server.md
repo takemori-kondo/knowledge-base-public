@@ -104,19 +104,54 @@ sudo wget -P /usr/share/tomcat/webapps/ https://github.com/takezoe/gitbucket/rel
 ________________________________________
 ### 2.3. Gitlab
 
+Gitlab CE Doesn't Add a Public Key to authorized_keys  
+https://stackoverflow.com/questions/60844588/gitlab-ce-doesnt-add-a-public-key-to-authorized-keys
+
 Install
 
 ```text
 etc.
+
+# 更新する場合
+# まずリリースを確認
+yum --showduplicates list gitlab-ce
+# インストールバージョンのマイナーを一つずつ上げていく
+yum -y install gitlab-ce-13.10.5
+yum -y install gitlab-ce-13.11.7
+yum -y install gitlab-ce-13.12.15
+yum -y install gitlab-ce-14.0.12
+yum -y install gitlab-ce-14.5.2
+gitlab-ctl reconfigure
+reboot now
 ```
 
-Initial settings (gitlb-ctl)
+Initial settings (gitlb-ctl & SSL)
 
 ```bash
 vi /etc/gitlab/gitlab.rb
-# Edit external_url.
+# letsencrypt['enable'] = true
+# external_url "https://gitlab.example.com"
+# letsencrypt['contact_emails'] = ['foo@email.com']
 gitlab-ctl reconfigure
+# CentOS7~
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
 reboot now
+```
+
+正しいSSHキーが接続できない問題が発生した場合
+
+```text
+症状
+No supported authentication methods available (server sent: publickey,gssapi-keyex,gssapi-with-mic)
+
+考えられる原因
+stackoverflowを見る限り、12.9で対応するとのことだが、どうも13.9.0時点にも存在しているように見える
+/var/opt/gitlab/.ssh/authorized_keys がなぜか書き換わらない
+
+対応
+下記を有効化するとなぜか解決できる
+https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html#setting-up-fast-lookup-via-gitlab-shell
 ```
 
 Other Settings

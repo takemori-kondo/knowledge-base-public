@@ -442,8 +442,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 コンポーネントやディレクティブと入れ子（@Input()、@Output()）
 
 ```text
-@Input() 親→子の子側に設定
-@Output() 子→親
+@Input()  親→子（子コンポーネントが  通常の属性を持ち、親が値を渡せる。<child [foo]="parentMember">）
+@Output() 子→親（子コンポーネントがイベント属性を持ち、親がハンドルできる。<child (bar)="onHandle($event)">）
 ・プロパティ変更傍受は、ngOnChanges()よりsetterを推奨
 ```
 
@@ -466,11 +466,31 @@ OnDestroy.ngOnDestroy()
 - FormGroupインスタンス.patchValue('yyy', ...)
 ```
 
+ディレクティブ例
+
+```text
+@Directive({
+  selector: 'button[appModal]'
+})
+export class ModalDirective implements AfterViewInit, OnDestroy {
+  @Input() config: AppModalConfig;
+  @Input() data: (event: AppModalEvent) => Promise<any>;
+  @Output() done: EventEmitter<AppModalResult> = new EventEmitter<AppModalResult>();
+  @Input() input: Element;
+  // ...
+  @HostListener('click', ['$event'])
+  async onClick(e?: MouseEvent) {
+    // ...
+  }
+}
+```
+
 ディレクティブ
 
 ```text
 - html属性を自作するための機能
-- @HostListener('eventName', ['$event'])で、設定されたタグのイベントに対するハンドラを定義できる
+- ディレクティブに定義された@Inputや@Outputは、この属性を付与したタグにさらに属性を追加する
+- @HostListener('eventName', ['$event'])で、設定されたタグのイベントに対するハンドラをフック出来る
     - イベント名にはonはつけない
     - clickに対する引数で受け取るのをtargetにしたければ、@HostListener('click', ['$event'])
 ```
