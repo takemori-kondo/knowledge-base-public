@@ -146,8 +146,12 @@ boolean     |===, !==                    |上述の通り
 型検査      |a.hasOwnProperty('name')    |プロパティ存在確認（プロトタイプ辿らないため高速）※1
 型検査      |if(a.name)                  |プロパティ存在確認（undefinedが返り、falseになる）※2
 型検査      |a.constructor               |オブジェクトに対して使うことで、C#のGetType()相当
+spread      | = ...src                   |srcの各要素を展開する。foreachと同じ。「同キーは最後の値で上書き」を活用してマージも可能
+rest        |...dest =                   |それ以外のパラメータをこれにまとめる。paramsと同じ考え方
+浅いコピー  |copied = { ...src }         |-
 マージ      |Object.assign(dest, src)    |js固有の標準機構。destにsrcの各メンバーを（存在しなければメンバ追加も行う形で）適用する ※3
 マージ      |{ ...src1, ...src2 }        |TSまたはES2018(ES9)以降で利用可能。スプレッド演算子によるメンバーマージ ※3
+分割代入    |const { a1, a2 } = obj      |objのメンバが展開されて各const変数に代入される。宣言済み変数群に対して分割代入する場合は全体を()で囲む
 htmlイベント|onclick="foo(event)"        |引数名はeventで固定。イベントに対してhtml属性はonXXXという名前で定義されている
 htmlイベント|click, dblclick             |-
 htmlイベント|focus, blur                 |blurはフォーカスが離れた時のイベント。バブリングするバージョンはfocusin, focusout
@@ -158,6 +162,23 @@ htmlイベント|keydown, keyup              |-
 ※3 ほぼ同様だが以下が異なる  
     Object.assignはsetter/getterを考慮・呼ばれるが、スプレッド演算子は考慮しない  
     Object.assignはdestの内容を書き換えるが、スプレッド演算子を活用した方法は新たなオブジェクトリテラルの生成である
+
+分割代入・rest構文・spread演算子
+
+```text
+const { p1, p2 } = obj;              // 分割代入。obj.p1, obj.p2がそれぞれp1, p2に代入される
+const { p1, p2, ...others } = obj;   // rest構文。obj.p1, obj.p2は上記と同様、それ以外のプロパティはothersプロパティのメンバになる
+const merged = { ...src1, ...src2 }; // spread演算子。典型的なオブジェクトマージ例
+const { p1: renamed } = obj;         // これがすごくわかりづらい。obj.p1をrenamedに代入する
+const { p1, p2 {pp1} } = obj;        // ネスト内の値を代入したい時。pp1にobj.p2.pp1が代入される
+
+function foo({p1, p2}) {
+    // ...
+}
+foo(obj);                            // 仮引数も左辺と同じ
+
+// objectでしか例にしていないが、連想配列同士でもほぼ同様の事が可能
+```
 
 TypeScript は jsに以下を追加したもの
 

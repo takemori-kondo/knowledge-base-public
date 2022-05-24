@@ -6,11 +6,26 @@ https://api.slack.com/tutorials
 Using the Slack Events API  
 https://api.slack.com/apis/connections/events-api
 
+chat.postMessage
+https://api.slack.com/methods/chat.postMessage
+
 url_verification  
 https://api.slack.com/events/url_verification
 
 reaction_added  
 https://api.slack.com/events/reaction_added
+
+Workflow Builder Steps from Apps  
+https://api.slack.com/tutorials/workflow-builder-steps
+
+README.md – steps-from-apps  
+https://glitch.com/edit/#!/steps-from-apps?path=README.md%3A1%3A0
+
+bolt-js source  
+https://github.com/slackapi/bolt-js/blob/main/src/App.ts
+
+HTTPReceiver.ts handleIncomingEvent  
+https://github.com/slackapi/bolt-js/blob/main/src/receivers/HTTPReceiver.ts
 
 ________________________________________
 ## 1. 通常版の要約
@@ -29,16 +44,19 @@ ________________________________________
 # 3. Basic Information > Install your app > Install to Workspace
 # （これは実際には、OAuth認可トークン手続きを開発用にUI化してある）
 #
-# 3.5. OAuth 許可
-#
 # 4. Slackを開き、Appを対象のchannelに追加
 #
 # 5. 準備は整ったのでcurl等で実際にたたいてみる
 # OAuth & Permissions のTokenを使用して、例えば以下
-curl -XPOST "https://slack.com/api/auth.test?token=<xoxbトークン>"
+# 仕様が変わり、クエリパラメータではトークンを受け付けなくなった
+# (ヘッダかPOSTでbody dataに付与する必要がある)
+# https://api.slack.com/changelog/2020-11-no-more-tokens-in-querystrings-for-newly-created-apps
+curl -XPOST -d 'token=<xoxbトークン>' https://slack.com/api/auth.test
 
 # 6. chatの例
-curl -XPOST -d "token=<xoxbトークン>" -d "channel=C01FY5PVD55" -d "text=Hello slack" -d "username=from curl" -d "icon_emoji=whale" "https://slack.com/api/chat.postMessage"
+# channel=CBHAVV36Dの場合
+curl -XPOST -d 'token=<xoxbトークン>' -d 'channel=CBHAVV36D' -d 'text=Hello slack' -d 'username=from curl' -d 'icon_emoji=whale' 'https://slack.com/api/chat.postMessage'
+
 ```
 
 bot(xoxb)トークン/スコープ、user(xoxp)トークン/スコープ
@@ -51,23 +69,67 @@ user(xoxp)トークン/スコープは、インストールしたユーザアカ
 ________________________________________
 ### 1.2. イベント処理(reaction_addedの例)
 
-Slack Appの設定
+設定
 
 ```text
-1. 以下のEvent Subscriptions で有効化
-
-2. Request URLにイベントをハンドリングするエンドポイントを指定
-（この時url_verificationがリクエストされるのでサーバは用意できている必要がある）
-
-3. Subscribe to events on behalf of usersにreaction_addedを追加
+1. 予めドメイン、サーバ、プログラムを揃え、有効なhttpsのエンドポイントを用意する
+    - この段階では、url_verificationが処理できれば良い
+2. Slack App > Event Subscriptions > 有効化
+3. Request URLにエンドポイントを指定
+4. Subscribe to events on behalf of usersにreaction_addedを追加し、Save
+5. Slack Appをワークスペースにre-install
 ```
 
-エンドポイント側に必要な処理
+エンドポイント側の処理
 
 ```text
-0. 各リクエストは3秒以内に応答できなかった場合、3回まで再送されるため、その仕組みに対応しておくこと
-1. url_verification かどうかを見分けて、challengeを応答
-2. 
+1. リクエストBodyのjsonの内容を見てurl_verificationならchallengeをそのまま応答、それ以外なら続行
+2. リクエストが偽物ではないことを検証
+    - Slack App > Basic Information > App Credentials > Signing Secretでhash化された値が渡される
+    - こちらも同じ手順でhash値を作って比較する
+3. あとはやりたいことを自由に書く
+
+※ 詳細はSlack App Samplesのソースを参考の事
+```
+
+________________________________________
+### 1.3. ワークフロービルダー(有料版機能)の使用例
+
+出来ること
+
+1. 簡単なアンケートなどの用意
+2. ステップ実施時に、特定のチャンネルや誰かへDMで通知
+3. 結果一覧をCSVでダウンロード
+
+Workflow stepを自作しないと出来ないこと
+
+1. 結果の取得などの自動化
+2. 分岐するステップ
+
+________________________________________
+### 1.4. Workflow stepの自作
+
+設定
+
+```text
+1. 1.2と同じ要領で、エンドポイントを用意する（同じプログラム内で処理するなら同じエンドポイントでもよい）
+2. Slack App > Interactivity & Shortcuts > Enable
+3. Request URLにエンドポイントを指定、Save
+4. Slack App > Workflow Steps > Enable
+5. step追加
+6. Slack Appをワークスペースにre-install
+7. Slack App > App Home > Enable Home Tab
+```
+
+エンドポイント側の処理
+
+```text
+※1 bolt-js + node.js on Herokuの場合は、web: node app.jsで起動
+※2 APIリクエスト/レスポンスと処理フローははbolt-jsの中身を見たほうが早い
+
+1. イベント処理(reaction_addedの例)の1. と同様
+2. イベント処理(reaction_addedの例)の2. と同様
+3. 調査中
 ```
 
 ________________________________________

@@ -1,12 +1,12 @@
-# eco-01. Visual Studio Code
+# eco-01ex1. Visual Studio Code(2021 old sample)
 ________________________________________
 ## 1. Environment
 ________________________________________
 ### 1.1. Version
 
-- Windows10 Pro 20H2 19042.1645
+- Windows10 Pro 1809 17763.973
 - MeiryoKe_Console 6.30rev5
-- Visual Studio Code 1.66.2
+- Visual Studio Code 1.42.1
 
 ________________________________________
 ### 1.2. Tips
@@ -32,8 +32,6 @@ ________________________________________
 ## 2. Extensions & External Tools
 ________________________________________
 ### 2.1. Extensions Summary
-
-※ 最近のVSCodeはデフォルトのフォーマッタがだいぶ良くなったので、デフォルトでも十分使える
 
 Formatter/Intellisenser
 
