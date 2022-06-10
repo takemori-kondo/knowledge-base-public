@@ -256,20 +256,30 @@ JavaScript ES2011
 JavaScript ES2015（=iPhone4s, iPad2, iPad miniは非対応）
 
 - let, const（letならほぼC#同様の変数の挙動になる）
-- Symbol型
 - 8進数リテラル、2進数リテラル
-- `${}`（テンプレートリテラル。複数行も可能）
-- Map, WeakMap, Set, WeakSet
-- Promiseパターン
-- Proxyパターン
-- 配列分割代入、オブジェクト分割代入
+- \u{12345}による5桁以上コードポイントのUnicode文字
+- `${}`（テンプレートリテラル。ヒアドキュメント機能もかねており、複数行も可能）
+- 既存組み込み関数や定数の追加、GlobalからNumberへの移動など
+    - String、Number、Object関連
+        - 色々
+    - Math、Array、Date、RegExp関連
+        - Mathにいくつか
+        - RegExpにUnicode対応
+- 新規組み込みオブジェクトの追加
+    - Symbol
+    - Map, WeakMap, Set, WeakSet
+    - Promiseパターン
+    - Proxyパターン
+- 引数と分割代入関連
+    - デフォルト引数
+    - 引数名明示
+    - 分割代入(配列)、分割代入(オブジェクト)
+    - 可変長引数、rest演算子
+    - spread演算子(配列)
 - for item of list、イテレータ、ジェネレータ
 - thisが固定される() => ;
 - thisが固定される() => { }
-- デフォルト引数
-- 可変長引数、可変長引数配列展開
-- 引数名明示
-- Class糖衣構文、static
+- Class糖衣構文やstatic
     - メンバ変数（フィールド）を明示的に宣言しておくことはできない。constructorでお茶お濁す
         - そもそも概念的にはプロパティが正しく、呼称もプロパティである
     - extendsされたサブクラスの各メンバは、purototype継承と異なり、サブクラスに直接定義される
@@ -278,6 +288,15 @@ JavaScript ES2015（=iPhone4s, iPad2, iPad miniは非対応）
 - moduleモード、import module
     - モジュールのimportはCORSの対象なので、ローカルファイルで実行すると遮断されてしまう
         - ※ ローカルファイル間は同一ドメイン扱いにならないため
+
+JavaScript ES2016、ES2017、ES2018
+
+- べき乗演算子**
+- async, await
+- 末尾カンマ許容
+- Promise.finally追加
+- spread演算子(オブジェクト)
+- 非同期イテレータ
 
 ________________________________________
 ## 2. Environment
@@ -305,6 +324,7 @@ ________________________________________
 # eslintをグローバルインストールした場合は、settings.jsonにeslint.nodePathの設定が必要
 npm init -y
 npm install --save-dev eslint
+npm install --save-dev eslint-plugin-html
 npx eslint --init
     ? How would you like to use ESLint? (Use arrow keys)
         > To check syntax and find problems
@@ -326,11 +346,10 @@ npx eslint .\js\javascript-hello-world.js
 Chromeのデバッグ機能をVSCodeに紐づける
 
 ```text
-- 実行をクリック
-- launch.jsonを新しく構成する
-    - 拡張で入れたChromeを選択
-    - .vscode/launch.jsonが自動生成
-- launch.jsonの詳細はサンプルソース参照のこと
+ver 1.60.1以降、拡張なしでJavascriptやTypeScriptのデバッグ実行が可能になった
+実行 > 構成の追加 > chrome
+以降、5Fでデバッガと紐づいた状態のChromeで表示できる
+.vscode/launch.jsonの典型的な設定は、ソースコードに添付されているため参照の事
 ```
 
 ________________________________________
@@ -370,3 +389,7 @@ JS(ES6)のサンプル
 
 - FrontSamples/front01/javascript-hello-world.html
 - FrontSamples/front01/js/javascript-hello-world.js
+
+Cookieのサンプル
+
+- FrontSamples/front01/cookie-sample.html

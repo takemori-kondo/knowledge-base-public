@@ -4,46 +4,63 @@ ________________________________________
 ________________________________________
 ### 0.1. Install and Settings
 
+Linux downloads (Red Hat family)  
+https://www.postgresql.org/download/linux/redhat/
+
 Install
 
 ```bash
-sudo yum -y install https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-redhat11-11-2.noarch.rpm
-sudo yum -y install postgresql11-server
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+sudo yum install -y postgresql14-server
 export PGSETUP_INITDB_OPTIONS="--encoding=UTF-8 --no-locale"
-sudo /usr/pgsql-11/bin/postgresql-11-setup initdb
-sudo systemctl enable postgresql-11.service
-sudo systemctl start postgresql-11.service
-sudo systemctl status postgresql-11.service
+sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+sudo systemctl enable postgresql-14
+sudo systemctl start postgresql-14
+sudo systemctl status postgresql-14
 sudo passwd postgres
 # postgres
 su - postgres
+```
+login psql
 
+```bash
 # postgres
 psql -l
 psql
-postgres=# ALTER ROLE postgres PASSWORD 'postgres';
-postgres=# CREATE ROLE foo CREATEDB LOGIN PASSWORD 'bar';
-postgres=# quit
-exit
+```
+
+postgres=#
+
+```text
+ALTER ROLE postgres PASSWORD 'postgres';
+CREATE ROLE foo CREATEDB LOGIN PASSWORD 'bar';
+quit
+```
+
+Other settings & confirmation
+
+```bash
+## end su - postgres
+# exit
 
 sudo ls /var/lib/pgsql/
-sudo vi /var/lib/pgsql/11/data/postgresql.conf
+sudo vi /var/lib/pgsql/14/data/postgresql.conf
 # listen_addresses = '*'
-sudo vi /var/lib/pgsql/11/data/pg_hba.conf
+sudo vi /var/lib/pgsql/14/data/pg_hba.conf
 # # "local" is for Unix domain socket connections only
-# local   all             all                                     md5
+# local   all             all                                     scram-sha-256
 # # IPv4 local connections:
-# host    all             all             127.0.0.1/32            md5
-# host    all             all             192.168.3.0/24          md5
+# host    all             all             127.0.0.1/32            scram-sha-256
+# host    all             all             192.168.3.0/24          scram-sha-256
 # # IPv6 local connections:
-# host    all             all             ::1/128                 md5
+# host    all             all             ::1/128                 scram-sha-256
 # # Allow replication connections from localhost, by a user with the
 # # replication privilege.
-# local   replication     all                                     md5
-# host    replication     all             127.0.0.1/32            md5
-# host    replication     all             ::1/128                 md5
-sudo systemctl restart postgresql-11.service
-sudo systemctl status postgresql-11.service
+# local   replication     all                                     scram-sha-256
+# host    replication     all             127.0.0.1/32            scram-sha-256
+# host    replication     all             ::1/128                 scram-sha-256
+sudo systemctl restart postgresql-14.service
+sudo systemctl status postgresql-14.service
 
 psql -U postgres -d postgres
 # postgres

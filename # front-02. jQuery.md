@@ -9,6 +9,21 @@ cd front02
 npm init -y
 npm install jquery --save
 npm install block-ui --save
+npm install --save-dev eslint
+npm install --save-dev eslint-plugin-html
+npx eslint --init
+    ? How would you like to use ESLint? (Use arrow keys)
+        > To check syntax and find problems
+    ? What type of modules does your project use? (Use arrow keys)
+        > None of these
+    ? Which framework does your project use? (Use arrow keys)
+        > None of these
+    ? Does your project use TypeScript? (y/N)
+        > n
+    ? Where does your code run? (Press <space> to select, <a> to toggle all, <i> to invert selection)
+        > (*) Browser
+    ? What format do you want your config file to be in? (Use arrow keys)
+        > JavaScript
 ```
 
 Knowledge

@@ -1,5 +1,40 @@
 # eco-05. Package Manager
 ________________________________________
+## 0. 要約
+________________________________________
+
+※ この表は挙動の確認まで正確に行っていないので、間違いがある可能性あり。2022/05時点
+
+操作                                   |npm               |composer                     |bundler                  |yum
+---------------------------------------|------------------|-----------------------------|-------------------------|--------------------------
+globalの思想                           |グローバル        |グローバル                   |全バージョン保持         |undo不可な可能性あり
+依存宣言ファイル                       |package.json      |composer.json                |Gemfile                  |-
+global listup                          |npm list -g       |(composer global list)       |-                        |yum list
+global restore by lock                 |-                 |-                            |bundle install           |-
+global add                             |npm install -g XXX|(composer global require XXX)|bundle install XXX       |yum -y install XXX
+recreate lock                          |npm install       |composer update              |bundle update            |-
+replace newer version                  |npm update        |composer update              |-                        |yum -y update XXX
+依存宣言ファイルの用意                 |npm init -y       |composer init                |bundle init              |-
+localまたは依存宣言ファイル内の一覧    |npm list          |composer list                |bundle list              |-
+local restore by lock                  |npm ci            |composer install             |-                        |-
+local add                              |npm install XXX   |composer require XXX         |-                        |-
+localまたは依存宣言ファイルベースの実行|npx XXX           |?                            |bundle exec XXX          |-
+
+```text
+※ npmの最大のひねくれポイントは、他の製品の慣習に逆らってnpm installがlockファイルを積極的に変更することである
+※ npm系のパッケージは、npm自体や、Node.js本体に依存している場合が多い
+   特に、依存関係がNode.jsのメジャーバージョンレベルで異なる場合、複数Node.js運用を可能にするnvmが必須になる
+※ RubyGems単品(gemコマンド)は、依存関係を考慮する機能がなかったため依存関係をサポートするbundlerが作られた、という歴史的経緯がある
+   後発のnpmやcomposerはbundlerの影響を強く受けている
+※ なお、アプリケーションライブラリレベルのパッケージマネージャはおそらくPerlのCPAN、JavaのMaven辺りが最古参であり、まだgitはおろかsvnが出たてのころである
+   もっと言えば、MavenにしてもGradleにしてもビルドツールの側面が前面に出ていて、パッケージマネージャである、という表現は足りていない
+※ bundlerは、他のパッケージマネージャと異なり、全てのライブラリの全てのバージョンを保持する
+   そのため、updateは実際には新しいバージョンをダウンロードして、GemFileやlockファイルを書き換えているのみで、旧バージョンの削除は行わない
+   この設計思想の違いから、プロジェクトローカルにinstallする必然性がなく、グローバルにinstallすればよい
+※ railsコマンドだけは、bundlerに頼らずともバージョン指定が可能な仕組みが内蔵されている
+```
+
+________________________________________
 ## 1. Application Package Manager
 ________________________________________ 
 ### 1.1. CentOS (yum & rpm)
