@@ -40,9 +40,9 @@ Formatter/Intellisenser
 ```text
 languages  : default / extensions
 ----------------------------------------
-html/js    : poor    / Beautify(*1), ESLint(*1)
-json       : yes     / Beautify
-php(*2)    : no      / PHP Intellisense(*1), phpcs(*1), php-cs-fixer(*1)
+html/js/ts : poor(*3)/ ESLint(*1)
+json       : yes     / -
+php(*2)    : no      / PHP Intelephense
 ruby       : no      / -
 xml        : no      / XML Tools
 ```
@@ -52,11 +52,11 @@ Debugger
 ```text
 languages  : default / extensions
 ----------------------------------------
-html/js    : no      / Debugger for Chrome
-json       : no      / -
+html/js/ts : yes     / -
+json       : -       / -
 php        : no      / PHP Debug
 ruby       : no      / Ruby & Ruby Solargraph
-xml        : no      / -
+xml        : -       / -
 ```
 
 Others
@@ -78,6 +78,8 @@ PHP Intelephenseの場合、以下の2つは設定して他はデフォルトで
     "intelephense.environment.phpVersion": "8.1.0",
     "intelephense.environment.shortOpenTag": false,
 ```
+
+(*3) Beautifyがなくてもそれなりに整形されるようになったため、こだわらなければ不要
 
 ________________________________________
 ### 2.2. Set up php.exe
@@ -110,17 +112,14 @@ External tools
 
 - npm
 - eslint
-- php.exe
-- composer
-- phpcs
-- php-cs-fixer
+- php.exe & composer
 
 Extensions
 
-- Beautify (settings.json)
-- PHP Intellisense
-- phpcs
-- php cs fixer
+- ESLint
+- PHP Debug
+- PHP Intelephense
+- Whitespace+
 
 Whitespace+
 
@@ -148,57 +147,23 @@ settings.json
     // common settings
     "files.eol": "\n",
     "editor.detectIndentation": false,
+    "editor.guides.indentation": true,
     "editor.insertSpaces": true,
-    "editor.renderIndentGuides": true,
     "editor.renderWhitespace": "boundary",
-    "editor.tabSize": 4,
+    "explorer.confirmDelete": false,
     "window.zoomLevel": 0,
     "editor.fontFamily": "MeiryoKe_Console, monospace",
     "git.ignoreMissingGitWarning": true,
     "terminal.integrated.fontFamily": "MeiryoKe_Console, monospace",
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-    "terminal.integrated.env.windows": {
-        "PSExecutionPolicyPreference": "RemoteSigned"
-    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
 
-    // Beautify
-    "html.format.unformatted": null,
-    "[html]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "HookyQR.beautify"
-    },
-
-    // Debugger for Chrome
-    // -
-
-    // ESLint
-    // -
-    
-    // PHP Debug
-    // -
-
-    // PHP IntelliSense
+    // common settings(php)
     "php.suggest.basic": false,
-    "php.validate.executablePath": "C:/php/php-7.2.9-Win32-VC15-x64/php.exe",
-    "php.executablePath": "C:/php/php-7.2.9-Win32-VC15-x64/php.exe",
-    
-    // PHP CodeSniffer
-    "phpcs.standard": "PSR2",
-    
-    // PHP Coding Standards Fixer
-    "php-cs-fixer.executablePath": "C:/Users/<user>/AppData/Roaming/Composer/vendor/bin/php-cs-fixer",
-    "php-cs-fixer.executablePathWindows": "C:/Users/<user>/AppData/Roaming/Composer/vendor/bin/php-cs-fixer.bat",
-    "php-cs-fixer.formatHtml": true,
-    
-    // Ruby & Ruby Solargraph
-    // -
-    
-    // Whitespace+
-    // Run "Whitespace+ Config" on command pallete(ctrl + shift + c)
-    // XML Tools
-    // -
+    "php.validate.enable": false,
+
+    // intelephense
+    "intelephense.environment.phpVersion": "8.1.0",
+    "intelephense.environment.shortOpenTag": false,
 }
 ```
 
