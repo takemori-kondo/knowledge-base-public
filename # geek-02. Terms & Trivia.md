@@ -26,3 +26,9 @@ site:example.com
 #hashtag
 before:2020-12-31
 after:2020-12-31
+
+________________________________________
+適切な情報ソースが欲しいなら
+
+日本学術会議協力学術研究団体
+https://www.scj.go.jp/ja/group/dantai/index.html

@@ -1,73 +1,60 @@
 # service-01. Slack API
 ________________________________________
-Guided tutorials  
-https://api.slack.com/tutorials
-
-Using the Slack Events API  
-https://api.slack.com/apis/connections/events-api
-
-chat.postMessage
-https://api.slack.com/methods/chat.postMessage
-
-url_verification  
-https://api.slack.com/events/url_verification
-
-reaction_added  
-https://api.slack.com/events/reaction_added
-
-Workflow Builder Steps from Apps  
-https://api.slack.com/tutorials/workflow-builder-steps
-
-README.md – steps-from-apps  
-https://glitch.com/edit/#!/steps-from-apps?path=README.md%3A1%3A0
-
-bolt-js source  
-https://github.com/slackapi/bolt-js/blob/main/src/App.ts
-
-HTTPReceiver.ts handleIncomingEvent  
-https://github.com/slackapi/bolt-js/blob/main/src/receivers/HTTPReceiver.ts
-
-________________________________________
 ## 1. 通常版の要約
 ________________________________________
 ### 1.1. Slack App用意&設定～APIを叩いてみるまで
+
+Guided tutorials  
+https://api.slack.com/tutorials
+
+chat.postMessage  
+https://api.slack.com/methods/chat.postMessage
+
+users.list  
+https://api.slack.com/methods/users.list
 
 ```powershell
 # 1. 以下でAppトークンを用意（Create App）
 # https://api.slack.com/apps
 #
 # 2. OAuth & PermissionsでScopeを追加
-# （Scopeは、iOS/Androidのcapability宣言と考え方は同じ。例えばbot scopeの以下）
 # chat:write
 # chat:write.customize
-# 
+# users:read
+#
 # 3. Basic Information > Install your app > Install to Workspace
 # （これは実際には、OAuth認可トークン手続きを開発用にUI化してある）
 #
 # 4. Slackを開き、Appを対象のchannelに追加
 #
-# 5. 準備は整ったのでcurl等で実際にたたいてみる
-# OAuth & Permissions のTokenを使用して、例えば以下
-# 仕様が変わり、クエリパラメータではトークンを受け付けなくなった
-# (ヘッダかPOSTでbody dataに付与する必要がある)
-# https://api.slack.com/changelog/2020-11-no-more-tokens-in-querystrings-for-newly-created-apps
-curl -XPOST -d 'token=<xoxbトークン>' https://slack.com/api/auth.test
+# 5. OAuth & Permissions > Bot User OAuth Tokenをどちらかの方法で用いてリクエスト
+# トークンは以下の2つのどちらかの方法で指定すること
+# A. Authorization: Bearer xoxb-...
+# B. Postボディでtoken=xoxb-...
+curl -XGET  "https://slack.com/api/auth.test" -H "Authorization: Bearer xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
+curl -XPOST "https://slack.com/api/auth.test" -H "Authorization: Bearer xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
+curl -XPOST "https://slack.com/api/auth.test" -d "token=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
 
-# 6. chatの例
-# channel=CBHAVV36Dの場合
-curl -XPOST -d 'token=<xoxbトークン>' -d 'channel=CBHAVV36D' -d 'text=Hello slack' -d 'username=from curl' -d 'icon_emoji=whale' 'https://slack.com/api/chat.postMessage'
+# 6. 例
+curl -XPOST "https://slack.com/api/chat.postMessage" -d "token=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx" -d "channel=CBHAVV36D" -d "text=Hello slack" -d "username=from curl" -d "icon_emoji=whale"
+curl -XPOST "https://slack.com/api/users.list" -d "token=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx" -d "limit=3"
 
-```
-
-bot(xoxb)トークン/スコープ、user(xoxp)トークン/スコープ
-
-```text
-bot(xoxb)トークン/スコープは、botユーザによる操作
-user(xoxp)トークン/スコープは、インストールしたユーザアカウントとしての代理操作。EnterpriseGridのadmin APIについてもこちらが必要
+# 補足 2種類のトークン
+# bot(xoxb)  :botユーザによる操作
+# user(xoxp) :インストールしたユーザの代理操作
 ```
 
 ________________________________________
 ### 1.2. イベント処理(reaction_addedの例)
+
+Using the Slack Events API  
+https://api.slack.com/apis/connections/events-api
+
+url_verification  
+https://api.slack.com/events/url_verification
+
+reaction_added  
+https://api.slack.com/events/reaction_added
 
 設定
 
@@ -103,18 +90,33 @@ ________________________________________
 
 Workflow stepを自作しないと出来ないこと
 
-1. 結果の取得などの自動化
-2. 分岐するステップ
+1. サードパーティとの連携
+
+Workflow stepを自作しても解決できないこと
+
+1. モーダルの自作やワークフロー関連のリソースへのアクセス
 
 ________________________________________
 ### 1.4. Workflow stepの自作
 
+Workflow Builder Steps from Apps  
+https://api.slack.com/tutorials/workflow-builder-steps
+
+README.md – steps-from-apps  
+https://glitch.com/edit/#!/steps-from-apps?path=README.md%3A1%3A0
+
+bolt-js source  
+https://github.com/slackapi/bolt-js/blob/main/src/App.ts
+
+HTTPReceiver.ts handleIncomingEvent  
+https://github.com/slackapi/bolt-js/blob/main/src/receivers/HTTPReceiver.ts
+
 設定
 
 ```text
-1. 1.2と同じ要領で、エンドポイントを用意する（同じプログラム内で処理するなら同じエンドポイントでもよい）
+1. 1.2と同じ要領で、エンドポイントを用意する（同じプログラム内で処理するなら同じエンドポイントでよい）
 2. Slack App > Interactivity & Shortcuts > Enable
-3. Request URLにエンドポイントを指定、Save
+3. Request URLにエンドポイントを指定、Save ※ ほとんどの場合、Event Subscriptionsも同じ値を設定する
 4. Slack App > Workflow Steps > Enable
 5. step追加
 6. Slack Appをワークスペースにre-install
@@ -129,8 +131,91 @@ ________________________________________
 
 1. イベント処理(reaction_addedの例)の1. と同様
 2. イベント処理(reaction_addedの例)の2. と同様
-3. 調査中
+3. 後述の「workflow関連の処理の仕組み」の通りにデータが送られてくるため、それに応じた処理を記述
 ```
+
+メモ：bolt.jsの要約
+
+```text
+利用側：
+const app = new App(...);
+const ws = new WorkflowStep(...);
+app.step(ws);
+await app.start(port);
+
+bolt.js側：
+App.ts start(...)
+  HTTPReceiver.ts start(...)
+    httpモジュール http.createServer(...)
+    this.requestListener(req, res)
+      this.unboundRequestListener.bind(this)
+        this.handleIncomingEvent(req, res)
+          HTTPModuleFunctions.ts httpFunc.parseHTTPRequestBody(bufferedReq)
+            content-type が application/x-www-form-urlencoded なら POSTボディをquerystring.parse
+              parse結果のpayloadプロパティがあるならその中身をJSON.parseした内容がbody本体
+              parse結果のpayloadプロパティがないならparse結果が本体
+            それ以外ならPOSTボディをJSON.parseした内容がbody本体
+          body.type が 'url_verification' ならば 適切に返却
+          App.ts this.app?.processEvent(event)
+            retry判定処理等
+            getTypeAndConversation(body)
+            this.authorize(source, bodyArg)
+              this.authorize = this.initAuthorizeInConstructor(...)
+                singleAuthorization(...)
+                  runAuthTestForBotToken
+                     auth.test APIを呼び出す
+            payloadの分類
+              event     : body.event がある
+              command   : body.command がある
+              options   : body.name があるか body.type が 'block_suggestion'
+              action    : body.actions があるか body.type が 'dialog_submission' or 'workflow_step_edit'
+              shortcut  : body.type が 'shortcut' か 'message_action'
+              viewaction: body.type が 'view_submission' か 'view_closed'
+            実payloadの取得
+              event     : body.event
+              viewaction: body.view
+              shortcut  : body
+              action    : body.actions があるなら actions[0], それ以外ならdefaultにfallback
+              default   : body
+```
+
+workflow関連の処理の仕組み
+
+```text
+workflow_step_edit
+ワークフロー作成時にそのステップを「追加・編集を開始する際」に通知される
+ワークフロー作成時のポップアップをblock kit方式で用意しviews.openに渡す
+詳細はサンプルプログラムを参照の事
+
+workflow_step(rootのtypeはview_submission)
+ワークフロー作成時にそのステップの「追加・編集がSaveされる際」に通知される
+workflow.updateStepに応答を渡す必要がある
+
+workflow_step_execute
+ワークフロー実施時に、そのステップが処理される際に通知される
+```
+
+________________________________________
+### 1.5. Shortcut & Block Kit Modal
+
+Slack App側
+
+1. Interactivity ON
+2. Request URL 設定 ※ ほとんどの場合、Event Subscriptionsも同じ値を設定する
+3. ショートカット追加 > グローバル（アタッチ&ショートカットに追加される）
+
+プログラム側
+
+1. shortcutタイプを受け取るので、callback_idでどのショートカットか特定する
+    - モーダル処理を開始する
+        - https://slack.com/api/views.open
+        - title, submitはほぼ定型
+        - blocks補足
+            - "type": "button"でbuttonアクションを受け取ることが可能
+2. モーダルをsubmitした後の処理を受け取るので、callback_idでどのsubmitか特定する
+    - view_submission
+    - あとは受け取った内容を読み取ってやりたいことをする
+    - 正常に終わるなら200応答して終了
 
 ________________________________________
 ## 2. Enterprise Gridエディション対応
@@ -179,3 +264,6 @@ https://api.slack.com/apps
 
 4. 必要に応じてインストールしたユーザのユーザIDも控えて、開発システムで利用する
 ```
+# Enterprise Gridメモ
+# OrG向けSCIM APIは必ず「Accept: application/json」「Authorization: Bearer xoxp-...」の2つのヘッダの付与が必要
+EnterpriseGridのadmin APIについてもこちらが必要
