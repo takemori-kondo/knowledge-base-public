@@ -336,85 +336,77 @@ ________________________________________
 </div>
 ```
 
-テンプレート構文要約
+テンプレート構文抜粋
 
-1. 補完（Interpolation）
-    - TypeScriptの結果を表示
-        - {{ expression }}
-        - 属性="{{ expression }}"
-2. 式コンテキスト（Expression context）
-    - 左辺が[]や*ngの場合、右辺にはTypeScript式を書く
-        - [属性]="expression"
-        - *ngFor="let todo of todos"
-3. 文コンテキスト（Statement context）
-    - 左辺が()の場合、右辺には複数のTypeScript文が可能
-    - (独自イベント)="foo(); bar();"
-    - (独自イベント)="foo($event); bar($event);"
-        - イベントから渡されるイベント引数名は、$eventでなければならない
-        - $eventは、主にstopPropagation()などするために使う
-4. 独自タグ（New Mental Model）
-    - コンポーネントのこと
-        - [@Inputなproperty]="expression"
-        - [@Inputかつ@Outputなproperty]="property"
-        - (@OutputなEventEmitter property)="foo($event); bar($event);"
-    - 組み込み済みコンポーネント
-        - router-outlet : ルーティングされるページの置き換え位置
-        - ng-content : componentが子タグを受け入れれる際の置き換え位置
-        - ng-template と ng-container : 条件付きで表示する場合に使用。かなり冗長
-5. 独自属性（New Mental Model）
-    - ディレクティブのこと
-        - [@Inputなproperty]="expression"
-        - [@Inputかつ@Outputなproperty]="property"
-        - (@OutputなEventEmitter property)="foo(); bar();"
-        - selector名は必ず[]で囲まれなければならない
-        - selector名とproperty名を同名にすると、利用側はselector名を省略可能
-    - 組み込み済みディレクティブ
-        - onclick → (click) など、htmlイベント全般。focus、blur、dblclickなど
-        - class → [ngClass] : 配列やkey-boolなjsonで指定することが可能
-        - style → [ngStyle] : 配列やkey-stringなjsonで指定することが可能
-        - [(ngModel)]="property" : 主にinput要素に対して双方向バインドを実現する
-        - [attr.属性] = "expression"
-        - [class.クラス名] = "bool expression"
-        - [style.CSSプロパティ] = "expression"
-    - 組み込み済みディレクティブ（構造ディレクティブ）
-        - *ngIf="expression"
-        - *ngFor="let todo of todos"
-        - *ngFor="let todo of todos; let i = index"
-        - *ngFor="let todo of todos; let i = index; trackBy: hoge"
-        - [ngSwitch]と*ngSwitchCase
-6. 属性とプロパティに関する補足（Property vs. Attribute）
-    - 要点
-        - 同時に指定すると、プロパティが勝つ
-        - 左辺がhtml属性の場合、右辺はTypescriptは無理
-        - 左辺が()や[]の場合、右辺はTypescript式でなければならない
-        - onclick属性などは使わず、(click)を使用すること
-    - 例：disabledと[disabled]
-        - disabled="false"
-            - disabled属性はそもそも="..."する属性ではない（="false"は無視される）
-        - [disabled]="false"
-            - disabledプロパティに対してfalseを設定するため合法で、有効になる
-7. 別の書き方
-    - bind-xxxは[xxx]の別の書き方。同じ意味
-    - on-xxxは(xxx)の別の書き方。同じ意味
-    - bindon-xxxは[(xxx)]の別の書き方。同じ意味
-8. [属性]や(独自イベント)の意味（Property Binding、Event Binding）
-    - プロパティを操作したり、イベントにバインドする
-        - [属性や独自属性]="expression"
-        - (独自イベント)="foo($event); bar($event);"
-9. [()]による双方向バインディング（Two-way Binding）
-    - @Inputかつ@Outputなプロパティ
-10. テンプレート変数あるいはタグ変数（Template reference variables）
-    - #thisTag
-        - 設定したタグそのものが入った変数になる(HTMLElement型)
-        - 表示更新には別途()によるイベントの発生が必要
-        - 例：(keyup)="0"
-11. パイプ（Pipe）
+|構文                                                    |記法                                                             |サニタイズ
+|--------------------------------------------------------|-----------------------------------------------------------------|-------------
+|テンプレート自体                                        |htmlと同等                                                       |されない
+|補間（Interpolation）                                   |{{ expression }}、属性="{{ expression }}"                        |される
+|テンプレート文<br>（テンプレート上で認識されるtsの詳細）|テンプレートに制御を書くのはアンチパターンなので略               |-
+|プロパティバインディング                                |[プロパティ]="expression"                                        |される
+|属性バインディング                                      |[attr.属性]="expression"                                         |される
+|Classバインディング-単一                                |[class.クラス名]="boolExpression"                                |される
+|Classバインディング-マルチ(v9以降からサポート)          |[class]="json or stringList"                                     |される
+|Styleバインディング-単一                                |[style.CSSプロパティ]="expression"                               |される
+|Styleバインディング-マルチ(v9以降からサポート)          |[style]="json or stringList"                                     |される
+|Eventバインディング                                     |(click)="foo($event)"                                            |-
+|Built-in directives Htmlイベント                        |click, focus, blur, dblclickなど                                 |-
+|Built-in directives ngClass(v8以前からあるやつ)         |マルチとほぼ同一                                                 |される
+|Built-in directives ngStyle(v8以前からあるやつ)         |マルチとほぼ同一                                                 |される
+|Built-in directives ngModel                             |双方向バインディング2を参照のこと                                |される
+|Built-in directives ngIf                                |*ngIf="expression"                                               |-
+|Built-in directives ngFor                               |*ngFor="let todo of todos"                                       |-
+|Built-in directives ngFor                               |*ngFor="let todo of todos; let i = index; trackBy: hoge"         |-
+|テンプレート参照変数（HtmlElement参照）                 |#bar                                                             |-
+|Input & output @Input                                   |[@Inputなプロパティ]="expression"                                |される
+|Input & output @Output                                  |(@OutputなEventEmitterプロパティ)="foo($event)"                  |-
+|Input & output @Output                                  |(@OutputなEventEmitterプロパティ)="プロパティ=$event"            |-
+|Input & output 双方向バインディング1                    |[(@Inputなxおよび@OutputなxChangeプロパティ)]="プロパティ"       |される
+|Input & output 双方向バインディング2                    |[(ngModel)]="プロパティ"                                         |される
+
+-
+
+セキュリティ要約
+
+```text
+可能な限り、Angularの補間やバンディングに頼ってください。直接DOMとやり取りしないでください
+補間ならば文字参照に置換、バインディングならscriptやonerrorの記載を取り除きます
+
+1. 既定のトランスパイラを使用せずにテンプレート自体を動的に生成する、などのアプローチはサニタイズされないので止めてください  
+2. 部分的なサーバサイドレンダリング等も同様の問題を抱えるため、可能なら避けてください
+3. Angularのバインディングや補間に頼らず、ネイティブのDOM APIを操作すると保護されません
+```
+
+組み込み済みコンポーネント抜粋（=独自タグ）
+
+|コンポーネント              |役割
+|----------------------------|-----------------------------------------------
+|router-outlet               |ルーティングされるページの置き換え位置
+|ng-content                  |componentが子タグを受け入れれる際の置き換え位置
+|ng-template と ng-container |条件付きで表示する場合に使用。かなり冗長
+
+-
+
+各種補足
+
+1. コンポーネントやディレクティブを自作する際、selector名とプロパティ名を同名にすると、利用側はselector名を省略可能
+2. Html自体の属性やプロパティは、適当なHtmlのヘルプを参照のこと
+3. Html自体の属性やプロパティは直接記述せず、各種バインディングすること（Angularの機能を使うことでXSS対策になる）
+4. bind-xxxは[xxx]の別の書き方。同じ意味
+5. on-xxxは(xxx)の別の書き方。同じ意味
+6. bindon-xxxは[(xxx)]の別の書き方。同じ意味
+7. バインディング等の右辺の記述は、厳密には式のみ許容（式コンテキスト）、複数の文を許容するもの（文コンテキスト）がある
+
+その他のテンプレート構文機能
+
+- パイプ
     - {{ title | uppercase }}
-12. Null条件演算子（Safe navigation operator）
+- Null条件演算子（Safe navigation operator）
     - {{ foo?.name }}
-13. anyにキャスト
+    - テンプレート中ではTypescript3.6以前でも使用可能（特別な処理がなされている）
+- anyにキャスト
     - {{ $any(foo).name }}
-14. Observable
+- Observable（Asyncパイプ）
     - "*ngFor="let hero of heroes$ | async"
 
 ________________________________________
