@@ -1,4 +1,4 @@
-# eco-01ex. sakura.exe
+# eco-01ex2. sakura.exe
 ________________________________________
 サクラエディタ  
 https://sakura-editor.github.io/
