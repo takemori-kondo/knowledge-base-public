@@ -12,7 +12,9 @@ OK : Century Micro, CFD, Crucial, Green house, IODATA, Kingston, Samsung, SanDis
 NG : AGI, Colorful, HIDISC, kingdian, kingfast, KingSpec, LEVEN, PHISON, RITEK（ドスパラ）, SUNEAST, Zheino
 
 家庭用ルータ
-NG Buffalo(多数の製品がDNS解決で問題を起こす持病を持つ。WSR-1166DHPL2 Version 1.06でも確認)
+注意 : Buffalo
+(多数の製品がWiFi下のDNS解決で問題を起こす持病を持つ。WSR-1166DHPL2 Version 1.06でも確認)
+(WSR-1166DHPL2 Version 1.08で上記問題が解決？したように見える？気が付いたら起きなくなっていた)
 
 * ドスパラBTOを買う場合は、SSDの品質に注意
 ```
