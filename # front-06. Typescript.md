@@ -8,7 +8,7 @@ https://js.studio-kingdom.com/typescript/
 
 ES2018: Rest/Spread Properties  
 https://2ality.com/2016/10/rest-spread-properties.html#spread-defines-properties-objectassign-sets-them
-
+ 
 ________________________________________
 ## 1. Prepare
 ________________________________________
@@ -128,6 +128,8 @@ npx eslint --init
         "@typescript-eslint"
     ],
     "rules": {
+      "@typescript-eslint/restrict-template-expressions": ["error", { "allowNumber": true, "allowBoolean": true, "allowNullish": true }],
+      "@typescript-eslint/no-inferrable-types": "off"
     }
 }
 ```
