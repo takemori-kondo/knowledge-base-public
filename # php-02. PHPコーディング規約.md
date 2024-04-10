@@ -1,4 +1,4 @@
-# php-01. PHPコーディング規約
+# php-02. PHPコーディング規約
 ________________________________________
 PHP-FIG — PHP Framework Interop Group - PHP-FIG  
 https://www.php-fig.org/

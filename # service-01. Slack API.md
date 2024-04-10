@@ -1,5 +1,13 @@
 # service-01. Slack API
 ________________________________________
+※ 前提
+
+```powershell
+# powershellは標準でiwrのエイリアスにcurl指定しているので、そのままだとcurlが使えない（curl自体はWindows10 1809移行に標準で用意されてるのにね！）
+del alias:curl
+```
+
+________________________________________
 ## 1. 通常版の要約
 ________________________________________
 ### 1.1. Slack App用意&設定～APIを叩いてみるまで
@@ -244,6 +252,8 @@ https://api.slack.com/apps
 3. Enterprise Grid環境へのSlack Appの追加
 「Basic Information > Install your app > Install to Workspace」経由の追加ができない
 そのため、自前でOAuth認可トークン取得のためのWebサーバを用意して使用が必要
+例：
+https://.../SlackApiSamples/org-redirect/oauthRedirect.php
 
 3.1. AOuthリクエストを受けとるWebサーバ(要SSL)及び受け取るためのスクリプトを用意する（PHPなど）
 3.2. Slack App > AOuth & Permission > Add New Redirect URL に用意したエンドポイントを指定
@@ -259,6 +269,10 @@ https://api.slack.com/apps
     - client_id：インストールしたいSlack AppのClient ID
 3.6. Allow
 3.7. Redirect URLに承認された認可トークンを含むリクエストが送られてくる
+    - 厳密にはスクリプトは以下のやり取りをする
+        1. codeが送られてくる
+        2. https://slack.com/api/oauth.v2.access へリクエスト
+        3. 認可情報がレスポンスされる
 
 
 

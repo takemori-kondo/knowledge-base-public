@@ -33,16 +33,15 @@ ________________________________________
 ________________________________________
 ### 2.1. Extensions Summary
 
-※ 最近のVSCodeはデフォルトのフォーマッタがだいぶ良くなったので、デフォルトでも十分使える
-
 Formatter/Intellisenser
 
 ```text
 languages  : default / extensions
 ----------------------------------------
-html/js/ts : poor(*3)/ ESLint(*1)
+html/js/ts : poor(*1)/ ESLint
+angular    : no      / Angular Language Service
 json       : yes     / -
-php(*2)    : no      / PHP Intelephense
+php        : no      / PHP Intelephense
 ruby       : no      / -
 xml        : no      / XML Tools
 ```
@@ -62,84 +61,14 @@ xml        : -       / -
 Others
 
 ```text
-- Whitespace+(*1)
+- Whitespace+
 - Rainbow Csv
 ```
 
-(*1) Please read next section.
-
-(*2) PHP関連の拡張について
-
-```text
-PHP Intellisense           : サジェスタ・検索強化
-PHP CodeSniffer            : linter
-PHP Coding Standards Fixer : フォーマッタ
-2022年では、PHP Intelephenseが上記3つの役割をこなしてフォーマットにPHP本体も不要なので楽
-PHP Intelephenseの場合、以下の2つは設定して他はデフォルトでPSR12を前提とするイイ感じになる
-    "intelephense.environment.phpVersion": "8.1.0",
-    "intelephense.environment.shortOpenTag": false,
-```
-
-(*3) Beautifyがなくてもそれなりに整形されるようになったため、こだわらなければ不要
+(*1) Beautifyがなくてもそれなりに整形されるようになった
 
 ________________________________________
-### 2.2. Set up php.exe
-
-1. Get php.exe set
-2. Put to C:/php/<version-folder>/php.exe
-3. Add path to env PATH
-4. Copy to php.ini form php.ini-development
-5. Uncomment it
-
-```ini
-extension_dir = "ext"
-...
-extension=intl
-extension=imap
-...
-extension=mbstring
-...
-extension=openssl
-...
-extension=pdo_mysql
-...
-extension=pdo_pgsql
-```
-
-________________________________________
-### 2.3. Install list
-
-External tools
-
-- npm
-- eslint
-- php.exe & composer
-
-Extensions
-
-- ESLint
-- PHP Debug
-- PHP Intelephense
-- Whitespace+
-
-Whitespace+
-
-```shell
-# 1. Show config.json in "Whitespace+" extension (Run command palette)
-#     Whitespace+ Config
-# 2. Set "pattern" value for "space"
-#     "pattern": "\\s{2,}",
-# 3. Reboot vscode
-# 4. Set the following in keybindings.json
-#     // https://github.com/davidhouchin/whitespace-plus/blob/master/package.json
-#     { "key": "ctrl+shift+tab",
-#       "command": "extension.toggleWhitespacePlus",
-#       "when": "editorTextFocus"
-#     }
-```
-
-________________________________________
-### 2.4. Extension Settings
+### 2.2. 典型的な基本設定
 
 settings.json
 
@@ -157,16 +86,23 @@ settings.json
     "git.ignoreMissingGitWarning": true,
     "terminal.integrated.fontFamily": "MeiryoKe_Console, monospace",
     "terminal.integrated.defaultProfile.windows": "PowerShell",
-
-    // common settings(php)
-    "php.suggest.basic": false,
-    "php.validate.enable": false,
-
-    // intelephense
-    "intelephense.environment.phpVersion": "8.1.0",
-    "intelephense.environment.shortOpenTag": false,
+    
+    ...
 }
 ```
+
+________________________________________
+### 2.3. Whitespace+の設定
+
+典型的な設定
+
+1. "Whitespace+" を追加 
+2. コマンドパレットで以下を実行してConfigを開く
+    - Whitespace+ Config
+3. "space"のパターンを設定
+    - "pattern": "\\s{2,}",
+4. vscodeを再起動
+5. vsのショートカットに表示切替を追加     
 
 config.json for Whitespace+
 
@@ -176,4 +112,18 @@ config.json for Whitespace+
         "enabled": true,
         "pattern": "\\s{2,}",
 ...
+```
+
+keybindings.json
+
+```
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+  {
+    // https://github.com/davidhouchin/whitespace-plus/blob/master/package.json
+    "key": "ctrl+shift+tab",
+    "command": "extension.toggleWhitespacePlus",
+    "when": "editorTextFocus"
+  }
+]
 ```
