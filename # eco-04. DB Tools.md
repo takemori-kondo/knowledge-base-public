@@ -52,6 +52,8 @@ SQL整形　　 > SELECT句内のカラム… > チェック
 SQL整形     > インデント桁数       > 4
 SQL整形　　 > 1行コメントの位置　　> 1桁以降
 Oracle　　　> NLS_LANG　　　　　　 > JAPANESE_JAPAN.AL32UTF8
+
+※ SQLファイルとNLS_LANG値は対応させること
 ```
 
 ________________________________________
