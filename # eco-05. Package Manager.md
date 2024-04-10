@@ -98,14 +98,21 @@ bundle install --path vendor/bundle
 ________________________________________
 ### 2.2. PHP (composer)
 
+※ 前提として、開発環境でも本番環境と同等のOS上から行うこと
+
 Prepare composer
 
 ```bash
 # 1. Install php-cli
 
-# 2. Download & install composer
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+# 2. Download & install composer.phar
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+
+# 3. 動作確認
+composer --version
 ```
 
 Restore packages for existing project
@@ -114,7 +121,13 @@ Restore packages for existing project
 composer install
 ```
 
-for New project (skeleton framework)
+Add sample (e.g. phpmailer)
+
+```bash
+composer require phpmailer/phpmailer 
+```
+
+for New framework project (skeleton framework)
 
 ```bash
 # f.g. cakephp skeleton

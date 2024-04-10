@@ -19,19 +19,10 @@ sudo apt install -y php8.1-sqlite3
 
 ※ 本番がLinuxの場合はローカル環境もLinuxにし、Composer操作等も全てLinux上で行いましょう
 
+※ eco-05. Package Manager の Composerも参考に初期設定して下さい
+
 ```bash
-# 1. Install php-cli
-
-# 2. Download & install composer.phar
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
-
-# 3. 動作確認
-composer --version
-
-# 4. 例：PHPMailerをComposer経由で追加
+# 例：PHPMailerをComposer経由で追加
 cd /var/www/html/PhpSamples/Php03
 composer require phpmailer/phpmailer 
 ```
