@@ -31,6 +31,12 @@ ________________________________________
 
 - animationsに指定する共通パーツ
 
+非ドメイン系DirectiveとPipe
+
+- DatepickerExDirective
+- AppLocaleTextPipe
+- ValidateDirective
+
 オレオレフレームワークのカスタマイズポイントに対する規定実装
 
 1. ErrorHandler (既定実装：Promise対応)
@@ -50,23 +56,21 @@ ________________________________________
 
 典型的な操作や保持データ
 
-- AppAjaxService (HttpClientにデフォルトAPIエンドポイント、429or503リトライを追加したラッパー)
 - AppAuthService (認証やページ認可の検証とログインダイアログの呼び出しなどの制御)
 - AppMessageBoxService (確認ダイアログ)
 - AppModalService (任意のcomponentを使用するダイアログ)
 - AppLocaleService (多言語リソースからテキストを取得)
 - AppValidators (Validatorsに機能を加えたstaticラッパ関数群と、formGroupバリデート実施関数)
+- AppAjaxService (HttpClientにデフォルトAPIエンドポイント、429or503リトライを追加したラッパー)
 
-その他の汎用制御
+その他の汎用制御（調整中）
 
 1. クッキー(getCookieValue)
-2. ダイアログ(showConfirm)
-3. location制御(back, replaceState)
-4. Router制御(navigate, navigateWithObject, getNavigateObject)
-5. PageData制御1(setPageDataToSession, getPageDataFromSession, setPageDataToLocal, getPageDataFromLocal)
-6. PageData制御2(keepGrid, restoreGrid, keepPagination, restorePagination, keepForm, restoreForm)
+2. PageData制御1(setPageDataToSession, getPageDataFromSession, setPageDataToLocal, getPageDataFromLocal)
+3. PageData制御2(keepPagination, restorePagination, keepForm, restoreForm)
 
 ________________________________________
 ### 1.4. AG-Grid関連
 
-1. AG-Grid用の自作Vaidator (だいぶ作りこむ前提)
+1. AppAgGridValidationBinder
+2. AG-Grid用のPageData制御（keepGrid, restoreGrid）（調整中）
