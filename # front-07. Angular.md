@@ -42,9 +42,10 @@ ________________________________________
     - テンプレートにおいてSPAルーティング用リンクは、linkの代わりにrouterlinkを使用する
     - テンプレートにおいてangularに管理されたイベントは、onclickなどの代わりに(click)を使用する
     - その他、各種テンプレート構文が使用できる
-2. 以下がルートコンポーネント
+2. 以下が全体scssとルートコンポーネント
     - src/styles.scss
     - src/app/app.component.html
+    - src/app/app.component.scss
     - src/app/app.component.ts
 3. app/app-routing.module.ts がSPAルーティング
 4. app/app.module.ts が ルートngモジュール

@@ -57,14 +57,14 @@ ________________________________________
 - AppLocaleService (多言語リソースからテキストを取得)
 - AppValidators (Validatorsに機能を加えたstaticラッパ関数群と、formGroupバリデート実施関数)
 
+その他の汎用制御
 
-2. クッキー(getCookieValue)
-3. ダイアログ(showConfirm)
-4. location制御(back, replaceState)
-5. Router制御(navigate, navigateWithObject, getNavigateObject)
-6. PageData制御1(setPageDataToSession, getPageDataFromSession, setPageDataToLocal, getPageDataFromLocal)
-7. PageData制御2(keepGrid, restoreGrid, keepPagination, restorePagination, keepForm, restoreForm)
-8. などなど…他多数
+1. クッキー(getCookieValue)
+2. ダイアログ(showConfirm)
+3. location制御(back, replaceState)
+4. Router制御(navigate, navigateWithObject, getNavigateObject)
+5. PageData制御1(setPageDataToSession, getPageDataFromSession, setPageDataToLocal, getPageDataFromLocal)
+6. PageData制御2(keepGrid, restoreGrid, keepPagination, restorePagination, keepForm, restoreForm)
 
 ________________________________________
 ### 1.4. AG-Grid関連
