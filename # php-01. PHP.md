@@ -8,13 +8,6 @@ If use xampp, read "php-01ex. Windows Xampp"(other page)
 
 If use ubuntu, read "vm-03ex. Ansible from centos to ubuntu"(other page)
 
-※ SQLiteのインストールがAnsibleスクリプトに組み込まれていないので、必要に応じてインストールして下さい
-
-```bash
-# ubuntuの例。webサーバの再起動も必要
-sudo apt install -y php8.1-sqlite3
-```
-
 ※ ComposerのインストールがAnsibleスクリプトに組み込まれていないため、必要に応じてubuntu配下でインストールして下さい
 
 ※ 本番がLinuxの場合はローカル環境もLinuxにし、Composer操作等も全てLinux上で行いましょう
@@ -27,16 +20,12 @@ cd /var/www/html/PhpSamples/Php03
 composer require phpmailer/phpmailer 
 ```
 
-※ サーバ側Xdebug3のインストールがAnsibleスクリプトに組み込まれていないため、必要に応じてubutu配下でインストールして下さい
+※ Xdebug3はAnsibleスクリプトでインストールされていますが、初期設定されていません。必要に応じて以下の設定をしてください（xdebug.client_hostはあなたのPCのIPを設定してください）
+
+bash
 
 ```bash
-# ubuntuの例
-sudo apt install -y php8.1-xdebug
-
-# php.ini
 sudo vi /etc/php/8.1/mods-available/xdebug.ini
-
-# webサーバの再起動も必要
 ```
 
 /etc/php/8.1/mods-available/xdebug.ini
@@ -47,6 +36,13 @@ xdebug.mode=debug
 xdebug.start_with_request=yes
 xdebug.client_host=192.168.3.2
 xdebug.client_port = 9000
+```
+
+bash
+
+```bash
+# 再起動
+sudo systemctl restart apache2
 ```
 
 ________________________________________
