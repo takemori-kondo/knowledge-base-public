@@ -31,7 +31,7 @@ https://api.slack.com/methods/users.list
 # users:read
 #
 # 3. Basic Information > Install your app > Install to Workspace
-# （これは実際には、OAuth認可トークン手続きを開発用にUI化してある）
+# （これは実際には、OAuth認可コード・アクセストークン手続きを開発用にUI化してある）
 #
 # 4. Slackを開き、Appを対象のchannelに追加
 #
@@ -233,7 +233,7 @@ Enterprise Gridエディション向けの場合
 ```text
 これらは、通常版と異なる手順が必要
 ・Enterprise Gridエディション環境の用意
-・Enterprise Gridエディション向けSlack Appの設定やOAuth認可トークンの取得方法
+・Enterprise Gridエディション向けSlack Appの設定やOAuth認可コード・アクセストークンの取得方法
 
 1. 開発向けEnterprise Grid用のSlackの用意
 Enterprise Grid Sandbox
@@ -251,7 +251,7 @@ https://api.slack.com/apps
 
 3. Enterprise Grid環境へのSlack Appの追加
 「Basic Information > Install your app > Install to Workspace」経由の追加ができない
-そのため、自前でOAuth認可トークン取得のためのWebサーバを用意して使用が必要
+そのため、自前でOAuth認可コード・アクセストークン取得のためのWebサーバを用意して使用が必要
 例：
 https://.../SlackApiSamples/org-redirect/oauthRedirect.php
 
@@ -262,13 +262,13 @@ https://.../SlackApiSamples/org-redirect/oauthRedirect.php
     - 初期設定では「Orgオーナー権限を有り & Workspaceに参加 & Slack Appインストール権限のある」ユーザである必要あり
 3.5. 上記の状態で、以下URLアクセスしてリクエスト（これでログイン中の内容に対してSlack App追加依頼AOuthの開始になる）
     - ※ admin:系スコープを含む場合はOrgLevelに対して申請され、含まない場合はWorkspaceに申請される
-    - ※ admin:系とその他のリクエストは認可トークンを分ける必要がある(userスコープが必要)ため、場合によってはアプリは2つのトークンを使い分ける必要がある
+    - ※ admin:系とその他のリクエストは認可コード・アクセストークンを分ける必要がある(userスコープが必要)ため、場合によってはアプリは2つのトークンを使い分ける必要がある
      https://slack.com/oauth/v2/authorize?scope=...&user_scope=...&client_id=...
     - scope : そのアプリに必要なbotスコープをカンマ区切りで列挙
     - user_scope：そのアプリに必要なユーザスコープをカンマ区切りで列挙
     - client_id：インストールしたいSlack AppのClient ID
 3.6. Allow
-3.7. Redirect URLに承認された認可トークンを含むリクエストが送られてくる
+3.7. Redirect URLに承認された認可コード・アクセストークンを含むリクエストが送られてくる
     - 厳密にはスクリプトは以下のやり取りをする
         1. codeが送られてくる
         2. https://slack.com/api/oauth.v2.access へリクエスト

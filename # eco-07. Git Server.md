@@ -127,13 +127,19 @@ reboot now
 
 Initial settings (gitlb-ctl & SSL)
 
-```bash
 vi /etc/gitlab/gitlab.rb
-# letsencrypt['enable'] = true
-# external_url "https://gitlab.example.com"
-# letsencrypt['contact_emails'] = ['foo@email.com']
+
+```text
+letsencrypt['enable'] = true
+external_url "https://gitlab.example.com"
+letsencrypt['contact_emails'] = ['foo@email.com']
+```
+
+CentOS7
+
+```bash
 gitlab-ctl reconfigure
-# CentOS7~
+
 firewall-cmd --permanent --zone=public --add-service=https
 firewall-cmd --reload
 reboot now

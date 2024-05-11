@@ -60,15 +60,16 @@ SlackやTwitterでAPIを使用するまでの流れで理解するOAuth
 
 ```text
 [必須要素]
-OAuth authorization server : ホストの一部分。ユーザが認証することでOAuth access tokenを返すサーバ
-    OAuth access token     : 認可トークン
-OAuth resource server      : ホストの一部分。APIサーバ
-OAuth Client               : サードパーティアプリ
-    API key                : 予めホストに用意してもらう（Confidential Client形式の場合）
-    API key secret         : 予めホストに用意してもらう（Confidential Client形式の場合）
-    Scope                  : サードパーティアプリが要求する権限リスト
-    Callbackページ         : サードパーティアプリがOAuth access tokenを受け取るページ
-Resource owner(end user)   : ユーザ
+OAuth authorization server   : ホストの一部分。ユーザが認証することでOAuth access tokenを返すサーバ
+    OAuth authorization code : 認可コード(ワンタイムコード)
+    OAuth access token       : アクセストークン
+OAuth resource server        : ホストの一部分。APIサーバ
+OAuth Client                 : サードパーティアプリ
+    API key                  : 予めホストに用意してもらう（Confidential Client形式の場合）
+    API key secret           : 予めホストに用意してもらう（Confidential Client形式の場合）
+    Scope                    : サードパーティアプリが要求する権限リスト
+    Callbackページ           : サードパーティアプリがOAuth access tokenを受け取るページ
+Resource owner(end user)     : ユーザ
 
 [補足]
 ・リフレッシュ機構がある場合もある

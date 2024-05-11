@@ -11,6 +11,7 @@ ________________________________________
 # それを今のコンソールで一時的に解除するのがこのコマンド
 # あるいはcurl.exeとすればエイリアスが呼ばれずcurl.exeを呼べる
 del alias:curl
+echo "del alias:curlが実行されました"
 ```
 
 Windows版curl.exeの注意点
