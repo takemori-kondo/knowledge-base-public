@@ -8,9 +8,9 @@ del alias:curl
 ```
 
 ________________________________________
-## 1. 通常版の要約
+## 1. Slack App用意&設定～APIを叩いてみるまで
 ________________________________________
-### 1.1. Slack App用意&設定～APIを叩いてみるまで
+### 1.1. APIコール
 
 Guided tutorials  
 https://api.slack.com/tutorials
@@ -53,7 +53,11 @@ curl -XPOST "https://slack.com/api/users.list" -d "token=xoxb-xxxxxxxxxxxx-xxxxx
 ```
 
 ________________________________________
-### 1.2. イベント処理(reaction_addedの例)
+## 2. Event、カスタムWorkflowStep
+________________________________________
+### 2.1. Eventコールバック
+
+Eventコールバックサーバの用意と記述（reaction_addedの例)
 
 Using the Slack Events API  
 https://api.slack.com/apis/connections/events-api
@@ -71,7 +75,7 @@ https://api.slack.com/events/reaction_added
     - この段階では、url_verificationが処理できれば良い
 2. Slack App > Event Subscriptions > 有効化
 3. Request URLにエンドポイントを指定
-4. Subscribe to events on behalf of usersにreaction_addedを追加し、Save
+4. Subscribe to bot eventsにreaction_addedを追加し、Save
 5. Slack Appをワークスペースにre-install
 ```
 
@@ -84,28 +88,46 @@ https://api.slack.com/events/reaction_added
     - こちらも同じ手順でhash値を作って比較する
 3. あとはやりたいことを自由に書く
 
-※ 詳細はSlack App Samplesのソースを参考の事
+※ 詳細はSlackApiSamplesのソースを参考の事
 ```
 
 ________________________________________
-### 1.3. ワークフロービルダー(有料版機能)の使用例
+### 2.2. カスタムWorkFlowStep
 
-出来ること
+そもそもSlackワークフローとは？
 
-1. 簡単なアンケートなどの用意
-2. ステップ実施時に、特定のチャンネルや誰かへDMで通知
-3. 結果一覧をCSVでダウンロード
+- 有料
+- 入力フォームや通知などのStepを繋げてワークフローを構成する機能
+    - Slack内通知には次のStepを開始するためのボタンをメッセージに含めることが可能
+- ワークフローはスケジュールしたり手動で開始できる
+- 各種SaaSと連携するためのサードパーティStepもある
+    - issue発行
+    - カレンダー登録
+    - SMSやメール送信
+    - シートへの行追加
+    - ファイルコピー など
+- Stepの自作も可能
+- フォーム回答の全データはDL可能
+    - 注意：この全データはAPIからアクセスする手段はない
 
-Workflow stepを自作しないと出来ないこと
+Slackワークフローの例
 
-1. サードパーティとの連携
+1. ワークフローを開始し、条件を満たした人へDM通知
+2. 入力フォームを実施してもらう
+3. 結果をサードパーティStepで保存
 
-Workflow stepを自作しても解決できないこと
+よく使うステップ
 
-1. モーダルの自作やワークフロー関連のリソースへのアクセス
+Step名                                  |用途・役割・例
+----------------------------------------|--------------------------------
+Send a message to xx（旧Send a message）|チャンネルや相手へ通知や回答依頼
+Collect info in a form（旧Send a form） |入力フォームの実施
+サードパーティステップ（issue発行系）   |Bitbucket、Github、Gitlab、Jira
+サードパーティステップ（Office系）      |Google WorkSpace、MS Office
 
-________________________________________
-### 1.4. Workflow stepの自作
+-
+
+Workflow stepの自作詳細（legacy版）
 
 Workflow Builder Steps from Apps  
 https://api.slack.com/tutorials/workflow-builder-steps
@@ -122,27 +144,106 @@ https://github.com/slackapi/bolt-js/blob/main/src/receivers/HTTPReceiver.ts
 設定
 
 ```text
-1. 1.2と同じ要領で、エンドポイントを用意する（同じプログラム内で処理するなら同じエンドポイントでよい）
+1. 「Eventコールバック」と同じ要領で、エンドポイントを用意
+    - 同じプログラム内で処理するなら同じエンドポイントでよい
 2. Slack App > Interactivity & Shortcuts > Enable
-3. Request URLにエンドポイントを指定、Save ※ ほとんどの場合、Event Subscriptionsも同じ値を設定する
+3. Request URLにエンドポイントを指定、Save
+    - 前述の通り、Event Subscriptionsと同じエンドポイントでも良い
 4. Slack App > Workflow Steps > Enable
 5. step追加
 6. Slack Appをワークスペースにre-install
-7. Slack App > App Home > Enable Home Tab
+7. Slack App > App Home > Home Tab > Enable
 ```
 
 エンドポイント側の処理
 
 ```text
-※1 bolt-js + node.js on Herokuの場合は、web: node app.jsで起動
-※2 APIリクエスト/レスポンスと処理フローははbolt-jsの中身を見たほうが早い
+1. イベント処理(reaction_addedの例)の1、2と同様
+2. 次の「メモ1：カスタムworkflow stepの処理詳細」に従って実装
 
-1. イベント処理(reaction_addedの例)の1. と同様
-2. イベント処理(reaction_addedの例)の2. と同様
-3. 後述の「workflow関連の処理の仕組み」の通りにデータが送られてくるため、それに応じた処理を記述
+※1 詳細はSlackApiSamplesのソースを参考の事
+※2 bolt-js + node.js on Herokuの場合は、web: node app.jsで起動
+※3 bolt-jsは妙に抽象化されているため、本来やる必要がある各処理が分かりづらい
 ```
 
-メモ：bolt.jsの要約
+メモ1：カスタムworkflow stepの処理詳細
+
+```text
+全体の流れ
+
+Slack                                         Your Callback Server
+  |                                                    |
+  |1. ワークフロー作成開始                             |
+  |2. 該当Stepの追加開始(workflow_step_edit)           |
+  |--------------------------------------------------->|
+  |                                                    |2.1. 構成モーダルを用意
+  |        2.2. 構成モーダル表示API(views.open)        |
+  |        <-------------------------------------------|
+  |                                                    |
+  |        2.2. に対する200 OK                         |
+  |        ------------------------------------------->|
+  |                                                    |
+  |                                    2に対する 200 OK|
+  |<---------------------------------------------------|
+  |                                                    |
+  |3. 該当Stepの構成確定(view_submission)              |
+  |--------------------------------------------------->|
+  |                                                    |3.1. 受信内容を元に保存内容を用意
+  |        3.2. Step構成保存API(workflows.updateStep)  |
+  |        <-------------------------------------------|
+  |                                                    |
+  |        3.2に対する200 OK                           |
+  |        ------------------------------------------->|
+  |                                                    |
+  |                                    3に対する 200 OK|
+  |<---------------------------------------------------|
+
+
+
+Slack                                         Your Callback Server
+  |                                                    |
+  |4. ワークフロー実施。workflow_step_execute          |
+  |--------------------------------------------------->|
+  |                                                    |4.1. 任意の処理
+  |                                    4に対する 200 OK|
+  |<---------------------------------------------------|
+
+
+workflow_step_edit
+独自の構成モーダル自体を返却するためのコールバック
+ワークフロー作成中にそのステップを「構成開始する際」に通知される
+views.openを呼び出すことで構成モーダルを渡す
+
+view_submission's workflow_step
+独自の構成モーダルに入力された内容を検証・保存APIを呼び出すためのコールバック
+ワークフロー作成中にそのステップが「Saveされる際」に通知される
+workflow.updateStepを呼び出すことでそのStepの構成内容を保存する
+「メモ2：手前のStepなどの入力内容を取得する方法」も参照の事
+
+workflow_step_execute
+ワークフロー実施時に、そのステップが実行される際に通知される
+「メモ2：手前のStepなどの入力内容を取得する方法」も参照の事
+```
+
+メモ2：手前のStepなどの入力内容を取得する方法
+
+```text
+1. workflow_step_editで構成モーダルに欲しいパラメータの入力欄を用意する
+2. ワークフロー作成時に入力欄へ「Insert a variable」で入力
+3. view_submission's workflow_stepでペイロードから内容を取り出しinputsに含める
+4. ワークフロー実施時にそれらが実際の値に置き換わる
+
+※ 注意
+変数はview_submission's workflow_stepで見ると{{...==...}}の形式になっている
+- Time when step completed
+    - 例：{{046e9b62-7533-4f44-9f7e-7a4127cefbc2==timestamp_completed}}
+- Person who　submitted from XXXX
+    - 例：{{046e9b62-7533-4f44-9f7e-7a4127cefbc2==user_submitted.name}}
+- 手前以前のStepのoutputsされた項目 など
+    - 例：{{046e9b62-7533-4f44-9f7e-7a4127cefbc2==5f6588ec-0525-44df-93fb-bf4fd38d0304==text}}
+```
+
+メモ3：bolt.jsの要約
 
 ```text
 利用側：
@@ -187,46 +288,46 @@ App.ts start(...)
               default   : body
 ```
 
-workflow関連の処理の仕組み
+________________________________________
+### 2.3. Shortcut
+
+設定
 
 ```text
-workflow_step_edit
-ワークフロー作成時にそのステップを「追加・編集を開始する際」に通知される
-ワークフロー作成時のポップアップをblock kit方式で用意しviews.openに渡す
-詳細はサンプルプログラムを参照の事
+1. 「カスタムWorkFlowStep」の1～3までと同様
+2. Interactivity & Shortcuts > Create New shortcut > Global
+```
 
-workflow_step(rootのtypeはview_submission)
-ワークフロー作成時にそのステップの「追加・編集がSaveされる際」に通知される
-workflow.updateStepに応答を渡す必要がある
+エンドポイント側の処理
 
-workflow_step_execute
-ワークフロー実施時に、そのステップが処理される際に通知される
+```text
+1. ショートカット開始時、type=shortcutが通知される
+    - callback_idがid
+    - 例えば以下で、モーダル処理を開始する
+        - https://slack.com/api/views.open
+2. モーダルをsubmitした時、type=view_submissionが通知される
+    - やりたいことをする
+    - 正常に終わるなら200応答して終了
+
+※ 詳細はSlackApiSamplesのソースを参考の事
+```
+
+コールバックの補足
+
+```text
+shortcut
+shortcut起動時のイベントタイプ。今回の例ではここからviews.openを呼び出している
+
+actionsプロパティが存在
+フォーム上のボタンがクリックされた時など。actionイベントとして扱う
+ボタンがクリックされた場合、actions.typeはbutton
+
+view_submission's modal
+モーダルを確定した際のイベントタイプ（ワークフローの構成モーダル除く）
 ```
 
 ________________________________________
-### 1.5. Shortcut & Block Kit Modal
-
-Slack App側
-
-1. Interactivity ON
-2. Request URL 設定 ※ ほとんどの場合、Event Subscriptionsも同じ値を設定する
-3. ショートカット追加 > グローバル（アタッチ&ショートカットに追加される）
-
-プログラム側
-
-1. shortcutタイプを受け取るので、callback_idでどのショートカットか特定する
-    - モーダル処理を開始する
-        - https://slack.com/api/views.open
-        - title, submitはほぼ定型
-        - blocks補足
-            - "type": "button"でbuttonアクションを受け取ることが可能
-2. モーダルをsubmitした後の処理を受け取るので、callback_idでどのsubmitか特定する
-    - view_submission
-    - あとは受け取った内容を読み取ってやりたいことをする
-    - 正常に終わるなら200応答して終了
-
-________________________________________
-## 2. Enterprise Gridエディション対応
+## 3. Enterprise Gridエディション対応
 ________________________________________
 Enterprise Gridエディション向けの場合
 
@@ -278,6 +379,11 @@ https://.../SlackApiSamples/org-redirect/oauthRedirect.php
 
 4. 必要に応じてインストールしたユーザのユーザIDも控えて、開発システムで利用する
 ```
+
+その他
+
+```text
 # Enterprise Gridメモ
 # OrG向けSCIM APIは必ず「Accept: application/json」「Authorization: Bearer xoxp-...」の2つのヘッダの付与が必要
 EnterpriseGridのadmin APIについてもこちらが必要
+```
