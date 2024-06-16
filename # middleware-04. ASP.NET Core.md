@@ -1,8 +1,33 @@
 # middleware-04. ASP.NET Core
 ________________________________________
-## 0. How to Install
+Ubuntu での .NET の概要  
+https://learn.microsoft.com/ja-jp/dotnet/core/install/linux-ubuntu
+
+Ubuntu に .NET SDK または .NET ランタイムをインストールする  
+https://learn.microsoft.com/ja-jp/dotnet/core/install/linux-ubuntu-install?pivots=os-linux-ubuntu-2004&tabs=dotnet8
 ________________________________________
-Install
+## 0. How to Install & Run
+________________________________________
+Install & run sample (Ubuntu20, Console)
+
+```bash
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-8.0
+
+sudo apt-get install -y dotnet-runtime-8.0
+
+# .csprojのある場所
+cd vagrant_shared/ConsoleApp/ConsoleApp
+
+# configurationを省略すると(.csprojのデフォルトはDebugなので)Debugビルドされる
+dotnet run --configuration Release
+```
+
+Install & run sample (CentOS7, Web App)
 
 ```bash
 sudo yum -y install httpd

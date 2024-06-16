@@ -25,6 +25,14 @@ SSH クライアントの設定
 ・Putty/Plinkの場合、SSHキー
 ```
 
+LFを強制
+
+```text
+# SourceTreeからターミナルを開き、以下を実行
+# Windowsなら、%USERPROFILE%/.gitconfig が書き換わる
+git config --global core.autocrlf input
+```
+
 ________________________________________
 ## 2. Git戦略
 ________________________________________

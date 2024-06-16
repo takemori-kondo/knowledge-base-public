@@ -60,4 +60,85 @@ A1v2 |  6,483|   1|  2|    4,415|-
 D2av4| 30,023|   2|  8|    5,982|1年予約
 D4av4| 59,685|   4| 16|   11,965|1年予約
 
-- 
+-
+
+________________________________________
+## 2. AWS と Azureの近似表
+________________________________________
+ネットワーク関連
+
+項目                |AWS                    |Azure
+--------------------|-----------------------|--------------
+ネットワーク        |VPC                    |Vnet
+無料の動的Public IP |有り                   |なし
+静的Public IP       |有り                   |有り
+ネットワーク間通信  |VPC Peering            |Vnet Peering
+リージョン間Peering |同上                   |Global用が必要
+大規模向けPeering   |Transit Gateway        |WAN
+オンプレ接続(VPN)   |Virtual Private Gateway|Local Network Gateway
+L7LB                |ALB                    |Application Gateway
+L4LB                |NLB                    |Load Balancer
+L7LBのIP固定        |不可能                 |可能
+L4LBをL7LBの外側に  |置ける                 |置けない
+PaaS/SaaSとの接続点 |VPC Endpoint           |Service Endpoint
+
+-
+
+ネットワークセキュリティ関連
+
+項目              |AWS                    |Azure
+------------------|-----------------------|--------------
+L7 Wall           |WAF                    |WAF
+L7 Wallアタッチ先 |ALB、CloudFrontなど    |Application Gatewayなど
+簡易機能          |VPC Network ACL、SG    |Network Security Group
+簡易機能アタッチ先|subnet、VMのNIC        |subnet、VMのNIC
+
+-
+
+VMサイズ(カッコ内は東京でLinux環境の720h)
+
+項目              |AWS             |Azure        
+------------------|----------------|-----------
+安VM Memory=1.0GB |t4g.micro(7.7$) |B1s (10.8$)
+
+-
+
+________________________________________
+## 3. 月額の実例
+________________________________________
+### 3.1. Azure
+
+概要
+
+- 2024/03
+- 1ドル≒150円
+- 31日+5h = 749h
+- 1か月+5h ≒ 1.0073month
+- 全て東日本やアジア
+- アクセスほぼなし
+
+構成（いずれも、/resourceGroups/rg_sample/providers/）
+ 
+
+- Microsoft.Compute/sshPublicKeys/azureuser_sshkey01
+- Microsoft.Network/virtualNetworks/vnet_sample
+    - Microsoft.Network/publicIPAddresses/ag_sample-ip
+        - Microsoft.Network/applicationGateways/ag_sample
+    - Microsoft.Network/publicIPAddresses/vm-sample01-ip
+        - Microsoft.Network/networkSecurityGroups/vm-sample01-nsg
+        - Microsoft.Network/networkInterfaces/vm-sample01304_z1
+        - Microsoft.Compute/disks/vm-sample01_OsDisk_1_guid
+        - Microsoft.Compute/virtualMachines/vm-sample01
+
+項目                                        |       使用|単位|数|単価    |JPY
+--------------------------------------------|-----------|----|--|--------|------
+VM B1ls                                     |   749     |  /h| 1|  1.0195|   764
+Standard IPv4 静的パブリック IP             |   749     |  /h| 2|  0.7496| 1,123
+Standard SSD Managed Disks E4 ディスク      |     1.0073|  /m| 1|359.8201|   362
+Standard SSD Managed Disks ディスク操作     |   387.5274|   -| -|  0.2999|   116
+Application Gateway Standard v2 固定費分    |   749     |  /h| 1| 43.4783|32,565
+Application Gateway Standard v2 容量ユニット|   725.0483|   -| -|  1.1994|   870
+Bandwidth リージョン間送信                  |     0.0043|   -| -| 11.9940|     0
+合計                                        |          -|   -| -|       -|35,800 
+
+-
