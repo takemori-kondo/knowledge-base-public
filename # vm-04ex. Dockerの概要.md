@@ -38,7 +38,7 @@ ________________________________________
 ________________________________________
 ネットワーク機能
 
-Release 1.6.0 docker/compose
+Release 1.6.0 docker/compose  
 https://github.com/docker/compose/releases/tag/1.6.0
 
 - 直感的なネットワーク設定が可能な機能

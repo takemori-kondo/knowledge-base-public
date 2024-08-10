@@ -15,7 +15,7 @@ ________________________________________
 2. settingsにアクセスして課金
     - https://platform.openai.com/settings/
     - BillingからOpen AI APIを課金
-3. playgroundに戻り、APIキー取得
+3. playgroundに戻り、作成したプロジェクトのダッシュボードからAPIキー取得
     - API Keysから作成
 
 ________________________________________

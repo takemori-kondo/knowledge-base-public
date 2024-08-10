@@ -1,10 +1,10 @@
-# linux-01. CentOS
+# linux-01. Linux
 ________________________________________
-## 1. Operation
+## 1. 基本操作とコマンド
 ________________________________________
-### 1.1. bash
+### 1.1. bash（CentOS/Ubuntu共通）
 
-bash operations
+bash補助操作とパイプ
 
 ```text
 Tab
@@ -13,56 +13,56 @@ Ctrl+R
 ... | ...
 ... | grep -i ...
 ... | xargs ...
+sudo ...
 ```
 
-Common commands
+履歴操作
 
 ```bash
-# ifconfig
+cp /dev/null ~/.bash_history
+unset HISTFILE
+```
+
+基本コマンド
+
+```bash
 ip a
+ping 8.8.8.8
 cd ~
 pwd
 ls -al
-find ./ -name *.jpg -type f 2>/dev/null -ls
-find ./ -name *.jpg -type d 2>/dev/null -ls
-find ./ -mtime -3 -type f 2>/dev/null -ls
-find ./ -mtime -3 -type d 2>/dev/null -ls
-mkdir foo
+find / -name *.log
 mkdir -p foo
-cp from to
 cp -r from to
 mv from to
-rm foo
 rm -dfr foo
 
-sudo ...
-su - user
 exit
-yum -y install ...
-mount /dev/cdrom /mnt
-shutdown -h now
-shutdown -r now
-
+sudo mount /dev/cdrom /mnt
 ssh-keygen -t rsa
 printenv PATH
 export ...=...
 
 chown user foo
 chgrp user foo
-chmod 777 foo
 chmod -R 744 foo // グループはreadonly
 chmod -R 754 foo // グループはread-executable
 chmod -R 774 foo // グループはall OK
-chmod a+w foo
-chmod -R a+w foo
+```
 
-# Permission of selinux
+Permission of selinux
+
+```bash
 sudo chcon -R -t etc_t /etc/letsencrypt
 sudo semanage fcontext -a -t etc_t "/etc/letsencrypt(/.*)?"
 sudo restorecon -R -v /etc/letsencrypt
 # apacheから外部へのソケット通信を許可する(mod/fcgi問わずphpのcurl_exeなど含む)
 sudo setsebool -P httpd_can_network_connect on
+```
 
+システム、ディスク、ディスクリプタ状況
+
+```bash
 ps aux --sort -pcpu | head -6
 ps aux --sort -rss | head -6
 df -h
@@ -80,49 +80,21 @@ top -d2
 # -s  8192(KB) : max stack area.
 # -t unlimited : max CPU time.
 ulimit -n
-
-# system total max discriptor count
-# 191741
 cat /proc/sys/fs/file-max
-
-vi /etc/DIR_COLORS
-vi /etc/passwd
 ```
 
-Run network tui
+デーモン管理
 
 ```bash
-# netconfig
-## system-config-network
-
-nmtui
-systemctl restart NetworkManager
-```
-
-Service commands
-
-```bash
-# CentOS6, AmazonLinux
-# service --status-all
-# service sshd status
-# service sshd start
-# service sshd stop
-# service sshd restart
-# chkconfig --list
-# chkconfig --list sshd
-# chkconfig sshd on
-# chkconfig sshd off
-
-# CentOS7
-systemctl list-units --type=service
-systemctl status sshd.service
-systemctl start sshd.service
-systemctl stop sshd.service
-systemctl restart sshd.service
-systemctl list-unit-files --type=service
-systemctl is-enabled sshd.service
-systemctl enable sshd.service
-systemctl disable sshd.service
+# CentOS7, Ubuntu18
+sudo systemctl list-unit-files --type=service
+sudo systemctl status sshd
+sudo systemctl start sshd
+sudo systemctl stop sshd
+sudo systemctl restart sshd
+sudo systemctl is-enabled sshd.service
+sudo systemctl enable sshd.service
+sudo systemctl disable sshd.service
 ```
 
 ________________________________________
