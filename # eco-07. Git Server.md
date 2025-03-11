@@ -143,6 +143,8 @@ gitlab-ctl reconfigure
 firewall-cmd --permanent --zone=public --add-service=https
 firewall-cmd --reload
 reboot now
+# curl -I https://gitlab.unlimited-fairytales.com/users/sign_in
+# 443がデフォルトで空いていない可能性高し。ubuntuならufw
 ```
 
 正しいSSHキーが接続できない問題が発生した場合
