@@ -241,4 +241,4 @@ Create > 2D > Sprite Atlas
     - 含めたい内容を追加していく （フォルダごとD&Dなども可能）
 
 ※ Atlasを設定してもしばらく反映されない場合がある。Atlasプレビューや再ビルドなど試すべし  
-※ Compression設定はAtlasの設定が優先される。ドット画像の場合はNone推奨
+※ Compression設定は個別とAtlasで2段階行われる。個別画像はNoneが推奨。また、ドット画像の場合はAtlasもNone推奨

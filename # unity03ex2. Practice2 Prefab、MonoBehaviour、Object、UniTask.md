@@ -63,6 +63,24 @@ UnityEngine.Object継承クラスとDestroyの注意点（fake null問題）
 ________________________________________
 ## 4. UniTaskのプラクティス
 ________________________________________
+要約
+
+通常                 |UniTask
+---------------------|-----------------
+async Task foo()     |async UniTask foo()
+async Task\<T> foo() |async UniTask\<T> foo()
+async void foo()     |async UniTaskVoid foo()
+Task.Delay()         |UniTask.Delay()
+Task.Run()           |UniTask.Create()
+Task.WhenAll()       |UniTask.WhenAll()
+Action               |UniTask.Action(async () => {})
+UnityAction          |UniTask.UnityAction(async () => {})
+action();            |UniTask.Void(async () => {});
+yield return null    |await UniTask.NextFrame()
+
+.
+
+
 基本的な中断要求に対する考え方
 
 1. 開始時に中断要求されていたら何もしない
