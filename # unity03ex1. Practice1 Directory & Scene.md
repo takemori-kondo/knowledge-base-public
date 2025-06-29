@@ -40,12 +40,12 @@ ________________________________________
 ________________________________________
 典型的な構成(スマホゲーム)
 
+- AudioRoot
 - GraphicsRoot
     - Main Camera
     - Directional Light
     - Global Volume
 - UIRoot
-- AudioRoot
 - TapEffect
 - FadeEffect
 - EventSystem

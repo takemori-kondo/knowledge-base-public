@@ -91,6 +91,13 @@ yield return new WaitForEndOfFrame() |このフレームの描画後の終わり
 - コルーチンの終了部にyield return fooで、Currentから戻り値を得ることも可能
 
 ________________________________________
+### 1.3. Destroyの要約
+
+- Destroy対象がgameObjectの場合、Transformの子要素を辿ってGameObjectとそのComponentをDestroyする
+    - Componentへインスペクタやフィールド、プロパティに設定されたオブジェクトはDestroyされない
+- Destroy対象がGameObject以外の場合、そのオブジェクトだけDestroyされる
+
+________________________________________
 ## 2. 衝突と物理演算
 ________________________________________
 Collider
@@ -158,6 +165,11 @@ ScriptableObject
     - その結果、privateメンバの状態が跨いで持続してしまう
 2. ただし明示的にNonSerializedが指定された場合は、デバッグ実行時にDefault値でリセットしている
 3. Assetファイルから復元する際、Serializable属性が付与された型のフィールドに対して、privateかどうか見ていない
+
+予想2（未確認）
+
+- 上記挙動は、コンストラクタで初期化を書いてしまっていることが原因の可能性が高い
+- ScriptableObjectはコンストラクタの初期化が通常とは異なる処理がされるらしい
 
 ________________________________________
 ## 4. シーン関連

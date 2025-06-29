@@ -79,6 +79,7 @@ ________________________________________
 1. 1プロジェクト1UPMパッケージ
 2. 下記パッケージレイアウトを参考に、ある程度自由でよい
 3. サンプルは、開発中とUPM側の挙動を考慮すると、Samples~ + Samplesシンボリックリンクが現実的
+    - ただしこの場合、VisualStudio上でのGitステータスが正常に表示されなくなる
 
 パッケージレイアウト  
 https://docs.unity3d.com/ja/2022.3/Manual/cus-layout.html
@@ -93,6 +94,28 @@ https://docs.unity3d.com/ja/2022.3/Manual/cus-layout.html
                 - [org-name.package-name].XXXSample.asmdef
             - XXXSample
             - ...
+        - Tests/Editor
+            - XXX
         - package.json
         - README.md
     - Samples (Samples~ へのシンボリックリンク)
+
+名前空間やasmdefの補足
+
+- Runtimeは省略
+- それ以外は素直に構成
+
+________________________________________
+### 2.4. Windows下のSamples~とシンボリックリンク
+
+1. 開発時はSamples~下のassetをエディタで編集できた方が都合がいい
+    - Samples~に対してAssets\Samplesとしてシンボリックリンクを作成すれば良さげ
+2. Windowsのgitはシンボリックリンクを復元しないので、クローン時やリセット時のgit上での扱いは注意
+    - シンボリックリンク削除&再作成でローカルとしては解決可能
+
+```powershell
+# 管理者権限で起動
+$dir = "Uft.UnityUtils"
+cd "D:\Dropbox\repos_unity\$dir\Assets\"
+New-Item -ItemType SymbolicLink -Path ".\Samples" -Target ".\$dir\Samples~"
+```
