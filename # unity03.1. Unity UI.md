@@ -43,14 +43,15 @@ ________________________________________
 制作効率上の原則
 
 1. Screen space - Cameraを使うか、ScriptでOverlayを機械的に変換できるようにしろ
-    - UIパーツPrefab化すること考えると、Cameraとの紐づけは後でしたくなる
-        - スクリプトで実行時に変更&カメラ紐づけがおススメ
     - Sorting Layerで非UIとの描画順を制御できる
+    - UI Prefab作成時にCanvas継承を想定しない場合、Scriptで実行時にCameraを紐づけして対応
+        - renderMode, planeDistance, worldCameraを設定する
 2. ParticleSystemの描画順に困ったら、Sorting Layerを増やしてRendererのプロパティを設定しろ
 3. Canvas ScalerはHD、FullHD、スマホ（9:19.5～21）どれにするか始めに決めろ
 4. Atlasは最初から設定しておけ
     - フォルダ単位で2048x2048Atlas化するよう整理すると直感的でGood
-5. UI Prefabは「UI Prefabの正しい作り方」の通りに作れ
+5. UI Prefabは「UI Prefabの正しい作り方」の通りに作った方が無難
+6. 2D Sprite（=Sprite Atlas）は必要になるのでpackageを追加しておいてよい
 
 ________________________________________
 ## 1. Canvasの基礎知識
@@ -63,6 +64,7 @@ Canvasの仕組み
     - Canvas毎に描画バッチがまとまる
     - 子孫要素の1つでも描画に変更が入るとCanvas全体のメッシュが再生成される
         - 適度に分割するのが重要
+        - 厳密にはGraphicリビルド、バッチリビルドの2ステップがある
 2. Canvas内は、Hierarchy順に描画されていく
 3. Canvas間は、「Sort Order」 または 「Sorting Layer & Order in Layer」
     - Overlayの場合のみ「Sort Order」になる
@@ -113,9 +115,9 @@ ________________________________________
 
 要点まとめ
 
-1. Prefabルートノードは、RectTransformのみのノードにする
+1. Prefabルートノードは、RectTransformとスクリプトのみにする
     - Prefabモードが、Canvas (Environment) 配下モードになる（初回時はPrefabを開きなおす必要あり）
-2. Canvasは分割したいため、ルートノードの子ノードにCanvasを配置する（Canvas Scalerは不要）
+2. Canvasを分割したい場合、ルートノードの子ノードにCanvasを配置する（Canvas Scalerは不要）
 3. UI Prefabをシーンに配置する際、Canvas 配下にネストする
 4. Scene上のCanvasノードのみが、Canvas Scalerを持つようにする
 
@@ -126,7 +128,8 @@ ________________________________________
 詳細：ネストされたCanvasとエディタの微妙な関係
 
 1. ネストされていないCanvasノードのRectTransform値は、保存されない
-2. このCanvasがネストされた場合、値は初期値扱いになり、AnchorsやScaleが0になる
+2. Canvasがネスト・継承配下に最初になる際、インスペクタのRectTransformが0で初期化される
+    - 子CanvasにPos=(0,0,0), WH=(100,100), Anchors=中心, Pivot=(0.5,0.5), Scale=(1,1,1)を手動で再設定が推奨
 
 ________________________________________
 ## 2. RectTransformの基礎知識
@@ -142,8 +145,10 @@ stretch      |Min=0,0, Max=1,1
 .
 
 ________________________________________
-## 3. UGUIコンポーネントの基礎知識
+## 3. uGUIコンポーネントの基礎知識
 ________________________________________
+### 3.1. Graphic継承クラス、Selectable継承クラス
+
 enabled = falseの挙動
 
 - Graphic継承クラス系は非表示になる（クリック判定は残る）
@@ -160,6 +165,9 @@ Selectable継承クラス
 遷移オプション - Unity マニュアル  
 https://docs.unity3d.com/ja/2022.3/Manual/script-SelectableTransition.html
 
+________________________________________
+### 3.2. 自動レイアウト
+
 自動レイアウト（便利だが処理が重い。内部ではGetComponentが呼び出される）
 
 - Content Size Fitter
@@ -174,6 +182,8 @@ https://docs.unity3d.com/ja/2022.3/Manual/script-SelectableTransition.html
 - 末端要素側でContentSizeFitter(Preferred Size)
 - さらに親がいる場合も、親要素側の設定をすれば良い
 - Scroll RectのContentにアサインされるContentノードは、自動レイアウトする事になりがち
+- Prefabで自動レイアウトを使うと、Hierarchyに配置した際に、常に編集した扱いになってしまう
+    - 見た目が鬱陶しいが、仕方なし
 
 実践的なケーススタディ
 
@@ -223,7 +233,7 @@ ________________________________________
 Create > 2D > Sprite Atlas
 
 - Type : Master
-- Scriptable Packer : Off
+- Scriptable Packer : None
 - Include in Build : On
 - Packing
     - Allow Rotation : Off
@@ -235,7 +245,10 @@ Create > 2D > Sprite Atlas
     - Generate Mip Maps : Off
     - sRGB : On
     - Filter Mode : Bilinear
-- Defalt
+    - Show Platform Settings For : Main Texture
+- Default
+    - Max Texture Size : 2048
+    - Format : Automatic
     - Compression : None （特にドット画像をまとめている場合）
 - Objects for Packing
     - 含めたい内容を追加していく （フォルダごとD&Dなども可能）
