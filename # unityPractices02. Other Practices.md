@@ -1,4 +1,4 @@
-# unity03ex3. Practice3 Other Practices
+# unityPractices02. Other Practices
 ________________________________________
 初心者が気をつけるべきUnity開発11のポイント  
 https://shibuya24.info/entry/unity-be-careful

@@ -1,4 +1,4 @@
-# unity03.2ex. Asset Bundlesの詳細
+# unity08ex. Asset Bundlesの詳細
 ________________________________________
 ## 1. AssetBundles
 ________________________________________

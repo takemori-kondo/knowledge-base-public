@@ -1,16 +1,10 @@
-# unity03ex2. Practice2 Prefab、MonoBehaviour、Object、UniTask
+# unity02ex1. Prefab、MonoBehaviour、Object、UniTask
+________________________________________
+## 1. Prefabのプラクティス
 ________________________________________
 ネスト状のプレハブ  
 https://docs.unity3d.com/ja/2022.3/Manual/NestedPrefabs.html
 
-UnityのMonoBehaviourとのお付き合いの仕方  
-https://zenn.dev/allways/articles/97f5fd71537a23
-
-UnityとUniTaskを使いこなしてちゃんと中断できるようにする  
-https://zenn.dev/allways/articles/cf2f87244128fe
-________________________________________
-## 1. Prefabのプラクティス
-________________________________________
 Prefabの編成の仕方
 
 1. Prefabは、WinFormのコントロール、あるいはReactやAngularのコンポーネントのように作る
@@ -34,6 +28,8 @@ PrefabのTips
 ________________________________________
 ## 2. MonoBehaviourのプラクティス
 ________________________________________
+UnityのMonoBehaviourとのお付き合いの仕方  
+https://zenn.dev/allways/articles/97f5fd71537a23
 
 1. namespace に必ず入れる
 2. sealed 句はとりあえずつけてよい
@@ -41,15 +37,15 @@ ________________________________________
 4. MonoBehaviour はロジックへの参照を持つ（ゲームロジック＝ドメインコードを直接記述しない）
     - MonoBehaviourからのdelegateパターン
     - MonoBehaviour.Messageを移譲せよ（各種Unityイベントやイベントハンドラに対するゲームロジックもロジックで処理せよ）
+    - pure C#で実装する（ロジッククラスはUnityへの依存を避ける。UIロジックは除く）
+        - new で依存物を渡す（ドメインコードはコンストラクタインジェクションに従え）
+            - UnityEngine.Objectへの参照を持つ（ロジッククラスはコンストラクタインジェクションでUnity側のオブジェクトを受け取っても良い）
+            - UnityEngine.Objectへの参照を安全に使う（fake nullがいつでも発生しうるので、nullチェックを怠らない）
+        - Disposeパターン（ドメインコードにIDisposableを実装しておくとusing出来てよい）
 5. OnEnableで初期化しOnDisableで破棄する、またはAwakeで初期化しOnDestroyで破棄する
-6. new で依存物を渡す（ドメインコードはコンストラクタインジェクションに従え）
-7. Disposeパターン（ドメインコードにIDisposableを実装しておくとusing出来てよい）
-8. 明示的 null代入
-9. pure C#で実装する（ロジッククラスはUnityへの依存を避ける。UIロジックは除く）
-10. 基本的にinternal にしとけ
-11. UnityEngine.Objectへの参照を持つ（ロジッククラスはコンストラクタインジェクションでUnity側のオブジェクトを受け取っても良い）
-12. 処理タイミングを厳密にコードで定義する（UpdateやLateUpdateを使うより、ゲームループは自前で作ったほうが処理が明確）
-13. UnityEngine.Objectへの参照を安全に使う（fake nullがいつでも発生しうるので、nullチェックを怠らない）
+6. 明示的 null代入
+7. 基本的にinternal にしとけ
+8. 処理タイミングを厳密にコードで定義する（UpdateやLateUpdateを使うより、ゲームループは自前で作ったほうが処理が明確）
 
 ________________________________________
 ## 3. UnityEngine.Objectのプラクティス
@@ -63,6 +59,9 @@ UnityEngine.Object継承クラスとDestroyの注意点（fake null問題）
 ________________________________________
 ## 4. UniTaskのプラクティス
 ________________________________________
+UnityとUniTaskを使いこなしてちゃんと中断できるようにする  
+https://zenn.dev/allways/articles/cf2f87244128fe
+
 要約
 
 通常                 |UniTask

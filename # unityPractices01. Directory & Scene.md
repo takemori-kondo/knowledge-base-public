@@ -1,4 +1,4 @@
-# unity03ex1. Practice1 Directory & Scene
+# unityPractices01. Directory & Scene
 ________________________________________
 https://unity.com/ja/how-to
 

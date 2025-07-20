@@ -1,4 +1,4 @@
-# unity02ex. 頻出する標準機能
+# unity02ex3. 頻出する標準機能
 ________________________________________
 Unity スクリプトリファレンス  
 https://docs.unity3d.com/ja/2022.3/ScriptReference/index.html

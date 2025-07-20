@@ -1,4 +1,4 @@
-# unity03.2. アセット管理
+# unity08. アセット管理
 ________________________________________
 アセットワークフロー  
 https://docs.unity3d.com/ja/2022.3/Manual/AssetWorkflow.html

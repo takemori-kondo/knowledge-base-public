@@ -31,7 +31,7 @@ OnDestroy()  |ゲームオブジェクトが破棄される直前。デストラ
 
 Awake、Start、フレームの詳細
 
-- InstantiateはUnity独自シリアライズ&デシリアライズしている
+- Instantiateの本質はUnity独自シリアライズ&デシリアライズ
     - UnityEngine.Object継承クラスのインスタンスは参照が保持・復元される
     - 浅いコピーのような挙動
 - Initialization中（※1）にInstantiateされたオブジェクトは、同フレーム中にStartとUpdateする
@@ -44,7 +44,8 @@ Awake、Start、フレームの詳細
 - 1度もActiveにならなかった場合、OnDestroyは呼ばれない。（≒AwakeとOnDestroyは実質的に対）
 - 「Script Execution Order」「DefaultExecutionOrder属性」でスクリプト間の実行順序が調整可能
     - 継承関係は考慮されず、設定したクラスのみに影響する
-    - 飽くまでシーン内の実行順を制御する。複数のシーンがアクティブな場合はシーン間では不定
+    - **[重要]** 複数のシーンがアクティブな場合において、シーン間では考慮されず、シーン内で完結する
+        - Unity6にてようやく公式で明確に言及され、不定であると明記された
 
 （※1）Scene初期化時の第1フレームのAwake、OnEnable、Start中
 （※2）（※1）以外のほとんどの場合
@@ -63,7 +64,7 @@ Instantiateの挙動詳細
 ________________________________________
 ### 1.2. コルーチン
 
-※ 2018年のUnitaskの時点で、async/awaitが実用的だった
+※ 2018年のUnitaskの時点で、async/awaitが実用的になった
 ※ 2023以降は標準でもAwaitableでasync/awaitを積極的に対応したため、今はあまり使わない
 
 機能                              |説明
@@ -155,8 +156,12 @@ ScriptableObject
         - シリアライズ対象外であるため、Unity Editorの終了&起動すると当然値は消える
     - NonSerializedを明示的に指定している場合
         - デバッグ開始時にリセットされる。デバッグ開始&終了を跨がない
-    - Serializable属性が付与された型のフィールドについて
+    - Serializableな型がScriptableObjectのメンバフィールドとして宣言されている場合
         - なぜか初期化され、nullでない状態になる
+5. MonoBehaviourやScriptableObjectおよびそれらのメンバフィールドは、デフォルトコンストラクタが特殊なタイミング（メインスレッド以外）で呼ばれる
+    - https://discussions.unity.com/t/scriptableobject-constructor-changed/169112?utm_source=chatgpt.com
+    - **[重要]** 処々の問題が発生しうるため、そもそもMonoBehaviour、ScriptableObject、Serializableクラスではコンストラクタは強く非推奨
+
 
 詳細不明、予想
 
@@ -165,11 +170,6 @@ ScriptableObject
     - その結果、privateメンバの状態が跨いで持続してしまう
 2. ただし明示的にNonSerializedが指定された場合は、デバッグ実行時にDefault値でリセットしている
 3. Assetファイルから復元する際、Serializable属性が付与された型のフィールドに対して、privateかどうか見ていない
-
-予想2（未確認）
-
-- 上記挙動は、コンストラクタで初期化を書いてしまっていることが原因の可能性が高い
-- ScriptableObjectはコンストラクタの初期化が通常とは異なる処理がされるらしい
 
 ________________________________________
 ## 4. シーン関連
