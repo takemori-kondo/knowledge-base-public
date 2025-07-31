@@ -22,11 +22,15 @@ https://discussions.unity.com/t/after-update-to-android-14-this-app-isnt-compati
     - 必要なコンパイラ等がない場合は一旦Unity Hub経由でインストール&再起動
 2. プレイヤー設定
     - 解像度と表示
-        - 解像度スケーリング > 修整したDPI。163～214ぐらいがおすすめ
+        - 解像度スケーリング > 修整したDPI。163～326ぐらいがおすすめ。240がandoridだと1つの区分
+            - com.unity.toonshaderなどはDPIに応じて1ドットのアウトラインを引くため、粗すぎると変になりがち
         - Orientation > 横固定したいならLandscape Left
     - Other Settings（android14以降必須）
+        - Package Name : 適切にしないとインストールに失敗することもあり
+            - Overrideをオフにすれば、Commpany NameとProduct Nameを繋げたものになる
         - Configuration > Scripting backend > IL2CPP
         - Configuration > Target Architectures > ARM64をチェック
+        - Active Input Handler : どちらか片方にする必要あり
 3. 最低APIレベルは22でもOK
 4. 別途Android NDKのダウンロードが必要（IL2CPPに対して必須）
     - Preferences > External Tools > Android > Android NDK

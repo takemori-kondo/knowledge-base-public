@@ -19,7 +19,7 @@ ________________________________________
 ________________________________________
 ### 1.2. 定番サードパーティ
 
-DOTWeen Free  
+DOTween Free  
 https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676
 
 UniTask  

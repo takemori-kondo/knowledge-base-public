@@ -14,15 +14,15 @@ https://docs.unity3d.com/ja/2023.2/Manual/AwaitSupport.html
 ________________________________________
 ## 1. 開始と更新の基礎
 ________________________________________
-### 1.1. 基礎メソッド
+### 1.1. Unityイベント関数
 
 メソッド     |概要
 -------------|---------------------------------------------------
 Awake()      |オブジェクト初回アクティブ時のみ。コンストラクタの代替
 Start()      |オブジェクト初回アクティブ時のみ
+FixedUpdate()|一定の時間間隔毎。物理演算やRigidbody等と対となる
 Update()     |毎フレーム
 LateUpdate() |毎フレーム（全てのUpdate()より後）
-FixedUpdate()|一定の時間間隔毎。物理演算やRigidbody等と対となる
 OnEnable()   |アクティブに変わる時
 OnDisable()  |インアクティブに変わる時
 OnDestroy()  |ゲームオブジェクトが破棄される直前。デストラクタの代替
@@ -35,10 +35,10 @@ Awake、Start、フレームの詳細
     - UnityEngine.Object継承クラスのインスタンスは参照が保持・復元される
     - 浅いコピーのような挙動
 - Initialization中（※1）にInstantiateされたオブジェクトは、同フレーム中にStartとUpdateする
-- Game Logic中（※2）にInstantiateされたオブジェクトは、同フレーム中にStartだけする
+- Game Logic中（※2）にInstantiateされたオブジェクトは、同フレーム中にStartだけし、Updateは呼ばれない（※3）
 - アクティブでInstantiateする時、AwakeはInstantiate完了前に呼ばれる
-- アクティブでInstantiateした後、StartはInstantiateの呼び出し元祖先を辿った次のいずれかが戻った後に呼ばれる
-    - 基礎メソッド
+- アクティブでInstantiateした後、StartはInstantiateの呼び出し元の祖先を辿った次のいずれかが戻った後に呼ばれる
+    - Unityイベント関数
     - コルーチン
 - GameObjectではなくScriptを無効化した場合、Awakeは呼ばれるがStartは呼ばれない
 - 1度もActiveにならなかった場合、OnDestroyは呼ばれない。（≒AwakeとOnDestroyは実質的に対）
@@ -49,6 +49,7 @@ Awake、Start、フレームの詳細
 
 （※1）Scene初期化時の第1フレームのAwake、OnEnable、Start中
 （※2）（※1）以外のほとんどの場合
+（※3）呼び出し元の祖先がUpdateだった場合、LateUpdateはそのフレーム中に呼ばれる
 
 Instantiateの挙動詳細
 

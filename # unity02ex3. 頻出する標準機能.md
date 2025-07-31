@@ -34,9 +34,9 @@ Component/Behaviour/MonoBehaviour
 
 Debug
 
-- Debug.Log(message)
-- Debug.LogWarning(message)
-- Debug.LogError(message)
+- Debug.Log(message, context)
+- Debug.LogWarning(message, context)
+- Debug.LogError(message, context)
 
 ScriptableObject
 

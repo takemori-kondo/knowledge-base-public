@@ -1,4 +1,4 @@
-# unity01ex6. Steamworks と Unity
+# unity09. Steamworks と Unity
 ________________________________________
 UnityとUEでSteam対応のあれこれ - スタッフブログ｜株式会社ジーン xeen Inc.  
 https://www.xeen.co.jp/staffblog/2023/02/blog-20230214.html

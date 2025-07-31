@@ -1,4 +1,4 @@
-# unity05ex. UI・3D全体の描画優先度
+# unity03ex5. UI・3D全体の描画優先度
 ________________________________________
 endering order in the Built-in Render Pipeline  
 https://docs.unity3d.com/2022.3/Documentation/Manual/built-in-rendering-order.html
@@ -22,6 +22,8 @@ ________________________________________
 3. RenderQueueが2501～3999の場合、同一のRenderQueue内同士はSortingLayerで管理できる
     - SurfaceType=OpaqueなMaterialの内容はRenderQueueが2000になるため、SortingLayerで管理できない
 4. Overlayは既存のZバッファは考慮せずスクリーン座標系に直接描画する
+5. 複数カメラがある場合、カメラごとに完結した描画が行われる
+    - 後から描画するカメラをOverlayとしてStackするかClearFlag=DepthOnlyとすれば、先に描画された内容の上に上書き描画可能
 
 RenderQueueを細かく制御しない場合の、実質的な優先度のまとめ
 

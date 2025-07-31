@@ -87,31 +87,43 @@ async/await
     - UniTaskと統合している場合はこれは使わない
 
 ________________________________________
-## 3. レンダーテクスチャ（非推奨）
+## 3. タップエフェクトを描画
 ________________________________________
-活用例：タップエフェクトテクスチャ
+典型的な処理
+
+```cs
+                var screenPos = Input.mousePosition;
+                var worldPos = _camera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, _distance));
+                UniTask.Void(async () =>
+                {
+                    // Instantiate ～ Destroy まで面倒を見る
+                    await PlayTapEffectAsync(worldPos);
+                });
+```
+
+※ Camera Stackが使えないバージョンの場合は、次の「レンダーテクスチャの例」を参照の事
+
+________________________________________
+## 4. レンダーテクスチャの例
+________________________________________
+タップエフェクトを描画（Camera Stackがない場合）
 
 1. RenderTexture：R8G8B8A8_UNorm, D32_SFloat_S8_UInt
-2. 撮影カメラ：アルファ0でクリア
+2. 撮影カメラ：Clear Flag = Depth Only
 3. 描画先Canvas、Raw Image
 4. 画面サイズ変更時、RenderTextureも追従しCameraをリセットする
     - RenderTexture.Release()
-    - CanvasScalerのheight基準で追従
+    - （上手く設定すれば不要？）CanvasScalerのheight基準で追従
     - Camera.ResetAspect()
-    - 縦長な場合はFOV角を横を基準角として縦角を逆算
+    - （オプション）縦長な場合はFOV角を横を基準角として縦角を逆算
 5. タップ位置から3D空間に配置
-    - CanvasScalerとScreenの比率でタッチ位置の補正
+    - （上手く設定すれば不要？）CanvasScalerとScreenの比率でタッチ位置の補正
     - Camera.ScreenToWorldPoint()
 
-※ 非推奨な理由
-
-- Cameraそれ自体のScriptコストが非常に重い  
-    - むやみにCameraを増やすべきではない
-- タップエフェクトがParticleSystemなら、そもそも3D空間に直接配置すれば良い
-    - UI側がScreen Space - Cameraなら、Sorting Layerで描画の前後も制御できる
+※ Camera Stackが使える場合は、そちら。そもそもURPはDepth Onlyクリアがなくなっているはず
 
 ________________________________________
-## 4. UI向けのShader
+## 5. UI向けのShader
 ________________________________________
 Unityで手軽に2D擦りガラスシェーダー  
 https://qiita.com/ruccho_vector/items/651f760b3240a253bd1d
@@ -119,7 +131,7 @@ https://qiita.com/ruccho_vector/items/651f760b3240a253bd1d
 - glassShader & Blurあり
 
 ________________________________________
-## 5. 画像アセットぼやけ・1ドット筋問題
+## 6. 画像アセットぼやけ・1ドット筋問題
 ________________________________________
 画像ぼやけの原因
 

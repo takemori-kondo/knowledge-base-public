@@ -1,4 +1,4 @@
-# unity04. Sprite、Sprite Renderer
+# unity03ex2. Sprite、Sprite Renderer
 ________________________________________
 ## 1. Spriteの基本設定
 ________________________________________

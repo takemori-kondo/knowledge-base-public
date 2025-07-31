@@ -21,6 +21,9 @@ https://developer.aiming-inc.com/ux/ugui-layer/
 DOTween (HOTween v2) | Animation Tools | Unity Asset Store  
 https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676
 
+URP を使った Unity でのカメラスタッキング (チュートリアル)  
+https://www.youtube.com/watch?v=OmCjPctKkjw
+
 ________________________________________
 ## 1. UIの基本的なプラクティス
 ________________________________________
@@ -28,6 +31,7 @@ ________________________________________
 
 - 描画位置や描画内容が頻繁に変わるものは、そもそもUIではなくSprite Rendererで良い
 - UIは、描画位置や描画内容が頻繁に変わらない静的なものに対して最適化されている
+- Camera Stackを使えば、簡単に距離を無視した追加描画が可能。UI描画の定番
 
 パフォーマンス大原則
 
@@ -47,17 +51,17 @@ ________________________________________
 10. Atlasは最初から設定しておけ
     - 2D Spriteは初期状態では含まれていないのでPackage Managerから追加が必要
     - フォルダ単位で2048x2048Atlas化するよう整理すると直感的でGood
-        - # unity04. Sprite を参照の事
+        - unity03ex2. Sprite、Sprite Renderer を参照の事
 
 制作効率上の原則
 
-1. Screen space - Cameraを使うか、ScriptでOverlayを機械的に変換できるようにしろ
-    - Sorting Layerで非UIとの描画順を制御できる
-    - UI Prefab作成時にCanvas継承を想定しない場合、Scriptで実行時にCameraを紐づけして対応
-        - renderMode, planeDistance, worldCameraを設定する
-2. ParticleSystemの描画順に困ったら、Sorting Layerを増やしてRendererのプロパティを設定しろ
-3. Canvas ScalerはHD、FullHD、スマホ（9:19.5～21）どれにするか始めに決めろ
-4. UI Prefabは「UI Prefabの正しい作り方」の通りに作った方が無難
+1. 最初にCanvasをどう制御するか方針を固めろ。URPで無難なのは以下
+    1. Main Cameraは、UI Layerを除外。UI CameraをStackする
+    2. UI Cameraは、UI Layerを撮影。Post Processはしない。OverlayにしてStack
+    3. Canvas ScreenSpace - Camera。UI Layer
+    4. UI、SpriteRenderer、ParticleSystem、はSorting Layerで制御
+2. Canvas ScalerはHD、FullHD、スマホ（9:19.5～21）どれにするか始めに決めろ
+3. UI Prefabは「UI Prefabの正しい作り方」の通りに作った方が無難
 
 Screen space - Camera と Linear色空間の嫌な関係
 
@@ -68,6 +72,7 @@ Screen space - Camera と ポストプロセスの嫌な関係
 
 - Tonemappingによる余計な補正が入る
     - 真っ白な表示が208程度のグレーまで暗くなる
+    - UI Cameraを専用に用意してPost Processをオフにすれば回避可能
 
 ________________________________________
 ## 2. Canvasの基礎知識
@@ -88,6 +93,7 @@ Canvasの仕組み
     - それ以外の場合は「Sorting Layer & Order in Layer」での挙動になる
         - Unity6000.0.24f1現在、同一の場合は動作不定
         - 表示とReycastの優先順位がねじれる場合もある
+        - 不透明な3D以外は統一的にこれで制御できる
 4. クリック判定等は、Event System、Input Moduleを介して処理される
     - CanvasをHierarchyに追加した際、まだ上記がない場合は自動で追加される
     - Canvas側はGraphicRaycasterがクリック判定を制御する。これがないと反応しない
@@ -96,9 +102,11 @@ Render modeの要約
 
 プロパティ            |説明
 ----------------------|-------------------------
-Screen space - Overlay|常に表示したいUI。Canvas間の描画順はSort Order
+Screen space - Overlay|常に最前面のUI。使いづらい(※)。Canvas間の描画順はSort Order
 Screen space - Camera |3D空間と干渉可能。Canvas間の描画順はSorting Layer & Order in Layer
 World space           |3D空間に配置可能。Canvas間の描画順はSorting Layer & Order in Layer
+
+(※) 演出をUIの手前だすなら、素直に初めからCameraにした方が良い
 
 .
 

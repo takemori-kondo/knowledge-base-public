@@ -1,4 +1,4 @@
-# unity10. Unity package、template
+# unity08. Unity package、template
 ________________________________________
 Unity の Package Manager  
 https://docs.unity3d.com/ja/2022.3/Manual/Packages.html

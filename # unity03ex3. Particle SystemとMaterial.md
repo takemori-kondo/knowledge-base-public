@@ -1,4 +1,4 @@
-# unity06. Particle SystemとMaterial
+# unity03ex3. Particle SystemとMaterial
 ________________________________________
 ※ Unity UI以外はMaterialでTextureを設定することになるため、Materialもここで説明
 

@@ -1,4 +1,4 @@
-# unity05. 3DとCamera
+# unity03ex4. 3DとCamera
 ________________________________________
 ## 1. Unity3Dの基礎知識
 ________________________________________
@@ -26,6 +26,7 @@ ________________________________________
 
 1. Vertex Lit。フラットシェーディングのような計算(PS相当)
 2. Forward。フォンシェーディング&法線マップ。反射光は考慮しない(PS3相当)
+    - 最も標準的なレンダリングパイプライン。Unityのデフォルト
 3. Deferred。G-Buffer(ライティング計算用のバッファ群)を用意し、全てのライティングを1度に計算
     - G-Bufferはz情報がないため、半透明が表現できない
 
@@ -82,17 +83,36 @@ Output（出力先やHDR、MSAAの設定）
 ________________________________________
 ## 3. 複数Cameraの典型的な設定
 ________________________________________
+### 3.1. UI Camera
+
 用途
 
-- main : 全体を描画
-- sub  : 顔アップなどを描画
+- Main : UI以外を撮影する。Baseにする
+- UI   : UIを撮影する。OverlayにしてMainにスタックする
 
 典型的な設定
 
-カメラ|Clear      |Culling   |Depth|Target       |cinemachine
-------|-----------|----------|-----|-------------|-----------
-main  |SkyBox     |Everything|-1   |None         |-
-sub   |Solid Color|UI以外    |0    |RenderTexture|Brain
+カメラ|Clear      |Culling Mask|Depth|Target       |cinemachine
+------|-----------|------------|-----|-------------|-----------
+Main  |SkyBox     |UI以外      |-1   |None         |-
+UI    |-          |UI          |-    |-            |-
+
+________________________________________
+### 3.2. 複数視点の例
+
+用途
+
+- Main : 全体を描画。Baseにする
+- Sub  : 顔アップなどを描画。Baseにする
+- UI   : UIを撮影する。OverlayにしてMainにスタックする
+
+典型的な設定
+
+カメラ|Clear      |Culling Mask|Depth|Target       |cinemachine
+------|-----------|------------|-----|-------------|-----------
+Main  |SkyBox     |UI以外      |-1   |None         |-
+Sub   |Solid Color|UI以外      |0    |RenderTexture|Brain
+UI    |-          |UI          |-    |-            |-
 
 .
 
