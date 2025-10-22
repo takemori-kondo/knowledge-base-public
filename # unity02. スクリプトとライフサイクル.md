@@ -27,6 +27,9 @@ OnEnable()   |アクティブに変わる時
 OnDisable()  |インアクティブに変わる時
 OnDestroy()  |ゲームオブジェクトが破棄される直前。デストラクタの代替
 
+完全な一覧はこちらのMessages  
+https://docs.unity3d.com/6000.0/Documentation/ScriptReference/MonoBehaviour.html
+
 .
 
 Awake、Start、フレームの詳細
@@ -35,7 +38,7 @@ Awake、Start、フレームの詳細
     - UnityEngine.Object継承クラスのインスタンスは参照が保持・復元される
     - 浅いコピーのような挙動
 - Initialization中（※1）にInstantiateされたオブジェクトは、同フレーム中にStartとUpdateする
-- Game Logic中（※2）にInstantiateされたオブジェクトは、同フレーム中にStartだけし、Updateは呼ばれない（※3）
+- Game Logic中（※2）にInstantiateされたオブジェクトは、同フレーム中にStartだけ呼ばれ、Updateは呼ばれない（※3）
 - アクティブでInstantiateする時、AwakeはInstantiate完了前に呼ばれる
 - アクティブでInstantiateした後、StartはInstantiateの呼び出し元の祖先を辿った次のいずれかが戻った後に呼ばれる
     - Unityイベント関数
@@ -46,6 +49,7 @@ Awake、Start、フレームの詳細
     - 継承関係は考慮されず、設定したクラスのみに影響する
     - **[重要]** 複数のシーンがアクティブな場合において、シーン間では考慮されず、シーン内で完結する
         - Unity6にてようやく公式で明確に言及され、不定であると明記された
+    - これは最後の手段で、Awakeは自身の初期化を行い、Startで他の参照とのやり取りを開始するのが推奨プラクティスである
 
 （※1）Scene初期化時の第1フレームのAwake、OnEnable、Start中
 （※2）（※1）以外のほとんどの場合
@@ -135,7 +139,6 @@ https://docs.unity3d.com/Manual/script-Serialization.html
 5. UnityEngine.Object継承クラス
 6. 1～5の配列、List
 
-
 Serializable
 
 - publicフィールドはデフォルトでSerializable
@@ -161,7 +164,14 @@ ScriptableObject
         - なぜか初期化され、nullでない状態になる
 5. MonoBehaviourやScriptableObjectおよびそれらのメンバフィールドは、デフォルトコンストラクタが特殊なタイミング（メインスレッド以外）で呼ばれる
     - https://discussions.unity.com/t/scriptableobject-constructor-changed/169112?utm_source=chatgpt.com
-    - **[重要]** 処々の問題が発生しうるため、そもそもMonoBehaviour、ScriptableObject、Serializableクラスではコンストラクタは強く非推奨
+    - **[重要]** 処々の問題が発生しうるため、そもそもMonoBehaviour、ScriptableObject、Serializableクラスではコンストラクタは避けるべきである
+6. デシリアライズやOnAfterDeserializeは、DefaultExecutionOrderなどの対象外である。シリアライズのカスタマイズのためにのみ、使用する
+    - https://discussions.unity.com/t/onafterdeserialize-not-work-on-scriptableobject-with-iserializationcallbackreceiver/878844
+    - 上記はOnAfterDeserializeで初期化等を行おうとしているのが誤り
+    - OnEnableとDefaultExecutionOrderなどを併用すれば、初期化済み順序は保証できる
+        - AwakeはEditor上での挙動がプロジェクトを開いた時のみ実施される妙な挙動なため、避けたほうが無難
+    - **[エッジケース]** 非ScriptableObjectでSerializableなクラスでは大きな問題になりうる
+        - AwakeやOnEnableが使えないため、初期化タイミングをクラス自身で決定するのが困難
 
 
 詳細不明、予想
