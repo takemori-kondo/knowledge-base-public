@@ -17,7 +17,7 @@ ________________________________________
 Animator・Timeline共通の注意点
 
 1. いずれかのStateで制御されたプロパティは、現在のStateで制御していなくてもUpdate後に毎フレーム上書きされる
-    - 制御対象のプロパティはTransformのCanvasGroupなど、ノード側で自由に階層を追加できるものに限定したほうが良い
+    - 制御対象のプロパティはTransformやCanvasGroupなど、ノード側で自由に階層を追加できるものに限定したほうが良い
     - Animator・スクリプト双方から制御したい場合、LateUpdateでAnimation適用後の内容をさらに毎フレーム上書きするという荒技はある
 2. AnimatorやTimelineは、Prefabモードでは設定不能な操作が存在する
     - Prefabモードの制限に抵触する操作があるため

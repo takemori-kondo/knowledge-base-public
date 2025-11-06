@@ -25,6 +25,12 @@ ________________________________________
 - Resources
     - 未使用リソースも常にビルドに含まれる
     - ビルドは分割できない
+    - 中規模以上で分業が必要になったら、非推奨
+- StreamingAssets
+    - 実行ファイルに含めず、生データをそのまま付属させるための機能
+    - 実務的には、主に開発分業のために使われることが多い
+        - いわゆるスクリプトエンジンプログラミング対応
+        - ビルド後にテキストアセットのデバッグ・調整を行う分業の必要性が出てきたら、必須
 - AssetBundles
 - AssetBundles - Streaming Utage Resource Converter
 - AssetBundles - Addressable Assets System
