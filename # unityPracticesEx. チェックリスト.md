@@ -1,4 +1,4 @@
-# unityPracticeEx. チェックリスト
+# unityPracticesEx. チェックリスト
 ________________________________________
 ## 1. Prefab、インスペクタ、Serialize関連
 ________________________________________
@@ -10,16 +10,6 @@ Instantiateとactive化の定番プラクティス
 - https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Object.Instantiate.html
 - Instantiateの結果が返ってきた時、それがactiveなら、そのオブジェクト階層のactiveなノードのスクリプトは全てのAwake、OnEnableが終わっていることが保証される
 - UnityEvent全般は引数を取ることができないため、Instantiate後にSetupなどのパラメータを渡す機構を用意する事が良くある
-
-MVC
-
-```text
-   Ｃ  ◁┐       Ｃ   
-  ↙  ↘  │      ↗  ↘  
-Ｍ ← Ｖ┘    Ｍ    Ｖ
-└──▷               
-```
-
 
 実際のViewクラスのプラクティス
 

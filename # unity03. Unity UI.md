@@ -145,6 +145,7 @@ ________________________________________
 1. Prefabルートノードは、RectTransformと制御用の自作スクリプトのみにする
     - この状態かつ子孫にUI要素があると、PrefabモードがCanvas (Environment) 配下モードになる
         - ※ 初回時はPrefabを開きなおす必要あり
+        - 逆に、Environment配下モードから元に戻したい場合、RectTransformを外したり、CanvasのRectTransform周辺の値を全て0にする必要がある
 2. Canvasを分割したい場合、ルートノードの子ノードにCanvasを配置する（Canvas Scalerは不要）
 3. UI Prefabをシーンに配置する際、Canvas 配下にネストする
 4. Scene上のCanvasノードのみが、Canvas Scalerを持つようにする

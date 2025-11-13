@@ -11,6 +11,7 @@ Prefabの編成の仕方
     - PrefabルートにPrefabと同名のMonoBehaviour継承クラスをアタッチする
     - Prefabは細かく分け、nestされたPrefabで編成する
     - 例：WeaponsUI、WeaponItemUI、WeaponDetailUIに分けて作り、nestする
+    - 50のTipsのactorパターンは、これを更に一般化したものと言える
 2. Prefab配下のコンポーネントへの参照は、[SerializeField]で一元管理する
     - ただし、デザイナーやプランナーにまでこれは求めない。後でプログラマがリファクタする
     - 例：プログラマはButtonコンポーネント側でイベントハンドラを紐づけない。SerializeFieldで参照し、Awakeなどでハンドラ登録する
@@ -19,6 +20,17 @@ Prefabの編成の仕方
     - LoadData()など用意し、引数で受け取る
     - 親が子のLoadData()を呼び出す
 4. 子Prefab内への参照は基本的に越権行為なので避ける
+
+コンポーネントとヒエラルキーに関する補足
+
+1. 1つのGameObject・ノードに何でもかんでもアタッチしない
+    - 適切にネスト・木構造する
+    - 制御スクリプトは、Rootノードにアタッチする
+    - 必要に応じて、AnimatorやDOTweenが制御するTransformを別にするためにネストする
+    - 更にその下に、MeshやSpriteはなどをアタッチするノードを用意する
+        - ただし、不可分かつ差し替えの想定もないなら、過剰に木構造に分割しなくてもよい
+2. SerializeFieldは、publicフィールドより、SerializeFieldなprivateフィールドを好め
+3. SerializeFieldは、GameObject型より、具象型を好め
 
 PrefabのTips
 
@@ -36,7 +48,8 @@ https://zenn.dev/allways/articles/97f5fd71537a23
 3. SerializeFieldで依存性の解決を行う（GetComponentなどの利用は基本的に避ける）
 4. MonoBehaviour はロジックへの参照を持つ（ゲームロジック＝ドメインコードを直接記述しない）
     - MonoBehaviourからのdelegateパターン
-    - MonoBehaviour.Messageを移譲せよ（各種Unityイベントやイベントハンドラに対するゲームロジックもロジックで処理せよ）
+    - MonoBehaviourの各Messageを移譲せよ
+        - 各種Unityイベントやイベントハンドラに対するゲームロジックも移譲先ロジックで処理せよ
     - pure C#で実装する（ロジッククラスはUnityへの依存を避ける。UIロジックは除く）
         - new で依存物を渡す（ドメインコードはコンストラクタインジェクションに従え）
             - UnityEngine.Objectへの参照を持つ（ロジッククラスはコンストラクタインジェクションでUnity側のオブジェクトを受け取っても良い）

@@ -149,6 +149,7 @@ ScriptableObject
 
 1. ScriptableObjectはAssetファイル化できる
 2. 複数から同一のAssetファイルを設定した場合、同一のインスタンス参照となる
+    - 実行時にはAssetは直接利用せずPrototypeとして使い、Instantiateするのが定番
 3. Assetファイル化されたScriptableObject内のSerializableなフィールドは、ファイル内に更新保存される
     - この挙動はUnityEditor上で実行している場合のみ
     - ビルドされたアプリは、Assetファイルが更新保存されることはない

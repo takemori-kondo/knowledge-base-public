@@ -343,6 +343,15 @@ ________________________________________
 - Input.touchCount
 - Input.touchs
 
+ターゲットからマウスイベントの取得
+
+- IPointerEnterHandler
+- IPointerExitHandler
+- IPointerDownHandler
+- IPointerUpHandler
+
+※ UIならRectTransform基準。EventSystem、PhysicsRaycaster、Colliderを連携すれば3Dでも機能
+
 ________________________________________
 ## 4. Audio
 ________________________________________
