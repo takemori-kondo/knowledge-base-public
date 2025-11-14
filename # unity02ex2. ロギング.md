@@ -20,15 +20,39 @@ Unity向けのロギング
 定番
 
 ```cs
-public static class DevLog
-{
-    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-    public static void Log(Func<string> msg, UnityEngine.Object context = null) => UnityEngine.Debug.Log(msg(), context);
-    
-    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-    public static void LogWarning(Func<string> msg, UnityEngine.Object context = null) => UnityEngine.Debug.LogWarning(msg(), context);
+        [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD"), Conditional("DEBUG")]
+        public static void Log(string message, Object context = null, string color = null)
+        {
+            message = FixColorTag(message, color);
+            UnityEngine.Debug.Log(message, context);
+        }
 
-    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-    public static void LogError(Func<string> msg, UnityEngine.Object context = null) => UnityEngine.Debug.LogError(msg(), context);
-}
+        [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD"), Conditional("DEBUG")]
+        public static void LogWarning(string message, Object context = null, string color = null)
+        {
+            message = FixColorTag(message, color);
+            UnityEngine.Debug.LogWarning(message, context);
+        }
+
+        [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD"), Conditional("DEBUG")]
+        public static void LogError(string message, Object context = null, string color = null)
+        {
+            message = FixColorTag(message, color);
+            UnityEngine.Debug.LogError(message, context);
+        }
+
+        static string FixColorTag(string message, string color)
+        {
+            if (!string.IsNullOrWhiteSpace(color))
+            {
+                message = $"<color={color}>{message}</color>";
+            }
+            return message;
+        }
+
+        [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD"), Conditional("DEBUG")]
+        public static void LogException(System.Exception exception, Object context = null)
+        {
+            UnityEngine.Debug.LogException(exception, context);
+        }
 ```
