@@ -53,6 +53,8 @@ ________________________________________
 
 - NuGet for Unityを組み込んで利用が圧倒的に楽
 
+https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity
+
 ________________________________________
 ### 2.3. その他のDLL、ネイティブライブラリ
 

@@ -119,31 +119,6 @@ UI    |-          |UI          |-    |-            |-
 ________________________________________
 ## 4. MeshRenderer
 ________________________________________
-基礎的なマテリアルの操作
+Materialの基本的な使い方は、以下を参照のこと
 
-sharedMaterialは直接変更、materialはクローンして変更
-
-項目        |旧パイプライン(Built-in)        |URP
-------------|--------------------------------|--------------------------------
-アルベド    |.SetColor("_Color", val)        |.SetColor("_BaseColor", val)
-テクスチャ  |.SetTexture("_MainTex", val)    |.SetTexture("_BaseMap", val)
-金属さ      |.SetFloat("_Metallic", val)     |.SetFloat("_Metallic", val)
-ツルツルさ  |.SetFloat("_Glossiness", val)   |.SetFloat("_Smoothness", val)
-自己発光色  |.SetColor("_EmissionColor", val)|.SetColor("_EmissionColor", val)
-法線マップ  |.SetTexture("_BumpMap", val)    |.SetTexture("_BumpMap", val)
-
-.
-
-URP物理ベースレンダリングのデフォルトで対応できるもの、できないもの
-
-- ○ 顔料（拡散反射）
-- ○ 鏡面（鏡面反射）
-- ○ 凸凹の近似（法線マップ）
-- ○ 環境反射の近似（キューブマップ）
-- ○ 自己発光（エミッション）
-- △ 半透明
-- × 屈折
-- × サブサーフェス。皮膚、蝋、葉っぱ
-- × 構造色
-- × 異方性反射。髪、シルク
-- × 偏光・分光。CD、プリズム
+unity03ex3. Particle SystemとMaterial

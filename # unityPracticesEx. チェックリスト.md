@@ -11,6 +11,12 @@ Instantiateとactive化の定番プラクティス
 - Instantiateの結果が返ってきた時、それがactiveなら、そのオブジェクト階層のactiveなノードのスクリプトは全てのAwake、OnEnableが終わっていることが保証される
 - UnityEvent全般は引数を取ることができないため、Instantiate後にSetupなどのパラメータを渡す機構を用意する事が良くある
 
+Active制御
+
+- 毎フレームfalseとtrueを行うのはアンチパターン
+    - Animatorなど、false/trueの際に状態がリセットされたり初期値が更新されてしまうコンポーネントが多数あり、噛み合いが悪い
+    - 描画を消したいなら、Renderer計コンポーネントを無効にしたりCanvasGroupを使用することを検討するべき
+
 実際のViewクラスのプラクティス
 
 メンバや構造         |概要
@@ -18,11 +24,11 @@ Instantiateとactive化の定番プラクティス
 Setup()              |初期化用の外部パラメータはここで渡す
 Cleanup()            |-
 Awake()              |階層内のUIコンポーネントとのバインドを行う
-WindowState          |Closed, Showing, Shown, Closing
-OperationResult      |本来の戻り値T、OperationResultStatus
+WindowState          |Closed, Showing, Shown, Closing (Hubの場合は代えてHiding、Hidden)
+OperationResult      |OperationResultStatus, 本来の戻り値T
 OperationResultStatus|Accepted、RejectedDueToDuplicate、RejectedDueToCooldown
 ShowAsync()          |閉じるまで完了しない。OperationResult T を戻り値とする
-CloseAsync()         |外部からCloseを要求する場合に使う
+CloseAsync()         |外部からCloseを要求する場合に使う。Hubの場合は代えてHideAsync
 IsFocused            |フォーカス・非フォーカスがある場合に作る
 FocusAsync()         |フォーカス・非フォーカスがある場合に作る
 UnfocusAsync()       |フォーカス・非フォーカスがある場合に作る

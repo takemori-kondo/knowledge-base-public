@@ -60,6 +60,7 @@ ________________________________________
     2. UI Cameraは、UI Layerを撮影。Post Processはしない。OverlayにしてStack
     3. Canvas ScreenSpace - Camera。UI Layer
     4. UI、SpriteRenderer、ParticleSystem、はSorting Layerで制御
+        - ただし、package化する場合、Layer・Tag・Sorting Layerの引き継ぎの自作が必須で微妙
 2. Canvas ScalerはHD、FullHD、スマホ（9:19.5～21）どれにするか始めに決めろ
 3. UI Prefabは「UI Prefabの正しい作り方」の通りに作った方が無難
 
@@ -215,12 +216,40 @@ ________________________________________
 
 自動レイアウトの要約
 
-- 親要素側でLayout Group + ContentSizeFitter(Preferred Size)
-- 末端要素側でContentSizeFitter(Preferred Size)
+- 方針1
+    - 親要素側でLayout Group + ContentSizeFitter(Preferred Size)
+    - 末端要素側でContentSizeFitter(Preferred Size)
+- 方針2
+    - 親要素側でLayout Group(ControlChildSize) + ContentSizeFitter(Preferred Size)
+    - 末端要素側で自作スクリプト+LayoutElement
 - さらに親がいる場合も、親要素側の設定をすれば良い
 - Scroll RectのContentにアサインされるContentノードは、自動レイアウトする事になりがち
 - Prefabで自動レイアウトを使うと、Hierarchyに配置した際に、常に編集した扱いになってしまう
     - 見た目が鬱陶しいが、仕方なし
+
+TMP + NotoSansJP-Regular でpx換算値が欲しい時
+
+px|HD pt |FHD pt
+--|------|------
+30|20.718|31.077(実測)
+40|27.624|41.436(予想)
+50|34.530|51.795(予想)
+
+.
+
+LayoutGroup 各項目の内容
+
+項目              |意味
+------------------|-----------------
+Padding           |この要素と子要素間のPadding
+Spacing           |子要素同士間の隙間
+Child Alignment   |子要素全体の配置基準
+Reverse Arangement|子要素の配置順を逆順にするか
+Control Child Size|子要素のRectTransformをその要素のLayoutElementで上書きするかどうか
+Use Child Scale   |未調査
+Child Force Expand|均等配置・拡張制御、など。いわゆるCssのflexのような機能
+
+.
 
 実践的なケーススタディ
 

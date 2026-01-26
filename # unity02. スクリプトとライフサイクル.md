@@ -26,6 +26,7 @@ LateUpdate() |毎フレーム（全てのUpdate()より後）
 OnEnable()   |アクティブに変わる時
 OnDisable()  |インアクティブに変わる時
 OnDestroy()  |ゲームオブジェクトが破棄される直前。デストラクタの代替
+Reset()      |Editor上で初めてアタッチしたときや、リセットした際
 
 完全な一覧はこちらのMessages  
 https://docs.unity3d.com/6000.0/Documentation/ScriptReference/MonoBehaviour.html
@@ -40,7 +41,7 @@ Awake、Start、フレームの詳細
 - Initialization中（※1）にInstantiateされたオブジェクトは、同フレーム中にStartとUpdateする
 - Game Logic中（※2）にInstantiateされたオブジェクトは、同フレーム中にStartだけ呼ばれ、Updateは呼ばれない（※3）
 - アクティブでInstantiateする時、AwakeはInstantiate完了前に呼ばれる
-- アクティブでInstantiateした後、StartはInstantiateの呼び出し元の祖先を辿った次のいずれかが戻った後に呼ばれる
+- アクティブでInstantiateした後、StartはInstantiateの呼び出し元の祖先を辿った次のいずれかが戻った後に呼ばれる（※4）
     - Unityイベント関数
     - コルーチン
 - GameObjectではなくScriptを無効化した場合、Awakeは呼ばれるがStartは呼ばれない
@@ -51,20 +52,23 @@ Awake、Start、フレームの詳細
         - Unity6にてようやく公式で明確に言及され、不定であると明記された
     - これは最後の手段で、Awakeは自身の初期化を行い、Startで他の参照とのやり取りを開始するのが推奨プラクティスである
 
-（※1）Scene初期化時の第1フレームのAwake、OnEnable、Start中
-（※2）（※1）以外のほとんどの場合
-（※3）呼び出し元の祖先がUpdateだった場合、LateUpdateはそのフレーム中に呼ばれる
+（※1） Scene初期化時の第1フレームのAwake、OnEnable、Start中
+（※2） （※1）以外のほとんどの場合
+（※3） 呼び出し元の祖先がUpdateだった場合、LateUpdateはそのフレーム中に呼ばれる
+（※4） 厳密にはちょっと違う。現在実行中の player loop のタスク完了後のような表現がより正しい
 
 Instantiateの挙動詳細
 
-1. アタッチ順に従ってコンポーネントを初期化
-    - コンポーネントのコンストラクタ
-    - コンポーネントのインスペクタ読み込み
-2. 全てのコンポーネントの初期化完了
-3. BehaviourコンポーネントのAwake(GameObjectがアクティブな場合)
+1. 各コンポーネントを初期化 (アタッチ順に従うことが多いが、非決定的)
+    - 再帰的にインスペクタにアサインされた参照先の初期化も含む
+    - 各コンポーネントをコンストラクタして確保
+    - 各コンポーネントのインスペクタを復元
+2. 再帰先含めて全てのコンポーネントの初期化完了
+3. BehaviourコンポーネントのAwake(GameObjectがアクティブな場合) ※ 再帰先との呼び出し順序は非決定的
+    - Awakeが呼ばれるものについては、OnEnableもその直後に呼ばれる
 4. Instantiateが戻り値を返す
 5. Instantiateを呼び出した呼び出し元の大元が終わるまで
-6. BehaviourのStart(GameObjectがアクティブな場合)
+6. BehaviourのStart(GameObjectがアクティブな場合)(Start, Update, LateUpdateの関係は前述の通り)
 
 ________________________________________
 ### 1.2. コルーチン
@@ -194,3 +198,30 @@ ________________________________________
     - 特定のGameObjectを特殊なDontDestroyOnLoadシーンに移動する
 - シーン間のインスタンスの引継ぎは、可能な限り避けた方が良い
     - テストやデバッグの観点から、管理方法は考慮するとよい
+
+________________________________________
+## 5. 実機で機能しないコード例
+________________________________________
+IL2CPP limitations  
+https://docs.unity3d.com/6000.0/Documentation/Manual/scripting-restrictions.html
+
+IL2CPP & AOTの制限で機能しないもの
+
+- Strippingされてしまったもの
+    - 未使用型などへのReflection、Serialization関連
+- 例外フィルター (when)
+- 実質的な動的IL(DLR)の要求
+    - 登場していないジェネリック具象型
+    - ExpandoObject, IDynamicMetaObjectProvider など
+    - 動的コード生成全般：System.Reflection.Emit
+- dynamic 
+- Windows 固有機能への依存
+    - System.Diagnostics.Process.Start
+    - System.Management
+    - Microsoft.Win32.Registry
+    - System.Runtime.InteropServices など
+
+その他
+
+- 許可されているパス以外へのアクセス
+- UIスレッド違反

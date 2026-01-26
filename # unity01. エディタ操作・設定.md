@@ -146,7 +146,8 @@ ________________________________________
 - A | B または A or B
 - -keyword
 - 通常検索（該当のファイル、およびHierarchyに直接配置されたPrefab）
-- ref:keyword（インスペクタでアサインやアタッチされた対象）
+- ref:keyword（アタッチされた対象を含むAsset or インスペクタでアサインされたGameObject）
+    - t:keywordとはアタッチに対するヒットの仕方が異なり、Hierarchyのノードは直接ヒットしない、保有SceneまたはPrefabがヒットする
 - a:keyword（プロジェクト内のみを検索）
 - h:keyword（ヒエラルキー内のみを検索）
 - missing:（missingをすべて検索）

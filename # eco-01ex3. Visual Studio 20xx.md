@@ -42,6 +42,9 @@ dotnet_style_qualification_for_property = true:suggestion
 
 # primary constructor
 csharp_style_prefer_primary_constructors = false
+
+# Space preferences
+csharp_space_around_declaration_statements = ignore
 ```
 
 ※ 例えば以下のようなのはアリかもしれない
