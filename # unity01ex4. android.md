@@ -1,6 +1,6 @@
-# unity01ex5. android
+# unity01ex4. android
 ________________________________________
-## 0. IL2CPP問題
+## 1. IL2CPP問題
 
 スクリプトの制限  
 https://docs.unity3d.com/ja/2022.3/Manual/ScriptingRestrictions.html
@@ -8,12 +8,12 @@ https://docs.unity3d.com/ja/2022.3/Manual/ScriptingRestrictions.html
 Why is Linq.Contains being code stripped?  
 https://discussions.unity.com/t/il2cpp-why-is-linq-contains-being-code-stripped/837220
 
-IL2CPPはLINQ関連コードがビルド時にstrip(除去)されて実行時MethodAccessExceptionになりがち
-
+- IL2CPPはLINQ関連コードがビルド時にstrip(除去)されがち
+    - 実行時MethodAccessException
 - 例：配列とIEnumerable\<T>の互換性がなくなくなり、MethodAccessException
 
 ________________________________________
-## 1. ビルドとインストール
+## 2. ビルドとインストール
 
 After Update to Android 14: “This app isn’t compatible with latest version of Android.”  
 https://discussions.unity.com/t/after-update-to-android-14-this-app-isnt-compatible-with-latest-version-of-android/943735
@@ -45,7 +45,7 @@ https://discussions.unity.com/t/after-update-to-android-14-this-app-isnt-compati
 3. タップでインストール可能 (端末を開発者モードにする必要もない)
 
 ________________________________________
-## 2. 実機USB接続デバッグ方法
+## 3. 実機USB接続デバッグ
 
 1. 端末側設定
     - 開発者向けオプション有効化（設定 > ビルド番号を7回タップ）
@@ -74,7 +74,7 @@ ________________________________________
 apkとソースに差異がなければ、接続状態でアプリ起動すれば再度デバッグ可能
 
 ________________________________________
-## 3. 解像度とSafe Area
+## 4. 解像度とSafe Area
 
 UIと解像度(Canvas Scalerの仕様)
 

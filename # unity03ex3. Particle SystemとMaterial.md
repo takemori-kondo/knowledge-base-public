@@ -15,7 +15,7 @@ Start Lifetime     |0.2~0.6                  |0.4
 Start Speed        |5~15                     |0
 Start Size         |表示サイズの1/10         |表示サイズの1/10
 Start Color        |ランダム2色間            |白
-Emission           |10~20 Burst              |1~4 Burst
+Emission           |10~20 Burst              |1~4 Burst(1行1つでディレイかけるも良し)
 Shape              |どれでも                 |半径を0.01
 Color over Lifetime|33%まで100%              |好みで
 Size over Lifetime |使わない                 |Start Sizeに対する倍率

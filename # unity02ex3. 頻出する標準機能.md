@@ -308,7 +308,9 @@ AnimationClip
 
 Animator
 
-- GetCurrentAnimatorStateInfo(layerIndex)
+- GetCurrentAnimatorStateInfo(layer)
+- Play(name, layer, time)
+- CrossFade(name, duration, layer, offset, transition)
 - SetTrigger(name)
 
 AnimatorStateInfo

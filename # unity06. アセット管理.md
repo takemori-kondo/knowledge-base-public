@@ -29,8 +29,10 @@ ________________________________________
 - StreamingAssets
     - 実行ファイルに含めず、生データをそのまま付属させるための機能
     - 実務的には、主に開発分業のために使われることが多い
-        - いわゆるスクリプトエンジンプログラミング対応
+        - いわゆるスクリプトエンジンプログラミングでのtext外出しに対応させる
         - ビルド後にテキストアセットのデバッグ・調整を行う分業の必要性が出てきたら、必須
+    - 環境によってパスが異なるため、Application.streamingAssetsPath で吸収
+        - Android, WebGL環境は上記とも異なるアプローチになる（URIでアクセスする）
 - AssetBundles
 - AssetBundles - Streaming Utage Resource Converter
 - AssetBundles - Addressable Assets System

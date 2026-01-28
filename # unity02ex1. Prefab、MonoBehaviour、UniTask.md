@@ -1,11 +1,14 @@
-# unity02ex1. Prefab、MonoBehaviour、Object、UniTask
+# unity02ex1. Prefab、MonoBehaviour、UniTask
 ________________________________________
 ## 1. Prefabのプラクティス
 ________________________________________
 ネスト状のプレハブ  
 https://docs.unity3d.com/ja/2022.3/Manual/NestedPrefabs.html
+________________________________________
+### 1.1. Prefab編成とヒエラルキー
 
-Prefabの編成の仕方
+
+Prefabの編成
 
 1. Prefabは、WinFormのコントロール、あるいはReactやAngularのコンポーネントのように作る
     - PrefabルートにPrefabと同名のMonoBehaviour継承クラスをアタッチする
@@ -21,11 +24,11 @@ Prefabの編成の仕方
     - 親が子のLoadData()を呼び出す
 4. 子Prefab内への参照は基本的に越権行為なので避ける
 
-コンポーネントとヒエラルキーに関する補足
+ヒエラルキー構成の詳細
 
 1. 1つのGameObject・ノードに何でもかんでもアタッチしない
     - 適切にネスト・木構造する
-    - 制御スクリプトは、Rootノードにアタッチする
+    - 制御MonoBehaviourは、Rootノードにアタッチする(前述の通り)
     - 必要に応じて、AnimatorやDOTweenが制御するTransformを別にするためにネストする
     - 更にその下に、MeshやSpriteはなどをアタッチするノードを用意する
         - ただし、不可分かつ差し替えの想定もないなら、過剰に木構造に分割しなくてもよい
@@ -34,8 +37,13 @@ Prefabの編成の仕方
 
 PrefabのTips
 
-- ヒエラルキーに配置されたPrefabインスタンスは、元のPrefabから変更があるかは青筋で有無が分かる
+- ヒエラルキーに配置されたPrefabインスタンスは、青筋で変更の有無が分かる
 - ネストされたCanvasにおけるScale0問題などは、別記事の「Unity UI」を参照の事
+
+________________________________________
+### 1.2. 外部ライブラリとPrefab Variant
+
+- 「Sceneへ配置 > それをPrefab化」 で、Variantを作成可能
 
 ________________________________________
 ## 2. MonoBehaviourのプラクティス
@@ -61,16 +69,7 @@ https://zenn.dev/allways/articles/97f5fd71537a23
 8. 処理タイミングを厳密にコードで定義する（UpdateやLateUpdateを使うより、ゲームループは自前で作ったほうが処理が明確）
 
 ________________________________________
-## 3. UnityEngine.Objectのプラクティス
-________________________________________
-UnityEngine.Object継承クラスとDestroyの注意点（fake null問題）
-
-- !=、==は、null扱い
-- null合体演算子は、null扱いにならない
-- null条件演算子は、null扱いにならない
-
-________________________________________
-## 4. UniTaskのプラクティス
+## 3. UniTaskのプラクティス
 ________________________________________
 UnityとUniTaskを使いこなしてちゃんと中断できるようにする  
 https://zenn.dev/allways/articles/cf2f87244128fe

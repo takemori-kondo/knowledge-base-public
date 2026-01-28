@@ -16,6 +16,8 @@ ________________________________________
 ________________________________________
 ### 1.1. Unityイベント関数
 
+前提：これらは原則として、protected virtualにすること
+
 メソッド     |概要
 -------------|---------------------------------------------------
 Awake()      |オブジェクト初回アクティブ時のみ。コンストラクタの代替
@@ -101,11 +103,22 @@ yield return new WaitForEndOfFrame() |このフレームの描画後の終わり
 - コルーチンの終了部にyield return fooで、Currentから戻り値を得ることも可能
 
 ________________________________________
-### 1.3. Destroyの要約
+### 1.3. Destroyとfake null
 
-- Destroy対象がgameObjectの場合、Transformの子要素を辿ってGameObjectとそのComponentをDestroyする
-    - Componentへインスペクタやフィールド、プロパティに設定されたオブジェクトはDestroyされない
-- Destroy対象がGameObject以外の場合、そのオブジェクトだけDestroyされる
+Destroyの基礎
+
+- Destroy対象がgameObjectの場合
+    - Transformを辿りGameObjectとアタッチされたComponentをDestroyする
+    - fieldやプロパティにアサインされたComponentはDestroyされない
+- Destroy対象がGameObject以外の場合
+    - そのオブジェクトだけDestroyされる
+
+UnityEngine.Object継承クラスとDestroyの注意点 （fake null問題）
+
+- !=、==は、null扱い
+- null合体演算子は、null扱いにならない
+- null条件演算子は、null扱いにならない
+- なお、否定演算子!もオーバーロードがあり、こちらでもDestroyチェック可能
 
 ________________________________________
 ## 2. 衝突と物理演算
