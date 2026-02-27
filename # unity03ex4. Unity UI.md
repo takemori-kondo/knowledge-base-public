@@ -1,4 +1,4 @@
-# unity03. Unity UI
+# unity03ex4. Unity UI
 ________________________________________
 Unity UI - Unity マニュアル  
 https://docs.unity3d.com/ja/2022.3/Manual/com.unity.ugui.html
@@ -32,6 +32,8 @@ ________________________________________
 - 描画位置や描画内容が頻繁に変わるものは、そもそもUIではなくSprite Rendererで良い
 - UIは、描画位置や描画内容が頻繁に変わらない静的なものに対して最適化されている
 - Camera Stackを使えば、簡単に距離を無視した追加描画が可能。UI描画の定番
+- 自分でメニュー等のパッド・キーボードでの移動操作を制御したい場合は、Navigationをオフにする
+    - InputSystemの場合、Event System の Input Module の Move を None
 
 パフォーマンス大原則
 

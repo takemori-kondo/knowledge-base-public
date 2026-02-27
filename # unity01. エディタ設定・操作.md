@@ -141,28 +141,49 @@ ________________________________________
 - ProjectウィンドウやHierarchyウィンドウの機能をすべてサポート
 - デフォルトはAND検索
 
-代表的な検索の記法
+#### 2.8.1. 代表的な検索の記法
 
-- A | B または A or B
-- -keyword
-- 通常検索（該当のファイル、およびHierarchyに直接配置されたPrefab）
-- ref:keyword（アタッチされた対象を含むAsset or インスペクタでアサインされたGameObject）
-    - t:keywordとはアタッチに対するヒットの仕方が異なり、Hierarchyのノードは直接ヒットしない、保有SceneまたはPrefabがヒットする
-- a:keyword（プロジェクト内のみを検索）
-- h:keyword（ヒエラルキー内のみを検索）
-- missing:（missingをすべて検索）
-- t:keyword（コンポーネントがアタッチされた対象、特定アセットタイプを検索。以下は例）
-    - コンポーネント名（MonoBehaviour等も可能）
-    - anim
-    - font
-    - prefab
-    - mat
-    - model
-    - script
-    - texture
-    - sprite
+書き方     |内容
+-----------|--------------------
+-A         |否定
+A or B     |OR指定
+a:b        |部分一致
+a=b        |完全一致
+keyword    |名前一致検索<br>Project内：ファイル名<br>Hierarchy内：ノード名
+t:keyword  |t検索<br>Project内：keywordとしてアサインできるファイル<br>現Hierarchy内：keywordがアタッチされたノード
+ref:keyword|参照検索<br>Project内：keywordを参照したファイル<br>現Hierarchy内：keywordを参照したノード<br>詳細後述
+dir:keyword|keywordパス以下のアセット
+p:keyword  |プロジェクト内のみを検索
+h:keyword  |ヒエラルキー内のみを検索
+missing:   |missingをすべて検索
 
-シンボリックリンクとSearch Windowの干渉
+.
+
+#### 2.8.2. tで頻出するもの
+
+- クラス名
+- anim
+- font
+- prefab
+- mat
+- model
+- script
+- texture
+- sprite
+
+#### 2.8.3. 参照検索の詳細
+
+- Assetの依存関係を探す
+   - UnityコンポーネントはAssetが実在しないため、ヒットしない
+   - 子Prefab内部は(overrideされていなければ)、検索で考慮されない
+- Project内
+    1. keywordとして階層上のどこかでアタッチやアサインされた内容を持つAsset
+        - アサインの場合は、実際にkeyword型に対してアサインされる必要がある
+    2. keywordがprefabインスタンスとして配置されたAsset
+- 現Hierarchy内
+    1. シーンの場合のみ、keywordがアサインされたGameObject
+
+#### 2.8.4. シンボリックリンクとSearch Windowの干渉
 
 - シンボリックリンクの先にある内容は正常に動かない場合がある
 

@@ -1,4 +1,4 @@
-# unity01ex. デバッグ・プロファイル
+# unity01ex1. デバッグ・プロファイル
 ________________________________________
 Unity Performance Tuning knowledge book  
 https://github.com/CyberAgentGameEntertainment/UnityPerformanceTuningBible

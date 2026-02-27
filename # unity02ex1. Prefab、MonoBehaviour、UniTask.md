@@ -74,6 +74,12 @@ ________________________________________
 UnityとUniTaskを使いこなしてちゃんと中断できるようにする  
 https://zenn.dev/allways/articles/cf2f87244128fe
 
+メリット
+
+1. コルーチンと同じく非スレッド
+2. コルーチンと異なり、async/awaitの文法に完全に対応し、ネストが容易
+3. コルーチンと異なり、PlayerLoopTimingで実行タイミングを柔軟に指定可能
+
 要約
 
 通常                 |UniTask
@@ -102,3 +108,16 @@ CancellationTokenについて
 
 1. 中断可能なメソッドは常に必須パラメータにしろ
 2. 中断不可能なメソッドについては渡せないようにしろ
+
+PlayerLoopTiming抜粋
+
+値               |意味
+-----------------|--------------
+FixedUpdate      |全てのFixedUpdateの前
+LastFixedUpdate  |全てのFixedUpdateの後
+Update           |全てのUpdateの前
+LastUpdate       |全てのUpdateの後
+PreLateUpdate    |全てのLateUpdateの前
+LastPreLateUpdate|全てのLateUpdateの後
+
+.

@@ -28,7 +28,7 @@ ________________________________________
 
 #### 基本的な方針
 
-- 方針A：Animator ControllerはPlayで指定する内容を束ねる単位として利用する
+- 方針A：Animator ControllerはPlayやCrossFadeで指定する内容を束ねる単位として利用する
     - シンプルな場合はこちらの方が楽
 - 方針B：Animator Controllerで状態・遷移を適切に管理して、トリガーで制御する
     - 中間状態などを自動的に制御したい場合はこちらになる。複雑になりがち
@@ -38,6 +38,10 @@ ________________________________________
 - Animation中にActiveをfalseすると、Animation再生が強制終了してしまう
 - 上記を回避するにはActiveは変更せず、Renderer.enabledで表示・非表示を制御すれば良い
     - Animationに限らず、Active切り替えで問題になる場合全般で有効なプラクティス
+
+#### Animatorの編集Tips
+
+- AnimationClipの参照ノードパス変更は、直接ファイル開いて置換でOK
 
 ________________________________________
 ### 1.2. Animation Clipの設定
@@ -87,6 +91,10 @@ Current、Next、Interruption Source
 - TransitionDurationがある場合、遷移元がCurrent、遷移先がNextである
 - Interruption SourceをCurrentにすると、Currentを遷移元とする遷移の割り込みが許可される
 - Interruption SourceをNextにすると、Nextを遷移元とする遷移の割り込みが許可される
+
+Interruption Source = Next Stateの注意点
+
+- AからBに遷移中に、BからAへの遷移する時、normalizedTimeが引き継がれる
 
 別件
 
