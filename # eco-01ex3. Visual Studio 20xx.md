@@ -107,6 +107,7 @@ ctrl+kはおそらくkey shortcutの意味だが、eって何由来…？
 コメント化/解除         |ctrl+e,[cu]|comment, uncomment
 小文字化/大文字化       |ctrl+(shift+)u|upper
 表示を折りたたむ        |ctrl+m,o|???
+表示の全開閉            |ctrl+m,l|???
 入力候補                |ctrl+space|???
 ドキュメントコメント表示|ctrl+shift+space|???
 リファクタリング候補    |ctrl+.|???

@@ -222,6 +222,7 @@ IL2CPP & AOTの制限で機能しないもの
 
 - Strippingされてしまったもの
     - 未使用型などへのReflection、Serialization関連
+    - 不要なusingの記述。ビルドが通らない
 - 例外フィルター (when)
 - 実質的な動的IL(DLR)の要求
     - 登場していないジェネリック具象型

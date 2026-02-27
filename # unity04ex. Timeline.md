@@ -18,5 +18,11 @@ Animatorの豪華版のようなツール
 .playable asset  |Timelineアセット
 PlayableDirector |.playable asset再生のためのComponent
 
+.
 
+使用例：Activation Track
 
+1. Playable Directorアタッチ
+2. Timelineアセット（playble）追加、アサイン
+3. ActivationTrackを追加
+4. SetActiveしたいオブジェクトを指定、かつタイミングを指定
