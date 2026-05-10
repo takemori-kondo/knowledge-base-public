@@ -9,14 +9,16 @@ https://nvie.com/posts/a-successful-git-branching-model/
 What is the best Git branch strategy?  
 https://www.gitkraken.com/learn/git/best-practices/git-branch-strategy
 ________________________________________
-## 1. Source Tree
+## 1. Git for Windows & Source Tree
 ________________________________________
 補足
 
 ```text
-内蔵Git/システムGit
-・内蔵Gitは、SourceTree内でのみ使用されるGitを一緒にインストールして利用
-・システムGitは、別途用意したGitを使う
+- Git LFS が欲しくなるのでGit for Windowsのオプションで一緒に入れて置くのが吉
+- 普段はCLI使わずSourceTreeでやればOK
+- 内蔵Git/システムGit
+    - 内蔵Gitは、SourceTree内でのみ使用されるGitを一緒にインストールして利用。LFSだけシステムGit LFS使う感じになる
+    - システムGitは、別途用意したGitを使う
 ```
 
 SSH クライアントの設定

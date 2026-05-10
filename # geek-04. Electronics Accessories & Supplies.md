@@ -1,5 +1,12 @@
 # geek-04. Electronics Accessories & Supplies
 ________________________________________
+CPUの常識
+
+```text
+Ryzen Zen+～3系（2000～6000系）: 高負荷環境がピーキーで不安定。自動OC類はオフが必須
+```
+
+
 メーカー評価
 
 ```text
@@ -50,4 +57,36 @@ v10 v9 v8 v7
            7 APQ8053                       Lenovo Tab4 8 Plus
 
 * 2020年からのHUAWEIはGoogle Storeに非対応なので注意
+```
+
+シングル性能概算表
+
+```text
+Snapdragon 730G (Pixel 4a)
+↑1.2倍
+iPhone 6S (2015年)
+↑2.0倍 ↑1.8倍
+│      Intel Core i3 3217U (2012年)
+│      ↑1.1倍
+Intel Celeron N3450 (2016年Atom系譜) ≧ Nintendo Switch
+↑1.5倍
+Intel Celeron N3150 (2015年Atom系譜)
+↑2倍
+Intel Core Solo U1300 (2006年)
+```
+
+GPU換算表
+
+```text
+GTX 1050
+↑3倍
+GTX 650
+↑1.1倍
+GTX 550Ti (FF14 2.0時代の標準品質（デスクトップ）～ 高品質（ノートPC）で概ね快適)
+↑1.2倍
+GTS 450 ≒ Nintendo Switch(ドック時)
+↑2.2倍
+Nintendo Switch(携帯時。解像度をHDにすることで帳尻を合わせている)
+↑ほぼ同等
+iPhone6S
 ```

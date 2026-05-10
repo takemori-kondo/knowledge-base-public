@@ -211,6 +211,8 @@ ________________________________________
 自動レイアウト（便利だが処理が重い。内部ではGetComponentが呼び出される）
 
 - Content Size Fitter
+    - 同一ノード内のRectTransformの値を、LayoutElement値で設定。例えばPreferred（推奨値）
+        - ImageやTMP_TextはILayoutElementが実装済。Minは0、Preferredがいい感じ値
 - Aspect Ratio Fitter
 - Horizontal Layout Group
 - Vertical Layout Group

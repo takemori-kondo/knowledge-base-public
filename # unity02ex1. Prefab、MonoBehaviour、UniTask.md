@@ -40,6 +40,11 @@ PrefabのTips
 - ヒエラルキーに配置されたPrefabインスタンスは、青筋で変更の有無が分かる
 - ネストされたCanvasにおけるScale0問題などは、別記事の「Unity UI」を参照の事
 
+避けておいたほうが良いこと
+
+- 1つのプレハブで複数のLayerにまたがること（Default所属とUI所属が混在する、など）
+    - 撮影カメラが分かれていた場合、前後関係がカメラ側で確定してしまう
+
 ________________________________________
 ### 1.2. 外部ライブラリとPrefab Variant
 
@@ -78,6 +83,9 @@ https://zenn.dev/allways/articles/cf2f87244128fe
 
 1. コルーチンと同じく非スレッド
 2. コルーチンと異なり、async/awaitの文法に完全に対応し、ネストが容易
+    - 「同一MonoBehaviourなら」StartCorotuineもネストは可能
+        - UniTaskは同一スレッド内で動作するなら制限がない
+    - 空GameObjectに紐づいたコルーチンマネージャシングルトンでも代替可能
 3. コルーチンと異なり、PlayerLoopTimingで実行タイミングを柔軟に指定可能
 
 要約
@@ -121,3 +129,8 @@ PreLateUpdate    |全てのLateUpdateの前
 LastPreLateUpdate|全てのLateUpdateの後
 
 .
+
+UniTaskの鉄板プラクティス - destroyCancellationToken
+
+- destroyCancellationTokenでDestroyでもキャンセルされるように
+- UniTaskは、OperationCanceledExceptionがForgetやUniTask.Voidのようなasync境界に到達すると握りつぶす
