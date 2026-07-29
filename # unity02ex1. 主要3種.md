@@ -1,4 +1,4 @@
-# unity02ex1. Prefab、MonoBehaviour、UniTask
+# unity02ex1. 主要3種
 ________________________________________
 ## 1. Prefabのプラクティス
 ________________________________________
@@ -79,7 +79,8 @@ ________________________________________
 UnityとUniTaskを使いこなしてちゃんと中断できるようにする  
 https://zenn.dev/allways/articles/cf2f87244128fe
 
-メリット
+________________________________________
+### 3.1. メリット
 
 1. コルーチンと同じく非スレッド
 2. コルーチンと異なり、async/awaitの文法に完全に対応し、ネストが容易
@@ -88,23 +89,54 @@ https://zenn.dev/allways/articles/cf2f87244128fe
     - 空GameObjectに紐づいたコルーチンマネージャシングルトンでも代替可能
 3. コルーチンと異なり、PlayerLoopTimingで実行タイミングを柔軟に指定可能
 
-要約
+________________________________________
+### 3.2. **[重要]** 注意点と推奨事項
+
+例外の前提知識
+
+1. Unityの場合、eventループのハンドルされない例外があっても即クラッシュしない
+    - Editor上でError Pauseしていると止まる
+2. UniTask await文脈の例外は、Forgetの外に伝播しない
+    - Editor上でError Pauseしていると、デフォルトでLogExceptionするので止まる
+        - 詳細はUnobservedTaskExceptionハンドラ参照のこと
+
+UniTaskの重要事項
+
+1. destroyCancellationTokenが実質必須
+    - asyncOparaition系は、.WithCancellation(ct) で渡す
+2. 多重awaitは、Preserve()が必須
+3. Forget終端までハンドルされなかった例外はUnobservedTaskExceptionイベントハンドラを呼び出す
+    - ※ これは例外クラスではなくハンドラ
+    - デフォルトではDebug.LogException()される
+4. ただし、OperationCanceledExceptionは特別扱いで、ハンドルされなくとも静かに無視される
+
+________________________________________
+### 3.3. 要約
 
 通常                 |UniTask
 ---------------------|-----------------
 async Task foo()     |async UniTask foo()
 async Task\<T> foo() |async UniTask\<T> foo()
 async void foo()     |async UniTaskVoid foo()
+action();            |UniTask.Void(async () => {});
+Action               |UniTask.Action(async () => {})
+UnityAction          |UniTask.UnityAction(async () => {})
+該当無し             |UniTaskCompletionSource
+CompletionSource\<T> |UniTaskCompletionSource\<T>
 Task.Delay()         |UniTask.Delay()
 Task.Run()           |UniTask.Create()
 Task.WhenAll()       |UniTask.WhenAll()
-Action               |UniTask.Action(async () => {})
-UnityAction          |UniTask.UnityAction(async () => {})
-action();            |UniTask.Void(async () => {});
 yield return null    |await UniTask.NextFrame()
+便利1の例            |UniTask.WaitUntil(() => isActive == false)
+便利2の例            |UniTask.WaitUntilValueChanged(this, x => x.isActive)
+コルーチンもawait可  |await FooCoroutineEnumerator()
+await時に開始        |var lazyTask = UniTask.Lazy(...);
+直列化ヘルパ         |await button.OnClickAsync()
 
-.
+https://github.com/cysharp/unitask#compare-with-standard-task-api
 
+________________________________________
+### 3.4. その他補足
 
 基本的な中断要求に対する考え方
 
@@ -129,8 +161,3 @@ PreLateUpdate    |全てのLateUpdateの前
 LastPreLateUpdate|全てのLateUpdateの後
 
 .
-
-UniTaskの鉄板プラクティス - destroyCancellationToken
-
-- destroyCancellationTokenでDestroyでもキャンセルされるように
-- UniTaskは、OperationCanceledExceptionがForgetやUniTask.Voidのようなasync境界に到達すると握りつぶす

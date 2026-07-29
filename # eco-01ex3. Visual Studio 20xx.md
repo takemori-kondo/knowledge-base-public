@@ -116,6 +116,7 @@ ctrl+kはおそらくkey shortcutの意味だが、eって何由来…？
 名前の変更              |ctrl+r,r|refactoring rename
 ジャンプを戻る/進む     |ctrl+(shift+)-|???
 定義にジャンプ          |ctrl+クリック or F12|???
+全ての参照を検索        |shift+F12
 
 ※ 移動を戻る、移動を進むはvscodeに合わせてAlt+←→に変えたほうがいいかもしれない
 
@@ -139,3 +140,17 @@ https://learn.microsoft.com/ja-jp/nuget/create-packages/multiple-target-framewor
 
 - IntPtrなどを含むシグネチャはtarget framework(TFW)が異なるプロジェクト間で参照が見つからない
 - 解消するには、該当の.csprjをテキストで開き、マルチターゲットに書き換えればよい
+
+________________________________________
+## 4. 便利機能いろいろ
+
+頻出ペイン
+
+1. テキストエディタ本体
+2. ソリューションエクスプローラー
+3. テストエクスプローラー
+4. プロパティ
+5. エラー一覧
+6. 出力
+7. ブレークポイント
+8. イミディエイト

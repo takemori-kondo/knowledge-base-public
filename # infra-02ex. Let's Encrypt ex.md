@@ -1,4 +1,6 @@
-# infra-02ex. Let's Encrypt for CentOS Stream8
+# infra-02ex. Let's Encrypt ex
+
+for CentOS Stream8
 
 最終確認日 2021/03/05
 

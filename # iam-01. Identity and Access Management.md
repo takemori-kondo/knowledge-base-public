@@ -1,4 +1,4 @@
-# iam-01. Identity and Access Management(SSO, SAML, OAuth, OIDC)
+# iam-01. Identity and Access Management
 ________________________________________
 ※ 一連のページ群では、SSO、SAML、OIDCの総称としてIAMという用語を使用します  
 あまり一般的とは言い難いですが、良い単語が存在しないためご了承ください

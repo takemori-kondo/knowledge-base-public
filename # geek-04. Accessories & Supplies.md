@@ -1,4 +1,4 @@
-# geek-04. Electronics Accessories & Supplies
+# geek-04. Accessories & Supplies
 ________________________________________
 CPUの常識
 

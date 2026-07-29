@@ -266,3 +266,8 @@ https://docs.unity3d.com/ja/2022.3/Manual/HOWTO-UIFitContentSize.html
 スクリプトから UI 要素を作成する - Unity マニュアル  
 https://docs.unity3d.com/ja/2022.3/Manual/HOWTO-UICreateFromScripting.html
 
+________________________________________
+### 4.4. その他
+
+- Shadowコンポーネント
+- Outlineコンポーネント

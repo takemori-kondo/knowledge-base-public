@@ -14,15 +14,13 @@ ________________________________________
 ________________________________________
 特定領域は以下の別ページに詳しく書いてあります。先に読むこと推奨
 
-- unity01ex. プロファイルとメモリリーク
+- unity01ex1. デバッグ・プロファイル
 - unity02. スクリプトとライフサイクル
-- unity02ex1. Prefab、MonoBehaviour、Object、UniTask
-- unity02ex2. ロギング
-- unity03. Unity UI
-- unity03ex. Unity UI Tips
-- unity03ex5. UI・3D全体の描画優先度
+- unity02ex1. 主要3種
+- unity02ex2. ロギング・ガード節
+- unity03. 3D・Camera・Renderer
+- unity03ex4. Unity UI
 - unity06. アセット管理
-- unity07. Test Code
 - unityPractices01. Directory & Scene
 
 ________________________________________

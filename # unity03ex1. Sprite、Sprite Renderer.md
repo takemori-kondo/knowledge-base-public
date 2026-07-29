@@ -121,3 +121,14 @@ this.transform.forward = this.sourceCamera.transform.forward;
 //     this.transform.rotation = Quaternion.LookRotation(fwd, Vector3.up);
 // }
 ```
+
+________________________________________
+## 3. IK
+________________________________________
+
+1. 2D Animation 追加
+2. Sprite Editor > Skining Editor
+3. CreateBone、Auto Geometry、Auto Weight を それぞれ Apply や Generate
+4. SpriteRenderer + Sprite Skin追加、CreateBone押下
+5. 同ノードにIK Manager 2Dを追加し、+押していずれかのSolverも追加
+6. Solver設定。Effectorに末端ノード、ChainLengthに影響したい分だけ設定

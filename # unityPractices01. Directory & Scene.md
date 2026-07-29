@@ -9,11 +9,11 @@ https://unity.com/ja/how-to/organizing-your-project
 ________________________________________
 ## 1. フォルダ構成
 ________________________________________
-典型的な構成
+典型的な構成：ファイルタイプベース
 
 - Assets
     - AddressableAssetsData
-    - MyProject
+    - App
         - Art
             - Materials
             - Models
@@ -40,6 +40,43 @@ ________________________________________
     - StreamingAssets
 
 ※ AddressableAssetsDataは移動すると変になるので、この位置
+
+典型的な構成：機能ベースの例
+
+- Assets
+    - AddressableAssetsData
+    - App
+        - _Common
+            - Animations
+            - Audio
+            - Effects
+            - Fonts
+            - Materials
+            - Models
+            - Prefabs
+            - Shaders
+            - Textures
+        - _Docs
+        - _Runtime
+        - _Scenes
+        - _Tests
+        - Feature1
+            - XXX.prefab
+            - XXX.controller
+            - XXX_hidden.anim
+            - XXX_hiding.anim
+            - XXX_showing.anim
+            - XXX_shown.anim
+            - XXX.mat
+            - XXX_r.mat
+            - XXXView.cs
+            - YYY.prefab
+            - ...
+        - Feature2
+        - Feature3
+    - Plugins
+    - Settings
+    - StreamingAssets
 
 ________________________________________
 ## 2. シーン構成

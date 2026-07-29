@@ -1,12 +1,21 @@
-# unityPractices03. Performance Practices
+# unity00. パフォーマンス
 ________________________________________
 ## 0. はじめに
 
 別ページの以下を先に読んでください
 
-- unity01ex. プロファイルとメモリリーク
-- unity02ex2. ロギング
-- unity03. Unity UI
+可視化
+
+- unity01ex1. デバッグ・プロファイル
+- unity02ex2. ロギング・ガード節
+
+最適化
+
+- unity02ex4. メモリリーク
+- unity03ex4. Unity UI
+- unity06. アセット管理
+- unity06ex. Asset Bundlesの詳細
+- unity10. Audio
 - unityPractices02. Basic Practices
 
 ________________________________________

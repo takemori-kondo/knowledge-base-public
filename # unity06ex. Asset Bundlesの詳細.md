@@ -93,3 +93,19 @@ AssetBundleのロード方法の種類
 - AssetBundle.LoadFromFile
 - AssetBundle.LoadFromStream
 - UnityWebRequestAssetBundle.GetAssetBundle
+
+________________________________________
+### 1.4. Unloadの注意点
+
+Unity上の特定の処理は、実際に処理されたり呼び出されるのが直感に反するタイミングなものがある  
+一方で、Unloadは即時実行される。この時間差で各参照確立前に破棄してしまい、表示に失敗する場合がある
+
+典型的な例は以下
+
+- Awake以外のevent全般の呼び出しタイミング。Startなど
+- LoadScene
+- MarkLayoutForRebuild
+- Destroy
+- SetTrigger
+
+基本的にこの手の問題は発生しないように改良したのがAddressables

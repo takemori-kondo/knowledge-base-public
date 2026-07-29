@@ -1,4 +1,6 @@
-# middleware-01ex. LAMP for CentOS Stream8
+# middleware-01ex. LAMP ex
+
+for CentOS Stream8
 ________________________________________
 ## 0. How to Install
 ________________________________________
