@@ -48,3 +48,14 @@ Unity6以降の初期用意済みのアクションの注意点
         - θは概ね15度～22.5度
 - UI/Navigateアクションのデフォルト設定は、実用しづらい
     - Pass Through & Padの両スティック設定で、Pad勝ち。使い勝手悪すぎ
+
+________________________________________
+### 1.2. EventSystem、InputSystemUIInputModule の詳細
+
+Unity UI と 不可分な仕組み
+
+1. EventSystem がないと、Unity UI はすべて反応しない
+2. デフォルトのマウス操作などは、InputSystemUIInputModule の設定に依存する
+3. マウスだけでなくキーボードやPad操作もMove、Decide、Cancelと紐づいている
+    - 使い勝手が悪く、Offにしたほうが良さげ
+

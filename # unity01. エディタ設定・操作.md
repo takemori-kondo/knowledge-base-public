@@ -11,8 +11,9 @@ ________________________________________
 
 - Edit > Preferences > 外部ツール = お好み
 - Edit > Preferences > 色 > Playmode tint = お好み
-- Edit > Project Setting > バージョン管理 = Visible Meta Files
-- Edit > Project Setting > エディター > アセットシリアル化 Mode = Force Text
+- Edit > Project Settings > バージョン管理 = Visible Meta Files
+- Edit > Project Settings > エディター > アセットシリアル化 Mode = Force Text
+- Edit > Project Settings > エディター > Additional extensions to include > csv, json, jsonlの追加
 - AnimatorペインはParametersを表示させておく
 
 ゲームビューの画面サイズの追加
@@ -95,6 +96,12 @@ ________________________________________
 - オブジェクトを検索       : Hierarchyからキーワード検索
 - オブジェクトへ移動       : Hierarchyでダブルクリック
 - 全て展開/全て折りたたむ  : Alt + マーククリック
+
+※ 6000.0.67f1現在でもこちらがPrefabモードの状態でPlayすると、以下のバグが起きる
+Prefabモード表示してPlayはエッジケースのバグが他にも色々ありそう
+
+- InputSystem の Navigateが参照する各判定対象が、謎のごみインスタンスになる
+    - 結果的にNavigate経由のSelect移動が正常に機能しないという形で動作が現れる
 
 ________________________________________
 ### 2.4. Projectウィンドウ
