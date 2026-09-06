@@ -2,7 +2,9 @@
 ________________________________________
 ## 1. Unity3Dの基礎知識
 ________________________________________
-### 1.1. 座標系・レイヤー
+### 1.1. 座標系・レイヤー・法線マップ
+
+#### 1.1.1. 座標系
 
 Transform基礎
 
@@ -12,7 +14,7 @@ Z回転の+方向      |X→Y
 Y回転の+方向      |Z→X
 X回転の+方向      |Y→Z
 Rotateの順序      |Z、X、Y
-Transform.forward |ローカル+z方向
+Transform.forward |ローカルの+z方向
 
 .
 
@@ -28,10 +30,22 @@ World座標へ変換     |Camera.ScreenToWorldPoint(position)
 
 .
 
-Layer
+#### 1.1.2. Layer
 
 - 3Dオブジェクトのグループ単位
 - 撮影判定、ライティング、衝突判定の一括制御できる
+
+#### 1.1.3. 法線マップ
+
+法線マップ (バンプマッピング) の概要  
+https://docs.unity3d.com/ja/current/Manual/StandardShaderMaterialParameterNormalMap.html
+
+- Unityは一般的なものと同一で、RGBを法線のXYZ方向として解釈し、0.5で軸成分なしとなる
+    - 具体的な法線ベクトル方向の解釈は、2(R,G,B)-(1,1,1) = (X,Y,Z)
+- デフォルトの法線方向は(R,G,B)=(0.5, 0.5, 1.0) → (X,Y,Z)=(0, 0, 1.0)
+    - だいたい薄群青色
+    - 法線が右向きならR大で桃色、左向きならR小で青
+    - 法線が上向きならG大で薄緑、下向きならG小で紫
 
 ________________________________________
 ### 1.2. レンダリング手法・URP-Volume
@@ -174,11 +188,11 @@ Sub Camera |Solid Color|UI以外      |必要なら設定   |RenderTexture|Brain
 ※ レガシーの場合はcameraスタックはない。Camera.depth & ClearFlag=DepthOnly、またはRenderTextureを活用して調整する
 
 ________________________________________
-## 3. Renderer
+## 3. Rendererコンポーネント
 ________________________________________
-Renderer基礎
+Rendererコンポーネント基礎
 
-- 描画対象は何らかしらのRendererを持つ。以下代表的なもの
+- 描画対象は何らかしらのRendererコンポーネントを持つ。以下代表的なもの
     - MeshRenderer
     - SkinnedMeshRenderer
     - LineRenderer

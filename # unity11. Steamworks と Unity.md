@@ -19,8 +19,26 @@ Example project for Steamworks.NET (↑をSteamworks.NETを利用して再実装
 https://github.com/rlabrecque/Steamworks.NET-Example
 
 ________________________________________
-## 1. Steam側にアカウント追加&ログイン
+## 1. Steamworksの準備
 ________________________________________
+### 1.1. 日程
+
+0から提出する場合
+
+- 正式名称は、銀行口座名義と一致していること
+- リリース費用支払から30日待つ必要あり
+- Storeページの審査通過後に14日待つ必要あり
+
+金銭面(2026/08/05現在)
+
+- 1製品100$ (追加DLCは不要)
+- 維持費は特になし
+- 30%
+- 価格/1.1 * 0.7 * (本数 - 返金やチャージバック本数)
+
+________________________________________
+### 1.2. アカウント追加&ログイン
+
 既に組織が存在する場合
 
 1. 組織管理者から招待してもらう
@@ -30,31 +48,33 @@ ________________________________________
     - https://partner.steamgames.com/dashboard
 
 ________________________________________
-## 2. Steamworks.NETおよびテストプレイ
+### 1.3. Steamworksの概要
+
+- SteamworksはWeb API提供である
+- 公式はC++しかヘルパライブラリを用意していない
+- Unity向けヘルパライブラリは、以下のサードパーティが有名
+    - Facepunch.Steamworks
+    - Steamworks.NET
+
+※ この記事では Steamworks.NET を使う
+
 ________________________________________
-### 2.1. Steamworks.NET 概要
-
-要約
-
-- SteamworksはWeb API提供である。なお公式はC++しかヘルパライブラリを用意していない
-    - Unity向けヘルパとして、サードパーティを2つ紹介している
-- Unity公式はサードパーティのSteamworks.NETを紹介している
-- Steamworks.NETは、公式のSDKと同じような使用感になるようなヘルパライブラリである
+## 2. Steamworks.NET
+________________________________________
+### 2.1. ライブラリ追加
 
 Steamworks.NET - Installation  
 https://steamworks.github.io/installation/
 
-Steamworks.NETの追加と利用
-
 1. Package Manager > Install package from git URL
     - https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net
-    - 正常に終わると、steam_appid.txtがプロジェクトルートに追加される。IDは自身のプロジェクトのIDのプロジェクトを使うこと
+    - 正常に終わると、steam_appid.txtがプロジェクトルートに追加される
+        - IDは自身のプロジェクトのIDを使うこと
         - このファイルはBOMなしUTF-8にすること
 2. 必要に応じてasmdefに参照追加
     - com.rlabrecque.steamworks.net
 3. 別途、サンプルのSteamManager.csを追加
     - https://github.com/rlabrecque/Steamworks.NET-Example/blob/master/Assets/Scripts/Steamworks.NET/SteamManager.cs
-4. 必要に応じてさらにサンプルを参考にしたり、Steamworksの公式情報を見ながら良しなに実装
 
 ________________________________________
 ### 2.2. 実績 API
@@ -102,7 +122,7 @@ https://tmls.hatenablog.com/entry/2021/03/22/190540
 ________________________________________
 ### 2.5. Unity EditorとSteamクライアント
 
-プレイ中になり続ける問題
+エディタではプレイ中になり続ける問題
 
 Steamworks.NET - よくある質問  
 https://steamworks.github.io/faq/

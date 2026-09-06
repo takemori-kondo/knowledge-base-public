@@ -51,7 +51,27 @@ URP物理ベースレンダリングのデフォルトで対応できるもの�
 ________________________________________
 ## 2. シェーダ
 ________________________________________
-### 2.1. ビルドインシェーダ
+### 2.1. Unityで使用できるシェーダファイルのフォーマット
+
+1. コード方式(ShaderLab。.shader)
+    - CGPROGRAM
+        - URPは非対応
+        - nVidia2002由来の文法
+    - HLSLPROGRAM
+        - DirectX由来の文法
+    - Unity Shader Compilerが全プラットフォームにコンバートしてくれるため1つだけ書けばOK
+2. GUI方式(ShaderGraph。.shadergraph)
+    - HLSLPROGRAMへの変換は可能。逆は不可
+
+ピュアHLSL(.hlsl)について
+
+- 直接使えないが、ShaderLabやShaderGraphからinclude可能
+- DirectX固有のAPIを使ってしまっていれば、当然動かない
+
+※ 入門向けには、とりあえずShaderGraphで試してみると良い
+
+________________________________________
+### 2.2. ビルドインシェーダ
 
 既定のシェーダーのソースコード(リンクはいつか復旧するはず…はず…)
 
@@ -61,14 +81,14 @@ DefaultResourcesExtra/Mobile/Mobile-Particle-Add.shader
 DefaultResourcesExtra/Mobile/Mobile-Particle-Alpha.shader
 
 ________________________________________
-### 2.2. URPシェーダ
+### 2.3. URPシェーダ
 
 パッケージとしてプロジェクトに含まれる。例えば以下
 
 Library\PackageCache\com.unity.render-pipelines.universal\Shaders\Particles\ParticlesUnlit.shader
 
 ________________________________________
-### 2.3. シェーダの文法
+### 2.4. シェーダの文法
 
 シェーダー  
 https://docs.unity3d.com/ja/2019.4/Manual/SL-Reference.html
@@ -197,8 +217,14 @@ SubShader Pass
     - レガシー用の基本的な記述。基本的なマクロや関数が利用可能になる
 
 ________________________________________
-### 2.4. シェーダと画像のプラクティス
+### 2.5. シェーダと画像のプラクティス
 
 - ルール画像アセットは、sRGBオフ(0.5が0.5になる)、無圧縮にする
 - Clamp範囲は、0-1ではなく、-Softness～1+Softnessにする
 
+________________________________________
+### 2.6. UVスクロールするまで
+
+1. ShaderGraphでもShaderLabでもどちらでも良いので、Textureを単純に出すシェーダを作る
+2. タイリング&オフセットを使用してずれせるようにする
+3. Timeで固定的にずらすか、ずらす量や方向をScriptから調整できるようにする

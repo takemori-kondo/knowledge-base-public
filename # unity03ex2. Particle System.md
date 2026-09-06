@@ -30,3 +30,22 @@ Mobile2種はレガシーシェーダだが、URPでも問題なく使える
 - Mobile/Particles/Alpha Blended
 - Universal Render Pipeline/Particles/Unlit
     - https://docs.unity3d.com/6000.0/Documentation/Manual/urp/particles-unlit-shader.html
+
+________________________________________
+### 1.2. World空間重力に準じた土煙や爆発エフェクト
+
+- Simulation Space を Worldに
+- 「移動に応じたEmmition」は Rate over Distance で対応
+- 「小 → 大 → 小」は Size over Lifetime で対応
+
+________________________________________
+### 1.3. 各種小技
+
+#### 1.3.1. Emissionの停止
+
+- Stop()
+
+#### 1.3.2. スプライトアニメ
+
+- SpriteをTexture Sheet Animationに設定
+- Sprite同士は同一Atlas必須

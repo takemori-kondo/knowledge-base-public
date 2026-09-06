@@ -30,9 +30,11 @@ mp3 |48kHz, stereo, 192kbps
 
 Unity側の推奨設定
 
-- Load Typeは、BGMなど10秒以上ある音声ファイルはをStreaming
-    - Editorコードで取り込み拡張を用意して、自動判定・適用するのが定番
-- Vorbis, Quality=100, Preserve Sample Rate
+- [ ] DecompressOnLoadは、1秒未満のみで使う。推奨はVorbis
+- [ ] CompressedInMemoryは、～10秒未満に対して、必ずADPCMとセットで使う
+- [ ] Streamingは10秒～に対して、使う。推奨はVorbis
+
+※ Editorコードで取り込み拡張を用意して、自動判定・適用するのが定番
 
 ________________________________________
 ### 1.3. BGM、SE、Voiceなどのカテゴリでグループ管理

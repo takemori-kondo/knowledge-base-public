@@ -63,6 +63,18 @@ ________________________________________
 
 ※ 描画の最適化はAtlasで解決できるため、特別な理由がなければMultipleは不要
 
+スプライトシート・スライス
+
+1. Texture Type > Sprite
+2. Sprite Mode > Multiple
+3. Mesh Type > FullRect
+4. Filter Mode > Point(no filter)
+5. Sprite EditorでGrid By Cell Sizeでスライス
+6. 使用したいセルを複数選択してシーンにドラッグすればanimファイルになる
+7. AnimationController側はStateを使わず、BlendTreeで処理するのが鉄板
+
+※ スプライトシート・スライス方式がAtlasと併用して恩恵受けられるか未検証
+
 ________________________________________
 ### 1.4. 9スライスの用途
 
@@ -74,7 +86,16 @@ ________________________________________
 ________________________________________
 ### 1.5. 個々のスプライトにボーン・スキンを設定
 
-略。公式の追加パッケージで利用可能
+公式パッケージ「2D Animation」 の追加が必要
+
+- テクスチャのインスペクタに「Open Sprite Editor」が追加される
+
+________________________________________
+### 1.6. タイルマップ
+
+公式パッケージ「2D Tilemap Editor」「2D Tilemap Extras」の追加が必要
+
+- Tile Palleteウィンドウが追加される
 
 ________________________________________
 ## 2. Sprite Renderer
@@ -121,6 +142,21 @@ this.transform.forward = this.sourceCamera.transform.forward;
 //     this.transform.rotation = Quaternion.LookRotation(fwd, Vector3.up);
 // }
 ```
+
+________________________________________
+### 2.3. Sprite Rendererのその他のTips
+
+1. Sorting Groupコンポーネントで、描画順をグルーピング可能
+2. Sprite Maskコンポーネントで、2値画像ベースのマスクが可能
+
+Sprite Maskの活用例1：パーツ化された各半透明スプライトが多重表示にならないように
+
+- 表示Spriteと同じ内容でSprite Maskすれば、Spriteが多重に重ならなくなる
+- Custom Range、AlphaCutOffで調整すればだいたい良い感じになる
+
+Sprite Maskの活用例2：レトロ点滅透明・格子透明など
+
+描画量調整用の画像とSprite Mask・AlphaCutOffでレトロ擬似透明するのもあり
 
 ________________________________________
 ## 3. IK

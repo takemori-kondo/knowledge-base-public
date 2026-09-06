@@ -11,11 +11,17 @@ ________________________________________
 - 2D Tilemap Extras
 - Addressables
 - Addressables for Android
+- AI Navigation
 - Cinemachine
 - Polybrush
+- Visual Studio Editor (Visual Studio Tools for Unity)
+
+※ 以下はURPでは組込済で、旧built-in用の別パッケージ
+
 - Post Processing
-- TextMeshPro
-- Visual Studio Tools for Unity (Visual Studio Editor)
+
+※ TextMeshPro は、ライブラリ自体はuguiに統合済。ただしセットアップ手順必要
+
 ________________________________________
 ### 1.2. 定番サードパーティ
 
@@ -24,6 +30,9 @@ https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676
 
 UniTask  
 https://github.com/Cysharp/UniTask
+
+Unity-Excel-Importer-Maker  
+https://github.com/tsubaki/Unity-Excel-Importer-Maker
 
 ________________________________________
 ### 1.3. 定番ライブラリ
