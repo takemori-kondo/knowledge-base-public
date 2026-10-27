@@ -45,7 +45,7 @@ ________________________________________
     - 毎フレームやって良い処理ではない
 4. GameObjectやComponentの探索は便利な反面、探索コストが重い
     - GetComponent系、Find系は可能ならば避けるか、キャッシュすること
-    - Findは、現在アクティブなシーン全体からGameObjectを探索する。重い操作になりうる
+    - Findは、現在アクティブなシーン全体からアクティブなGameObjectを探索する。重い操作になりうる
     - FindWithTag、FindObjectOfType、もFindとほぼ同様
     - FindGameObjectsWithTag、FindObjectsByTypeもFindとほぼ同様
     - GetComponent(s)は、そのGameObjectにアタッチされているComponentを探索する
