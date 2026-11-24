@@ -23,22 +23,24 @@ ________________________________________
 ```text
 FastAPISample/
 ├─ compose.yaml
+├─ .vscode/settings.json
 ├─ app/
 │  └─ main.py
 └─ docker/
-   └─ api/
-      ├─ Dockerfile
-      └─ requirements.txt
-
-※ .vscode/settings.json /codeを開いた時に読まれるよう、コンテナへ変則的にマウントしてる
+    └─ api/
+        ├─ Dockerfile
+        └─ requirements.txt
 ```
 
 ※ 補足
 
 - compose.yaml以外のDocker関連ファイル（環境構築でしか使わないファイル）はdocker/以下に置く
-    - requirements.txt (pip installを初回のビルド時だけ行う)
+    - requirements.txt (pip installを初回/このファイル更新時にだけ行う)
 - ビルドのコンテキストはプロジェクトルートのまま
     - appとdocker/api/requirements.txtの両方をCOPYするため
+- /app と /.vscode を個別にマウントする
+    - プロジェクトルートを直接マウントすると余計なものまでマウントしてしまうので、必要なフォルダだけマウント
+    - /scriptsなども本番環境で使うならマウント
 
 compose.yaml
 
